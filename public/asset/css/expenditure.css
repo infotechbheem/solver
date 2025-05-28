@@ -1,0 +1,161 @@
+/* human resource section start */
+.human-resource-section-main {
+    margin-bottom: 20px;
+    padding: 20px 5px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.hr-card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.hr-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.hr-card img {
+    height: 250px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.hr-card .card-body {
+    text-align: center;
+    background: #fff;
+    padding: 15px;
+}
+
+.hr-card .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.hr-card .card-text {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Job Table Styling */
+.human-resource-section-main .job-table tr:nth-last-child(1) {
+    background-color: initial;
+    color: initial;
+    font-weight: normal;
+}
+
+.job-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.job-table th {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.job-table td {
+    text-align: center;
+    padding: 8px;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.job-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.job-table .btn {
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.contact-section h3 {
+    color: #007bff;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.contact-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-section li {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.contact-section li i {
+    color: #007bff;
+    margin-right: 8px;
+}
+
+/* General Styles */
+.container h2 {
+    font-size: 28px;
+    color: #333;
+    font-weight: bold;
+}
+
+.container p {
+    font-size: 16px;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hr-card img {
+        height: 200px;
+    }
+
+    .hr-card .card-title {
+        font-size: 18px;
+    }
+
+    .hr-card .card-text {
+        font-size: 14px;
+    }
+
+    .job-table th,
+    .job-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .contact-section {
+        padding: 15px;
+    }
+
+    .contact-section h3 {
+        font-size: 20px;
+    }
+
+    .contact-section li {
+        font-size: 14px;
+    }
+}
+
+/* human resource section end */
+

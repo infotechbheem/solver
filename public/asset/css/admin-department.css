@@ -1,0 +1,380 @@
+/* user_create_department section start */
+.user-create-section {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.user-create-section-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 70px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Cards and Tables */
+.table-section-main-head {
+    padding: 20px;
+}
+
+.table-section-main {
+    overflow-x: auto;
+}
+
+.user_create_department .cards {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    width: 50%;
+}
+
+.user_create_department .card-header {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.user_create_department .card-body {
+    padding: 0;
+}
+
+.user_create_department .table {
+    margin: 0;
+    border-collapse: collapse;
+    padding: 0;
+}
+
+.user_create_department .table thead th {
+    font-weight: bold;
+    text-align: center;
+    background-color: #323F2F;
+    color: white;
+}
+
+.user_create_department .table tbody td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 14px;
+    background-color: white;
+    color: black;
+    font-weight: normal;
+}
+
+.user_create_department .table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.user_create_department .table .btn {
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+/* Modal Styles */
+.user_create_department .modal .modal-header {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.user_create_department .modal .modal-body label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.user_create_department .modal .form-control {
+    padding: 8px;
+    font-size: 14px;
+}
+
+.user_create_department .modal .btn {
+    margin-top: 10px;
+    float: right;
+    padding: 10px 20px !important;
+}
+
+.user_create_department .modal .btn-close {
+    font-size: 13px;
+    color: red !important;
+}
+
+.modal-body-main {
+    display: flex;
+    gap: 20px;
+}
+
+.modal-body-main .input-section {
+    width: 50%;
+}
+
+.table {
+    margin-bottom: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table th {
+    background: linear-gradient(90deg, #587C50, #587C50);
+    color: #fff;
+    font-weight: 500;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.table tbody tr:hover {
+    background: #e9ecef;
+    transition: background 0.3s;
+}
+
+/* Footer and Pagination */
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #555;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination button {
+    padding: 6px 12px;
+    border: 1px solid #ced4da;
+    background: #fff;
+    color: #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.pagination button.active {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    background: #f8f9fa;
+}
+
+
+/* Responsive Layout */
+/* General Styles for Responsiveness */
+@media (max-width: 768px) {
+
+    /* User Create Section */
+    .user-create-section {
+        padding: 15px;
+    }
+
+    .user-create-section-btn {
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+    }
+
+    .table-section-main {
+        flex-direction: column;
+        padding: 0px;
+        padding-top: 10px;
+    }
+
+    .user_create_department .cards {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .user_create_department .table thead th,
+    .user_create_department .table tbody td {
+        font-size: 13px;
+    }
+
+    /* Modal Styles */
+    .user_create_department .modal .modal-header {
+        font-size: 16px;
+    }
+
+    .user_create_department .modal .modal-body label {
+        font-size: 14px;
+    }
+
+    .modal-body-main {
+        flex-direction: column;
+    }
+
+    .modal-body-main .input-section {
+        width: 100%;
+    }
+}
+
+@media (max-width: 426px) {
+
+    /* User Create Section */
+    .user-create-section-btn {
+        gap: 5px;
+    }
+
+    .user_create_department .cards {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .user_create_department .table thead th,
+    .user_create_department .table tbody td {
+        font-size: 12px;
+    }
+
+    .user_create_department .table .btn {
+        padding: 3px 8px;
+        font-size: 12px;
+    }
+
+    /* Modal Styles */
+    .user_create_department .modal .modal-header {
+        font-size: 16px;
+    }
+
+    .user_create_department .modal .modal-body label {
+        font-size: 13px;
+    }
+
+    .user_create_department .modal .form-control {
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    .user_create_department .modal .btn {
+        font-size: 14px;
+    }
+
+    .modal-body-main .input-section {
+        width: 100%;
+    }
+}
+
+
+/* .user_create_department section end */
+
+/* letter box section start */
+.modal-content {
+    border: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    background: linear-gradient(90deg, #2c3e50, #34495e);
+    color: #fff;
+    padding: 15px 20px;
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-body-main {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.input-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.input-section label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-control,
+.form-control select,
+.form-control textarea {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus,
+.form-control select:focus,
+.form-control textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+.input-section textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.input-section .date-inputs {
+    display: flex;
+    gap: 20px;
+}
+
+.input-section .date-inputs input[type="date"] {
+    width: 50%;
+}
+
+@media (max-width: 768px) {
+    .modal-body-main {
+        flex-direction: column;
+    }
+
+    .input-section .date-inputs {
+        flex-direction: column;
+    }
+
+    .input-section .date-inputs input[type="date"] {
+        width: 100%;
+    }
+}

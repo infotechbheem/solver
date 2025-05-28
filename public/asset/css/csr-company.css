@@ -1,0 +1,358 @@
+/* csr registration section start */
+.scr-registration-section {
+    background: #ffffff;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.csr-registration-main-heading {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.csr-registration-main-heading-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.csr-registration-main-heading p {
+    margin: 0;
+    padding: 0;
+}
+
+.scr-registration-form {
+    padding: 20px;
+}
+
+.scr-registration-heading {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 0;
+    color: #587C50;
+    border-bottom: 2px solid #587C50;
+    margin-bottom: 15px;
+}
+
+.scr-registration-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.scr-form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.scr-form-group h5 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.scr-form-group-file {
+    width: 50%;
+}
+
+.scr-form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
+}
+
+.scr-form-group input,
+.scr-form-group textarea,
+.scr-form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #f9f9f9;
+    transition: 0.3s;
+}
+
+.scr-form-group input:focus,
+.scr-form-group textarea:focus,
+.scr-form-group select:focus {
+    border-color: #587C50;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    background: #ffffff;
+}
+
+.scr-form-group textarea {
+    height: 120px;
+    resize: none;
+    outline: none;
+}
+
+.scr-form-group input[type="file"] {
+    border: none;
+    padding: 5px;
+}
+
+.scr-form-group select {
+    appearance: none;
+    background: #f9f9f9 url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23007bff" d="M2 0L0 2h4zM2 5l2-2H0z"/></svg>') no-repeat right 12px center;
+    background-size: 12px;
+    cursor: pointer;
+}
+
+/* Button Styling */
+.scr-form-group-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.scr-form-group-btn .scr-btn {
+    background: linear-gradient(135deg, #587C50, #323F2F);
+    color: white;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.scr-form-group-btn .scr-btn:hover {
+    background: linear-gradient(135deg, #323F2F, #587C50);
+    transform: scale(1.05);
+}
+
+/* Custom Styling for Required Fields */
+.scr-form-group span {
+    color: red;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .scr-registration-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .scr-form-group-btn .scr-btn {
+        width: 100%;
+    }
+
+    .csr-registration-main-heading-main {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        gap: 10px;
+    }
+
+    .all-program-all-grant-dropdown {
+        justify-content: flex-start;
+    }
+
+    .grapgh-content {
+        display: flex;
+        justify-content: center;
+    }
+
+}
+
+/* Add a hover effect on form fields */
+.scr-form-group input:hover,
+.scr-form-group textarea:hover,
+.scr-form-group select:hover {
+    border-color: #0056b3;
+}
+
+/* Enhance File Upload Input */
+.scr-form-group input[type="file"] {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.scr-form-group input[type="file"]::-webkit-file-upload-button {
+    background: #007bff;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.scr-form-group input[type="file"]::-webkit-file-upload-button:hover {
+    background: #0056b3;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scr-registration-section {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* csr registration section end */
+
+/* expenase on project section start */
+.expanse-btn {
+    background-color: red !important;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.expanse-btn:hover {
+    background-color: #c31313f8 !important;
+    cursor: pointer;
+}
+
+.expanse-btn2:hover {
+    background-color: #0960bd !important;
+    cursor: pointer;
+}
+
+.expanse-btn2 {
+    background-color: #007bff !important;
+}
+
+/*expanse on project  section end */
+
+
+
+
+
+.scr-form-group-main {
+    box-shadow: #323f2f62 0px 1px 3px 0px, #323f2f62 0px 0px 0px 1px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+}
+
+.scr-form-group-content p {
+    margin: 0;
+    padding: 0;
+}
+
+.scr-form-group-content span {
+    color: green;
+    display: block;
+    padding: 5px 0px;
+}
+
+.scr-form-group-icon {
+    background-color: #007BFF;
+    width: 75px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    transition: all 0.3s ease;
+}
+
+.scr-form-group-icon:hover {
+    background-color: #085fbc;
+    cursor: pointer;
+}
+
+.scr-form-group-icon2 {
+    background-color: #FFD700;
+}
+
+.scr-form-group-icon2:hover {
+    background-color: #dfbe00;
+}
+
+.scr-form-group-icon3 {
+    background-color: #587C50;
+}
+
+.scr-form-group-icon3:hover {
+    background-color: #323F2F;
+}
+
+.select-representative {
+    width: 30%;
+}
+
+@media(max-width:769px) {
+    .select-representative {
+        width: 50%;
+    }
+}
+
+@media(max-width:426px) {
+    .scr-registration-form {
+        padding: 0;
+    }
+
+    .select-representative {
+        width: 100%;
+    }
+
+    .chart-container {
+        margin-top: 10px;
+    }
+
+    .grant-pagination-container {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .grant-list {
+        padding: 0 !important;
+    }
+
+    .grant-list-govt {
+        padding: 20px !important;
+    }
+
+    .scr-form-group-file {
+        width: 100%;
+    }
+
+    .scr-registration-form {
+        padding: 20px !important;
+    }
+
+    .scr-registration-form-main {
+        padding-bottom: 20px;
+    }
+
+}

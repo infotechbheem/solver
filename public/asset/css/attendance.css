@@ -1,0 +1,198 @@
+/* view .attendance section start */
+.ViewAttendanceMains {
+    padding-bottom: 30px;
+    padding-top: 10px;
+}
+
+.csr-registration-main-heading {
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    padding-left: 20px;
+    align-items: center;
+}
+
+.csr-registration-main-heading p {
+    margin: 0;
+    padding: 0;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+
+/* Container Styling */
+.ViewAttendanceMain {
+    max-width: 100%;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border-radius: 10px;
+}
+
+.attendance-section {
+    padding: 20px;
+}
+
+/* Header Styling */
+.ViewAttendanceMain h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 80px;
+    font-size: 28px;
+}
+
+/* Search Bar */
+.SearchBar {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    border-color: #587C50;
+    box-shadow: 0px 0px 5px #587c50c5;
+}
+
+.MonthTabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px;
+    white-space: nowrap;
+    border-bottom: 2px solid #ddd;
+}
+
+.MonthTabs::-webkit-scrollbar {
+    display: none;
+}
+
+.MonthTabs button {
+    background-color: #f5f5f5;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.MonthTabs button:hover {
+    background-color: #e0e0e0;
+}
+
+.MonthTabs .activeTab {
+    background-color: #587C50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Table Container */
+.TableContainer {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* Table Styling */
+.AttendanceTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    min-width: 900px;
+}
+
+/* Sticky Header */
+.AttendanceTable thead th {
+    position: sticky;
+    top: 0;
+    background-color: #323F2F;
+    color: white;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+/* Table Headers */
+.AttendanceTable th,
+.AttendanceTable td {
+    border: 1px solid #bfbfbf;
+    padding: 12px;
+    font-size: 13px;
+    text-align: center;
+    color: rgb(35, 35, 35);
+}
+
+
+/* Alternating Row Colors */
+.AttendanceTable tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.AttendanceTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Hover Effect */
+.AttendanceTable tbody tr:hover {
+    background-color: #e9ecef;
+    transition: background 0.3s ease;
+}
+
+/* Present and Absent Styling */
+.present {
+    background-color: #c3e6cb;
+    color: #155724;
+    font-weight: bold;
+}
+
+.absent {
+    background-color: #f5c6cb;
+    color: #721c24;
+    font-weight: bold;
+}
+
+/* Column Width Adjustments */
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .SearchBar {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .AttendanceTable th,
+    .AttendanceTable td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .ViewAttendanceMain h1 {
+        font-size: 24px;
+    }
+
+}
+
+.sunday {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+}
+
+@media(max-width:426px) {
+    .ViewAttendanceMain {
+        margin-top: 0;
+    }
+
+    .ViewAttendanceMains {
+        padding-bottom: 20px;
+    }
+
+    .ViewAttendanceMain h1 {
+        margin-bottom: 20px;
+    }
+}
+
+/* view .attendance section end */
