@@ -10,7 +10,7 @@
         }
     </style>
 
-    @include('components.breadcrumb')
+    @include('components.breadcrumb',['title' => 'User Department'])
     <div class="user_create_department">
 
         <div class="containers p-0">
@@ -264,7 +264,7 @@
                                         <div class="input-section">
                                             <label>Authorised Email Id</label>
                                             <input type="email" class="form-control" name="email"
-                                                placeholder="Enter  authorised email">
+                                                placeholder="Enter authorised email">
                                         </div>
                                         <div class="input-section">
                                             <label>Create Password</label>
@@ -275,7 +275,7 @@
 
 
 
-                                    <button class="btn btn-primary " type="submit">Save</button>
+                                    <button class="btn btn-primary" type="submit" id="submitBtn">Save</button>
                                 </form>
                             </div>
                         </div>
@@ -331,7 +331,7 @@
                                                 placeholder="Enter password">
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary " type="submit">Save</button>
+                                    <button class="btn btn-primary" type="submit" id="submitBtnPartner">Save</button>
                                 </form>
                             </div>
                         </div>
@@ -346,4 +346,218 @@
 
     <!-- Bootstrap 5 JS Bundle (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- email check --}}
+    <script>
+        $(document).ready(function () {
+            $('input[name="email"]').on('change', function () {
+                let emailInput = $(this);
+                let email = emailInput.val();
+                let errorBox = emailInput.next('.email-error');
+                let submitBtn = $('#submitBtn');
+                let submitBtnPartner = $('#submitBtnPartner');
+
+                // Remove previous error if any
+                if (errorBox.length) {
+                    errorBox.remove();
+                }
+
+                if (email.length > 0) {
+                    emailInput.next('.email-error').remove();
+                    $.ajax({
+                        url: '{{ route("check-email-availability") }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            email: email
+                        },
+                        success: function (response) {
+                            if (response.isEmailAvailable) {
+                                emailInput.after('<div class="email-error text-danger mt-1">Email already exists.</div>');
+                                submitBtn.prop('disabled', true);
+                                submitBtnPartner.prop('disabled', true);
+                            }
+                            else {
+                                submitBtn.prop('disabled', false);
+                                submitBtnPartner.prop('disabled', false);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    {{-- password validation --}}
+    <script>
+        $(document).ready(function () {
+            $('input[name="password"]').on('change', function () {
+                let passwordInput = $(this);
+                let password = passwordInput.val();
+                let errorBox = passwordInput.next('.password-error');
+                let submitBtn = $('#submitBtn');
+                let submitBtnPartner = $('#submitBtnPartner');
+
+                // Remove previous error if any
+                if (errorBox.length) {
+                    errorBox.remove();
+                }
+
+                // Password validation: at least 8 characters, 1 letter, 1 number, 1 special character
+                let isValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(password);
+
+                if (!isValid && password.length > 0) {
+                    // Show error message
+                    passwordInput.after('<div class="password-error" style="color: red; font-size: 14px; margin-top: 4px;">Password must be at least 8 characters long and include a letter, a number, and a special character.</div>');
+                    submitBtn.prop('disabled', true);
+                    submitBtnPartner.prop('disabled', true);
+                }
+                else {
+                    passwordInput.after('');
+                    submitBtn.prop('disabled', false);
+                    submitBtnPartner.prop('disabled', false);
+                }
+            });
+        });
+    </script>
+
+    {{-- phone validation --}}
+    <script>
+        $(document).ready(function () {
+            $('input[name="phone_number"]').on('change', function () {
+                let phoneInput = $(this);
+                let phone = phoneInput.val();
+                let errorBox = phoneInput.next('.phone-error');
+                let submitBtn = $('#submitBtn');
+                let submitBtnPartner = $('#submitBtnPartner');
+
+                // Remove previous error if any
+                if (errorBox.length) {
+                    errorBox.remove();
+                }
+
+                let isValid = /^[6-9]\d{9}$/.test(phone) && !/^(\d)\1{9}$/.test(phone) && phone !== '1234567890' && phone !== '0123456789';
+
+                if (!isValid && phone.length > 0) {
+                    // Show error message
+                    phoneInput.after('<div class="phone-error" style="color: red; font-size: 14px; margin-top: 4px;">Mobile number must be exactly 10 digits and contain only numbers and should be a valid number.</div>');
+                    submitBtn.prop('disabled', true);
+                    submitBtnPartner.prop('disabled', true);
+                }
+                else {
+                    phoneInput.after('');
+                    submitBtn.prop('disabled', false);
+                    submitBtnPartner.prop('disabled', false);
+                }
+            });
+        });
+    </script>
+
+    {{-- add required to name, company name and designation --}}
+    <script>
+        $(document).ready(function () {
+            $('#submitBtn').on('click', function (e) {
+                let isValid = true;
+
+                let submitBtn = $('#submitBtn');
+            
+
+                // Clear previous errors
+                $('.field-error').remove();
+
+                // Define input elements
+                let companyNameInput = $('input[name="company_name"]');
+                let nameInput = $('input[name="name"]');
+                let designationInput = $('input[name="designation"]');
+
+                // Validation checks
+                if (!companyNameInput.val().trim()) {
+                    companyNameInput.after('<div class="field-error text-danger mt-1">Company name is required.</div>');
+                    isValid = false;
+                }
+
+                if (!nameInput.val().trim()) {
+                    nameInput.after('<div class="field-error text-danger mt-1">Authorised Person Name is required.</div>');
+                    isValid = false;
+                }
+
+                if (!designationInput.val().trim()) {
+                    designationInput.after('<div class="field-error text-danger mt-1">Designation is required.</div>');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault(); // Stop form submission
+                    // Disable buttons
+                    submitBtn.prop('disabled', true);
+                    
+                } else {
+                    // Enable buttons
+                    submitBtn.prop('disabled', false);
+                    
+                }
+            });
+
+            // Re-enable buttons on any input change
+            $('input').on('input', function () {
+                $('#submitBtn').prop('disabled', false);
+                $(this).next('.field-error').remove(); // remove error on user typing
+            });
+        });
+    </script>
+
+    {{-- add required to name, company name and designation --}}
+    <script>
+        $(document).ready(function () {
+            $('#submitBtnPartner').on('click', function (e) {
+                let isValid = true;
+
+              
+                let submitBtnPartner = $('#submitBtnPartner');
+
+                // Clear previous errors
+                $('.field-error').remove();
+
+                // Define input elements
+                let ngoNameInput = $('input[name="company_ngo_name"]');
+                let contactPersonInput = $('input[name="contact_person_name"]');
+                let designationInput = $('input[name="designation"]');
+
+                // Validation checks
+
+                if (!ngoNameInput.val().trim()) {
+                    ngoNameInput.after('<div class="field-error text-danger mt-1">Company/NGO name is required.</div>');
+                    isValid = false;
+                }
+
+                if (!contactPersonInput.val().trim()) {
+                    contactPersonInput.after('<div class="field-error text-danger mt-1">Authorised person name is required.</div>');
+                    isValid = false;
+                }
+
+                if (!designationInput.val().trim()) {
+                    designationInput.after('<div class="field-error text-danger mt-1">Designation is required.</div>');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault(); // Stop form submission
+                    // Disable buttons
+                 
+                    submitBtnPartner.prop('disabled', true);
+                } else {
+                    // Enable buttons
+                    
+                    submitBtnPartner.prop('disabled', false);
+                }
+            });
+
+            // Re-enable buttons on any input change
+            $('input').on('input', function () {
+                $('#submitBtnPartner').prop('disabled', false);
+                $(this).next('.field-error').remove(); // remove error on user typing
+            });
+        });
+    </script>
+
 @endsection

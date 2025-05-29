@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\CSRController;
@@ -53,6 +52,15 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
 
         Route::get('/admin-department/letter-box', 'letterBox')->name('letter-box');
         Route::post('/admin-department/store-letter-box', 'storeLetterBox')->name('store-letter-box');
+
+        //ajax  for email validation
+        Route::post('/check-email-exists', 'checkEmailExists')->name('check.email.exists');
+
+        // delete letter box 
+        Route::delete('/letter-box/{id}', 'destroy')->name('letter-box.destroy');
+        Route::get('/get-letterbox-data/{id}', 'getData');
+        Route::put('/update-letterbox', 'update_letterbox')->name('update-letterbox');
+
     });
 
     //==================USER DEPARTMENT END==========================

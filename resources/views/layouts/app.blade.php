@@ -73,6 +73,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="{{ asset('asset/js/mobilemenu-sidebar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('/assets/js/statecity.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

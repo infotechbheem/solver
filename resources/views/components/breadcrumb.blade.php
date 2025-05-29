@@ -1,8 +1,8 @@
 <div class="bredcrumbMains">
     <div class="bredcrumContent">
-        <a href="{{ url('/') }}">
-            <h3>Dashboard</h3>
-        </a>
+
+        <h3>{{ $title ?? 'Dashboard' }}</h3>
+
         <span>
             <p>{{ $title }} / </p>
             <a href="{{ url('/') }}">Home</a>
