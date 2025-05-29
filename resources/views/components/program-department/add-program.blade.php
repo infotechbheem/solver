@@ -23,13 +23,8 @@
                 </div>
                 <div class="scr-form-group">
                     <label>State <span>*</span></label>
-                    <select>
+                    <select id="state" name="state">
                         <option>Select State</option>
-                        <option value="bihar">Bihar</option>
-                        <option value="Uttar_pradesh">Uttar pradesh</option>
-                        <option value="delhi">delhi</option>
-                        <option value="punjab">Punjab</option>
-                        <option value="jharkhand">Jharkhand</option>
                     </select>
                 </div>
 
@@ -38,12 +33,8 @@
             <div class="scr-registration-row">
                 <div class="scr-form-group">
                     <label>District <span>*</span></label>
-                    <select>
-                        <option>Select District</option>
-                        <option value="motihari">Motihar</option>
-                        <option value="patna">Patna</option>
-                        <option value="west_champarn">West Champaran</option>
-                        <option value="gopalganj">Gopalganj</option>
+                    <select name="district" id="district">
+                        
                     </select>
                 </div>
                 <div class="scr-form-group">

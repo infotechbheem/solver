@@ -131,7 +131,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'phone_number' => $request->phone_number,
                 'email' => $request->email,
-                'password' =>  bcrypt($request->password),
+                'password' => bcrypt($request->password),
                 'address' => $request->address,
                 'designation_id' => $request->designation,
                 'department_id' => $request->department,
@@ -197,7 +197,7 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $requestData  = [
+            $requestData = [
                 'name' => $request->name,
                 'subject' => $request->subject,
                 'receipt_type' => $request->receipt_type,
@@ -232,5 +232,80 @@ class UserController extends Controller
             return redirect()->back()->with('success', 'User status updated successfully');
         }
         return redirect()->back()->with('error', 'User not found');
+    }
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $letterBox = LatterBox::findOrFail($id);
+
+            $letterBox->delete();
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Letter Box deleted successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Error deleting letter box: ' . $th->getMessage());
+        }
+    }
+
+    public function getData($id)
+    {
+        try {
+            $letterBox = LatterBox::findOrFail($id);
+
+            return response()->json([
+                'success' => true,
+                'data' => $letterBox,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching letter box: ' . $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function update_letterbox(Request $request)
+    {
+        $id = $request->id;
+
+        try {
+            DB::beginTransaction();
+
+            $requestData = [
+                'name' => $request->name,
+                'subject' => $request->subject,
+                'receipt_type' => $request->receipt_type,
+                'date' => $request->date,
+                'latter_box_type' => $request->letter_box,   
+                'latter_type' => $request->types_of_letter,
+                'department_id' => $request->department_id,
+                'latter/reference_no' => $request->reference_no,    
+                'description' => $request->description,
+            ];
+
+            $letterBox = LatterBox::find($id);
+
+            if (!$letterBox) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Letter Box not found');
+            }
+
+            $updated = $letterBox->update($requestData);
+
+            if ($updated) {
+                DB::commit();
+                return redirect()->back()->with('success', 'Letter Box Updated Successfully');
+            } else {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Failed to update Letter Box');
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 }

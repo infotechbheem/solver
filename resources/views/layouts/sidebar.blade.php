@@ -22,12 +22,12 @@
                 <span class="nav-label">Create User Department</span>
             </a>
         </li>
-        <li>
+        {{-- <li>
             <a class="{{ request()->routeIs('view-user') ? 'dashboard_active' : '' }}"
                 href="{{ url('/admin-department/view-user') }}"><i class="sidebar-item-icon fa-solid fa-user-plus"></i>
                 <span class="nav-label">View User</span>
             </a>
-        </li>
+        </li> --}}
         <li>
             <a class="{{ request()->routeIs('user-access-control') ? 'dashboard_active' : '' }}"
                 href="{{ url('/admin-department/user-access-control') }}"><i

@@ -10,7 +10,7 @@
         }
     </style>
 
-    @include('components.breadcrumb')
+    @include('components.breadcrumb',['title' => 'User Department'])
     <div class="user_create_department">
 
         <div class="containers p-0">
