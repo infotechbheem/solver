@@ -12,9 +12,9 @@ Route::get('/user', function (Request $request) {
 Route::post('/check-email-availability', function (Request $request) {
 
     $user = User::where('email', $request->email)->first();
-
-    if (!$user) {
-        return response()->json(['isEmailAvailable' => true, 'message' => 'Email already in use.'], 200);
+    
+    if ($user) {
+        return response()->json(['isEmailAvailable' => true, 'message' => 'Email already in- use.'], 200);
     }
 
     return response()->json(['isEmailAvailable' => false, 'message' => 'Email available.'], 200);

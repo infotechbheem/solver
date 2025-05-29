@@ -53,6 +53,10 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
 
         Route::get('/admin-department/letter-box', 'letterBox')->name('letter-box');
         Route::post('/admin-department/store-letter-box', 'storeLetterBox')->name('store-letter-box');
+
+        //ajax  for email validation
+        Route::post('/check-email-exists',  'checkEmailExists')->name('check.email.exists');
+
     });
 
     //==================USER DEPARTMENT END==========================
