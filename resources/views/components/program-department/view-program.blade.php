@@ -5,16 +5,18 @@
             <div class="all-program-all-grant-dropdown">
                 <select class="all-program-all-grant-dropdown">
                     <option value="">Select Program Type</option>
-                    <option>Social Protection</option>
-                    <option>Livelihood Beneficiary</option>
-                    <option>Community Capacity</option>
-                    <option>Digital Leteracy & Finacial Inclusion</option>
+                    <option value="social_protection">Social protection</option>
+                    <option value="livelihood_beneficiray">Livelihood Beneficiary</option>
+                    <option value="community_capacity">Community Capacity</option>
+                    <option value="digital_literacy">Digital Literacy & Financial Inclusion</option>
                 </select>
                 <select class="all-program-all-grant-dropdown">
                     <option value=""> Select Project</option>
-                    <option value="sahyog">Sahyog </option>
+                    <option value="sahyog">Sahyog</option>
                     <option value="unnati">Unnati</option>
                     <option value="saksham">Saksham</option>
+                    <option value="uttkarsh">Uttkarsh</option>
+                    <option value="others">Others</option>
                 </select>
             </div>
         </div>
@@ -422,9 +424,10 @@
         </form>
         <div class="grant-list grant-list-govt ">
             <div class="grant-searchbar">
-                <input type="text" id="grant-search-bar" class="form-control grant-search"
-                    placeholder="Search..." onkeyup="searchGrants()">
+                <input type="text" id="grant-search-bar" class="form-control grant-search" placeholder="Search..."
+                    onkeyup="searchGrants()">
             </div>
+
             <div class="grant-table-scroll">
                 <table class="table grant-table" id="grantTable">
                     <thead>
@@ -450,279 +453,80 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>Social Protection</td>
-                            <td>G20/05/2025</td>
-                            <td>Bihar</td>
-                            <td>Motihari</td>
-                            <td>TATA Truct</td>
-                            <td>Sahyog</td>
-                            <td>Yuva Bharat Trust</td>
-                            <td>Neeru</td>
-                            <td>Beneficiary Name</td>
-                            <td>20 Year</td>
-                            <td>Male</td>
-                            <td>OBC</td>
-                            <td>2345678678</td>
-                            <td>Hindu</td>
-                            <td>Student</td>
-                            <td>1000 -5000</td>
-                            <td>
-                                <a href="{{ url('/program-department/view-program-details') }}">
-                                    <button class="btn btn-info">
-                                        <i class="fa-regular fa-eye"></i>
-                                    </button>
-                                </a>
-                                <a href="{{ url('/program-department/update-program-details') }}">
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-
-
+                        @foreach($programs as $index => $program)
+                            <tr>
+                                <td>{{ $programs->firstItem() + $index }}</td>
+                                <td>{{ $program->program_type ?? 'N/A' }}</td>
+                                <td>{{ $program->date ? \Carbon\Carbon::parse($program->date)->format('d/m/Y') : 'N/A' }}
+                                </td>
+                                <td>{{ $program->state ?? 'N/A' }}</td>
+                                <td>{{ $program->district ?? 'N/A' }}</td>
+                                <td>{{ $program->donar_organisation ?? 'N/A' }}</td>
+                                <td>{{ $program->project ?? 'N/A' }}</td>
+                                <td>{{ $program->support_partner ?? 'N/A' }}</td>
+                                <td>{{ $program->team_member_name ?? 'N/A' }}</td>
+                                <td>{{ $program->beneficiary_name ?? 'N/A' }}</td>
+                                <td>{{ $program->age ? $program->age . ' Years' : 'N/A' }}</td>
+                                <td>{{ $program->gender ?? 'N/A' }}</td>
+                                <td>{{ $program->caste ?? 'N/A' }}</td>
+                                <td>{{ $program->mobile_number ?? 'N/A' }}</td>
+                                <td>{{ $program->religion ?? 'N/A' }}</td>
+                                <td>{{ $program->occupation ?? 'N/A' }}</td>
+                                <td>{{ $program->family_income ?? 'N/A' }}</td>
+                                <td>
+                                    <a href="{{ url('/program-department/view-program-details/' . $program->id) }}">
+                                        <button class="btn btn-info">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </a>
+                                    <a href="{{ url('/program-department/update-program-details/' . $program->id) }}">
+                                        <button class="btn btn-success">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </button>
+                                    </a>
+                                    <form action="{{ route('delete-program', $program->id) }}" method="POST"
+                                        style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
 
             <div class="grant-pagination-container">
-                <div class="grant-pagination-info">Showing 1 to 4 of 20 records</div>
+                <div class="grant-pagination-info">
+                    Showing {{ $programs->firstItem() }} to {{ $programs->lastItem() }} of {{ $programs->total() }}
+                    records
+                </div>
+
                 <div class="grant-pagination">
-                    <button class="btn btn-light pagination-btn" disabled>Previous</button>
+                    {{-- Previous Button --}}
+                    <button class="btn btn-light pagination-btn" {{ $programs->onFirstPage() ? 'disabled' : '' }}
+                        onclick="window.location='{{ $programs->previousPageUrl() }}'">
+                        Previous
+                    </button>
+
+                    {{-- Page Numbers --}}
                     <div class="pagination-numbers">
-                        <button class="pagination-number active">1</button>
-                        <button class="pagination-number">2</button>
+                        @for ($page = 1; $page <= $programs->lastPage(); $page++)
+                            <button class="pagination-number {{ $programs->currentPage() == $page ? 'active' : '' }}"
+                                onclick="window.location='{{ $programs->url($page) }}'">
+                                {{ $page }}
+                            </button>
+                        @endfor
                     </div>
-                    <button class="btn btn-light pagination-btn">Next</button>
+
+                    {{-- Next Button --}}
+                    <button class="btn btn-light pagination-btn" {{ $programs->hasMorePages() ? '' : 'disabled' }}
+                        onclick="window.location='{{ $programs->nextPageUrl() }}'">
+                        Next
+                    </button>
                 </div>
             </div>
 
@@ -735,63 +539,63 @@
     Chart.register(ChartDataLabels);
 
     const pieCharts = [{
-            id: 'state',
-            data: [10, 20, 30, 10, 10, 20],
-            labels: ['Bihar', 'Delhi', 'Jharkhand', 'Punjab', 'Uttar Pradesh', 'Kerala']
-        },
-        {
-            id: 'district',
-            data: [15, 25, 20, 10, 5, 25],
-            labels: ['Patna', 'Ranchi', 'Ludhiana', 'Lucknow', 'Kochi', 'Delhi']
-        },
-        {
-            id: 'area',
-            data: [25, 75],
-            labels: ['Rural', 'Urban', ]
-        },
-        {
-            id: 'project',
-            data: [100],
-            labels: ['Unnati', ]
-        }, {
-            id: 'support_partner',
-            data: [50, 25, 25],
-            labels: ['Kunj Innovation ', 'Kunj Innovation ', 'Kunj Innovation ']
-        }, {
-            id: 'team_member_name',
-            data: [50, 25, 25, 75, 40, 60],
-            labels: ['Nerru ', 'Kunj  ', 'Kunj', "lkjhg", "kalpana"]
-        }, {
-            id: 'age',
-            data: [50, 25, 25, 75, 40, 60],
-            labels: ['Nerru ', 'Kunj  ', 'Kunj', "lkjhg", "kalpana"]
-        }, {
-            id: 'gender',
-            data: [25, 50, 25],
-            labels: ['male', 'female', 'transgendner']
-        }, {
-            id: 'caste',
-            data: [25, 50, 25, 50, 30],
-            labels: ['General', 'OBC', 'SC', 'ST', 'PVTGs']
-        }, {
-            id: 'religion',
-            data: [25, 50, 25, 30],
-            labels: ['Hindu', 'muslom', 'sikh', 'christian']
-        },
-        {
-            id: 'occupation',
-            data: [50, 15, 25, 30],
-            labels: ['Handicraft Worker', 'Food Maker', 'Housemaker', 'Textile', 'Shopkeeper', 'Tailoring']
-        },
-        {
-            id: 'monthly_income',
-            data: [25, 50, 25, 30],
-            labels: ['1000-5000', '50001-7000', '50001-7000', '50001-7000']
-        }, {
-            id: 'differently_abled',
-            data: [25, 75],
-            labels: ['Yes', "No"]
-        }
+        id: 'state',
+        data: [10, 20, 30, 10, 10, 20],
+        labels: ['Bihar', 'Delhi', 'Jharkhand', 'Punjab', 'Uttar Pradesh', 'Kerala']
+    },
+    {
+        id: 'district',
+        data: [15, 25, 20, 10, 5, 25],
+        labels: ['Patna', 'Ranchi', 'Ludhiana', 'Lucknow', 'Kochi', 'Delhi']
+    },
+    {
+        id: 'area',
+        data: [25, 75],
+        labels: ['Rural', 'Urban',]
+    },
+    {
+        id: 'project',
+        data: [100],
+        labels: ['Unnati',]
+    }, {
+        id: 'support_partner',
+        data: [50, 25, 25],
+        labels: ['Kunj Innovation ', 'Kunj Innovation ', 'Kunj Innovation ']
+    }, {
+        id: 'team_member_name',
+        data: [50, 25, 25, 75, 40, 60],
+        labels: ['Nerru ', 'Kunj  ', 'Kunj', "lkjhg", "kalpana"]
+    }, {
+        id: 'age',
+        data: [50, 25, 25, 75, 40, 60],
+        labels: ['Nerru ', 'Kunj  ', 'Kunj', "lkjhg", "kalpana"]
+    }, {
+        id: 'gender',
+        data: [25, 50, 25],
+        labels: ['male', 'female', 'transgendner']
+    }, {
+        id: 'caste',
+        data: [25, 50, 25, 50, 30],
+        labels: ['General', 'OBC', 'SC', 'ST', 'PVTGs']
+    }, {
+        id: 'religion',
+        data: [25, 50, 25, 30],
+        labels: ['Hindu', 'muslom', 'sikh', 'christian']
+    },
+    {
+        id: 'occupation',
+        data: [50, 15, 25, 30],
+        labels: ['Handicraft Worker', 'Food Maker', 'Housemaker', 'Textile', 'Shopkeeper', 'Tailoring']
+    },
+    {
+        id: 'monthly_income',
+        data: [25, 50, 25, 30],
+        labels: ['1000-5000', '50001-7000', '50001-7000', '50001-7000']
+    }, {
+        id: 'differently_abled',
+        data: [25, 75],
+        labels: ['Yes', "No"]
+    }
     ];
 
     const backgroundColors = [
@@ -822,7 +626,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     let label = context.label || '';
                                     let value = context.parsed || 0;
                                     return `${label}: ${value.toLocaleString()}%`;

@@ -6,6 +6,11 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Livelihoods;
+use App\Models\Program;
+use App\Models\Communities;
+use App\Models\DigitalLiteracies;
+use App\Models\SocialProtection;
 
 
 Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
@@ -25,13 +30,19 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
     //=================HR DEPARTMENT END=====================
 
 
-    //=================PROGRAM DEPARTMENT SRTAT=====================
+    //=================PROGRAM DEPARTMENT START=====================
     Route::controller(ProgramController::class)->group(function () {
         Route::get('/program-department/add-program', 'addProgram')->name('our-program.add-program');
         Route::get('/program-department/view-program', 'viewProgram')->name(name: 'our-program.view-program');
         Route::get('/program-department/view-program-details', 'viewProgramDetails')->name('our-program.view-program-details');
         Route::get('/program-department/update-program-details', 'updateProgramDetails')->name('our-program.update-program-details');
         Route::get('/program-department/deliverabels', 'deliverabels')->name('our-program.deliverabels');
+
+        // store program 
+        Route::post('/store-program', 'storeProgram')->name('store-program');
+
+         // delete program 
+        Route::delete('/delete-program/{id}', 'deleteProgram')->name('delete-program');
     });
     //=================PROGRAM DEPARTMENT END=====================
 
@@ -119,8 +130,10 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
     Route::get('/auth/program-department/add-program', function () {
         $title = "Add Program";
         return view('auth.program-department.add-program', compact('title'));
+
     })->name('auth-program-department.add-program');
     Route::get('/auth/program-department/view-program', function () {
+        
         $title = "View Program";
         return view('auth.program-department.view-program', compact('title'));
     })->name('auth-program-department.view-program');
