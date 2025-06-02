@@ -830,42 +830,50 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectState = document.getElementById("state");
     const selectDistrict = document.getElementById("district");
 
-    // Ensure both elements are present
-    if (!selectState || !selectDistrict) {
-        // console.error('Required elements not found in the DOM.');
-        return;
-    }
+    const selectedState = selectState.getAttribute("data-selected");
+    const selectedDistrict = selectDistrict.getAttribute("data-selected");
 
-    // Disable district select initially
+    if (!selectState || !selectDistrict) return;
+
     selectDistrict.disabled = true;
 
-    // Add State Value to State Select option
     if (data && data.states) {
+        // Populate State options
         data.states.forEach((value) => {
-            selectState.appendChild(createOption(value.state, value.state));
+            const option = createOption(value.state, value.state);
+            if (value.state === selectedState) {
+                option.selected = true; // 👈 set selected state here
+            }
+            selectState.appendChild(option);
         });
-    } else {
-        console.error('Data or data.states is undefined.');
+
+        // Call manually after setting .selected = true
+        if (selectedState) {
+            populateDistricts(selectedState);
+        }
     }
 
     selectState.addEventListener("change", function (e) {
-        selectDistrict.disabled = false;
-        if (data && data.states) {
-            data.states.forEach((detail, index) => {
-                if (detail.state === e.target.value) {
-                    selectDistrict.innerHTML = "";
-                    selectDistrict.append(createOption("Select District", ""));
-                    detail.districts.forEach((district) => {
-                        selectDistrict.append(createOption(district, district));
-                    });
-                }
-            });
-        } else {
-            console.error('Data or data.states is undefined.');
-        }
+        populateDistricts(e.target.value);
     });
 
-    // Create New Option Tag With Value
+    function populateDistricts(stateName) {
+        selectDistrict.innerHTML = "";
+        selectDistrict.appendChild(createOption("Select District", ""));
+        selectDistrict.disabled = false;
+
+        const foundState = data.states.find((s) => s.state === stateName);
+        if (foundState) {
+            foundState.districts.forEach((district) => {
+                const option = createOption(district, district);
+                if (district === selectedDistrict) {
+                    option.selected = true; // 👈 set selected district here
+                }
+                selectDistrict.appendChild(option);
+            });
+        }
+    }
+
     function createOption(displayMember, valueMember) {
         const newOption = document.createElement("option");
         newOption.value = valueMember;

@@ -34,15 +34,30 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
     Route::controller(ProgramController::class)->group(function () {
         Route::get('/program-department/add-program', 'addProgram')->name('our-program.add-program');
         Route::get('/program-department/view-program', 'viewProgram')->name(name: 'our-program.view-program');
-        Route::get('/program-department/view-program-details', 'viewProgramDetails')->name('our-program.view-program-details');
+        Route::get('/program-department/view-program-details/{id}', 'viewProgramDetails')->name('our-program.view-program-details');
         Route::get('/program-department/update-program-details', 'updateProgramDetails')->name('our-program.update-program-details');
         Route::get('/program-department/deliverabels', 'deliverabels')->name('our-program.deliverabels');
 
-        // store program 
+        // store program
         Route::post('/store-program', 'storeProgram')->name('store-program');
 
-         // delete program 
+        // delete program
         Route::delete('/delete-program/{id}', 'deleteProgram')->name('delete-program');
+
+        // edit program
+        Route::get('/edit-program/{id}', 'editProgram')->name('edit-program');
+
+        // update program
+        Route::put('/update-program/{id}', 'updateProgram')->name('update-program');
+
+        // store deliverables
+        Route::post('/store-deliverables', 'storeDeliverables')->name('store-deliverables');
+
+        // delete deliverables
+        Route::delete('/delete-deliverables/{id}', 'deleteDeliverables')->name('delete-deliverables');
+
+        // update deliverables
+        Route::put('/update-deliverables/{id}', 'updateDeliverables')->name('update-deliverables');
     });
     //=================PROGRAM DEPARTMENT END=====================
 
@@ -67,11 +82,10 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         //ajax  for email validation
         Route::post('/check-email-exists', 'checkEmailExists')->name('check.email.exists');
 
-        // delete letter box 
+        // delete letter box
         Route::delete('/letter-box/{id}', 'destroy')->name('letter-box.destroy');
         Route::get('/get-letterbox-data/{id}', 'getData');
         Route::put('/update-letterbox', 'update_letterbox')->name('update-letterbox');
-
     });
 
     //==================USER DEPARTMENT END==========================
@@ -130,10 +144,9 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
     Route::get('/auth/program-department/add-program', function () {
         $title = "Add Program";
         return view('auth.program-department.add-program', compact('title'));
-
     })->name('auth-program-department.add-program');
     Route::get('/auth/program-department/view-program', function () {
-        
+
         $title = "View Program";
         return view('auth.program-department.view-program', compact('title'));
     })->name('auth-program-department.view-program');

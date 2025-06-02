@@ -402,7 +402,7 @@
                 </div>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Support<span>*</span></label>
+                        <label>Organisational Support<span>*</span></label>
                         <select name="community_support" id="community_support">
                             <option value="">Select Support </option>
                             <option value="new_ngo">New Ngo Registration</option>

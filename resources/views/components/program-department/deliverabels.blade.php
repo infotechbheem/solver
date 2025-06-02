@@ -211,7 +211,7 @@
                 <!-- Add Button -->
                 <button class="btn" style="background-color: #323F2F; color:white" data-bs-toggle="modal"
                     data-bs-target="#viewAllModal">
-                    Add Deleverabels
+                    Add Deliverabels
                 </button>
             </div>
             <div class="table-section-main-head">
@@ -226,7 +226,8 @@
                                         <th>Project Name</th>
                                         <th>Donor Name</th>
                                         <th>Project Title</th>
-                                        <th>Project Duration</th>
+                                        <th>Project Duration From</th>
+                                        <th>Project Duration To</th>
                                         <th>Project Location</th>
                                         <th>No. of Month</th>
                                         <th>Month</th>
@@ -237,174 +238,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>wqewrtehrjt</td>
-                                        <td>hgjkio</td>
-                                        <td>hgjkio</td>
-                                        <td>Sahyog</td>
-                                        <td>20-05-205</td>
-                                        <td>delhi</td>
-                                        <td>4</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>2000</td>
-                                        <td class="description">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#myModal">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#viewAllModal">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>wqewrtehrjt</td>
-                                        <td>hgjkio</td>
-                                        <td>hgjkio</td>
-                                        <td>Sahyog</td>
-                                        <td>20-05-205</td>
-                                        <td>delhi</td>
-                                        <td>4</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>2000</td>
-                                        <td class="description">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#myModal">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#viewAllModal">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>wqewrtehrjt</td>
-                                        <td>hgjkio</td>
-                                        <td>hgjkio</td>
-                                        <td>Sahyog</td>
-                                        <td>20-05-205</td>
-                                        <td>delhi</td>
-                                        <td>4</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>2000</td>
-                                        <td class="description">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#myModal">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#viewAllModal">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>wqewrtehrjt</td>
-                                        <td>hgjkio</td>
-                                        <td>hgjkio</td>
-                                        <td>Sahyog</td>
-                                        <td>20-05-205</td>
-                                        <td>delhi</td>
-                                        <td>4</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>2000</td>
-                                        <td class="description">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#myModal">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#viewAllModal">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>wqewrtehrjt</td>
-                                        <td>hgjkio</td>
-                                        <td>hgjkio</td>
-                                        <td>Sahyog</td>
-                                        <td>20-05-205</td>
-                                        <td>delhi</td>
-                                        <td>4</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>2000</td>
-                                        <td class="description">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#myModal">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#viewAllModal">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>wqewrtehrjt</td>
-                                        <td>hgjkio</td>
-                                        <td>hgjkio</td>
-                                        <td>Sahyog</td>
-                                        <td>20-05-205</td>
-                                        <td>delhi</td>
-                                        <td>4</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>lkjhgcvjbhjknlkl</td>
-                                        <td>2000</td>
-                                        <td class="description">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#myModal">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#viewAllModal">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @foreach ($deliverables as $deliverable)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $deliverable->program }}</td>
+                                            <td>{{ $deliverable->project_name }}</td>
+                                            <td>{{ $deliverable->donar_name }}</td>
+                                            <td>{{ $deliverable->project_title }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($deliverable->project_duration_from)->format('d-m-Y') }}
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($deliverable->project_duration_to)->format('d-m-Y') }}
+                                            </td>
+                                            <td>{{ $deliverable->project_location }}</td>
+                                            <td>{{ $deliverable->no_of_month }}</td>
+                                            <td>{{ str_replace('_', ' ', $deliverable->month) }}</td>
+                                            <td>{{ $deliverable->particular }}</td>
+                                            <td>{{ $deliverable->target }}</td>
+                                            <td class="description">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#myModal{{ $deliverable->id }}">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editModal{{ $deliverable->id }}">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </button>
+                                                <form action="{{ route('delete-deliverables', $deliverable->id) }}"
+                                                    method="POST" style="display: inline-block;"
+                                                    onsubmit="return confirm('Are you sure you want to delete this deliverable?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -635,20 +508,23 @@
 
 
 <!-- Modals -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Decsription</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
-                        class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body">
-                <p>This is a paragraph inside the Bootstrap modal.</p>
+@foreach ($deliverables as $deliverable)
+    <div class="modal fade" id="myModal{{ $deliverable->id }}" tabindex="-1" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="descriptionLabel{{ $deliverable->id }}">Decsription</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ $deliverable->description }}</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endforeach
 
 <!-- View All Modal -->
 <div class="modal fade" id="viewAllModal" tabindex="-1" aria-labelledby="viewAllModalLabel" aria-hidden="true">
@@ -661,51 +537,62 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('store-deliverables') }}" method="POST">
+                    @csrf
                     <div class="modal-body-main mb-3">
                         <div class="input-section">
                             <label>Program <span style="color: red">*</span></label>
-                            <input type="text" placeholder="Program" class="form-control" required>
+                            <input type="text" placeholder="Program" class="form-control" name="program"
+                                id="program" required>
                         </div>
                         <div class="input-section">
                             <label>Project Name <span style="color: red">*</span></label>
-                            <input type="text" placeholder="Project Name" class="form-control" required>
+                            <input type="text" placeholder="Project Name" class="form-control"
+                                name="project_name" id="project_name" required>
                         </div>
                     </div>
                     <div class="modal-body-main mb-3">
                         <div class="input-section">
                             <label>Donor Name <span style="color: red">*</span></label>
-                            <input type="text" placeholder="Donor Name" class="form-control" required>
+                            <input type="text" placeholder="Donor Name" class="form-control" name="donar_name"
+                                id="donar_name" required>
                         </div>
                         <div class="input-section">
                             <label>Project Title <span style="color: red">*</span></label>
-                            <input type="text" class="form-control" placeholder="Project Title" required>
+                            <input type="text" class="form-control" placeholder="Project Title"
+                                name="project_title" id="project_title" required>
                         </div>
                     </div>
                     <div class="modal-body-main mb-3">
                         <div class="input-section">
-                            <label>Project Duration <span style="color: red">*</span></label>
-                            <div class="date-inputs">
-                                <input type="date" class="form-control" required>
-                                <input type="date" class="form-control" required>
-                            </div>
+                            <label>Project Duration From<span style="color: red">*</span></label>
+                            <input type="date" class="form-control" name="project_duration_from"
+                                id="project_duration_from" required>
+                        </div>
+                        <div class="input-section">
+                            <label>Project Duration To<span style="color: red">*</span></label>
+                            <input type="date" class="form-control" name="project_duration_to"
+                                id="project_duration_to" required>
                         </div>
                     </div>
                     <div class="modal-body-main mb-3">
                         <div class="input-section">
                             <label>Project Location</label>
-                            <input type="text" class="form-control" placeholder="Project Location">
+                            <input type="text" class="form-control" placeholder="Project Location"
+                                name="project_location" id="project_location">
                         </div>
                         <div class="input-section">
                             <label>No.Of Month</label>
-                            <input type="text" class="form-control" placeholder="Project Location">
+                            <input type="text" class="form-control" placeholder="No. Of Month" name="no_of_month"
+                                id="no_of_month">
                         </div>
                     </div>
                     <div class="modal-body-main mb-3">
-                        <div class="input-section">
-                            <label>Month <span style="color: red">*</span></label>
-                            <select class="form-control" required>
-                                <option value="" disabled selected>Select Month</option>
+                        <div class="input-section" style="display: flex; flex-direction: column; max-width: 500px;">
+                            <label style="margin-bottom: 4px;">Month <span style="color: red">*</span></label>
+                            <select class="form-control" name="month" id="month" required
+                                style="width: 100%; box-sizing: border-box; padding: 6px 8px;">
+                                <option value="" selected>Select Month</option>
                                 <option value="apr_25">Apr-25</option>
                                 <option value="may_25">May-25</option>
                                 <option value="jun_25">Jun-25</option>
@@ -717,24 +604,26 @@
                                 <option value="jan_26">Jan-26</option>
                                 <option value="feb_26">Feb-26</option>
                                 <option value="mar_26">Mar-26</option>
-
                             </select>
                         </div>
                         <div class="input-section">
                             <label>Particular <span style="color: red">*</span></label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" class="form-control" name="particular" id="particular"
+                                placeholder="Particulars" required>
                         </div>
                     </div>
                     <div class="modal-body-main mb-3">
                         <div class="input-section" style="width:100%">
                             <label>Target <span style="color: red">*</span></label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" class="form-control" placeholder="Target" name="target"
+                                id="target" required>
                         </div>
                     </div>
                     <div class="modal-body-main mb-3">
                         <div class="input-section" style="width:100%">
                             <label>Description <span style="color: red">*</span></label>
-                            <textarea class="form-control" rows="3" required></textarea>
+                            <textarea class="form-control" name="description" id="description" placeholder="Description..." rows="3"
+                                required></textarea>
                         </div>
                     </div>
                     <button class="btn btn-primary" type="submit">Save</button>
@@ -743,6 +632,132 @@
         </div>
     </div>
 </div>
+
+{{-- editModal --}}
+<div class="modal fade" id="editModal{{ $deliverable->id }}" tabindex="-1"
+    aria-labelledby="editModalLabel{{ $deliverable->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $deliverable->id }}">Edit Deliverable</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{-- You can place an edit form here prefilled with $deliverable data --}}
+                <form action="{{ route('update-deliverables', $deliverable->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body-main mb-3">
+                        <div class="input-section">
+                            <label>Program <span style="color: red">*</span></label>
+                            <input type="text" placeholder="Program" class="form-control" name="program"
+                                id="program" value="{{ $deliverable->program }}" required>
+                        </div>
+                        <div class="input-section">
+                            <label>Project Name <span style="color: red">*</span></label>
+                            <input type="text" placeholder="Project Name" class="form-control"
+                                name="project_name" id="project_name" value="{{ $deliverable->project_name }}"
+                                required>
+                        </div>
+                    </div>
+                    <div class="modal-body-main mb-3">
+                        <div class="input-section">
+                            <label>Donor Name <span style="color: red">*</span></label>
+                            <input type="text" placeholder="Donor Name" class="form-control" name="donar_name"
+                                id="donar_name" value="{{ $deliverable->donar_name }}" required>
+                        </div>
+                        <div class="input-section">
+                            <label>Project Title <span style="color: red">*</span></label>
+                            <input type="text" class="form-control" placeholder="Project Title"
+                                name="project_title" id="project_title" value="{{ $deliverable->project_title }}"
+                                required>
+                        </div>
+                    </div>
+                    <div class="modal-body-main mb-3">
+                        <div class="input-section">
+                            <label>Project Duration From<span style="color: red">*</span></label>
+                            <input type="date" class="form-control" name="project_duration_from"
+                                id="project_duration_from" value="{{ $deliverable->project_duration_from }}"
+                                required>
+                        </div>
+                        <div class="input-section">
+                            <label>Project Duration To<span style="color: red">*</span></label>
+                            <input type="date" class="form-control" name="project_duration_to"
+                                id="project_duration_to" value="{{ $deliverable->project_duration_to }}" required>
+                        </div>
+                    </div>
+                    <div class="modal-body-main mb-3">
+                        <div class="input-section">
+                            <label>Project Location</label>
+                            <input type="text" class="form-control" placeholder="Project Location"
+                                name="project_location" id="project_location"
+                                value="{{ $deliverable->project_location }}">
+                        </div>
+                        <div class="input-section">
+                            <label>No.Of Month</label>
+                            <input type="text" class="form-control" placeholder="No. Of Month" name="no_of_month"
+                                id="no_of_month" value="{{ $deliverable->no_of_month }}">
+                        </div>
+                    </div>
+                    <div class="modal-body-main mb-3">
+                        <div class="input-section" style="display: flex; flex-direction: column; max-width: 500px;">
+                            <label style="margin-bottom: 4px;">Month <span style="color: red">*</span></label>
+                            <select class="form-control" name="month" id="month" required
+                                style="width: 100%; box-sizing: border-box; padding: 6px 8px;">
+                                <option value="" selected>Select Month</option>
+                                <option value="apr_25" {{ $deliverable->month == 'apr_25' ? 'selected' : '' }}>Apr-25
+                                </option>
+                                <option value="may_25" {{ $deliverable->month == 'may_25' ? 'selected' : '' }}>May-25
+                                </option>
+                                <option value="jun_25" {{ $deliverable->month == 'jun_25' ? 'selected' : '' }}>Jun-25
+                                </option>
+                                <option value="jul_25" {{ $deliverable->month == 'jul_25' ? 'selected' : '' }}>Jul-25
+                                </option>
+                                <option value="aug_25" {{ $deliverable->month == 'aug_25' ? 'selected' : '' }}>Aug-25
+                                </option>
+                                <option value="sep_25" {{ $deliverable->month == 'sep_25' ? 'selected' : '' }}>Sep-25
+                                </option>
+                                <option value="oct_25" {{ $deliverable->month == 'oct_25' ? 'selected' : '' }}>Oct-25
+                                </option>
+                                <option value="nov_25" {{ $deliverable->month == 'nov_25' ? 'selected' : '' }}>Nov-25
+                                </option>
+                                <option value="jan_26" {{ $deliverable->month == 'jan_26' ? 'selected' : '' }}>Jan-26
+                                </option>
+                                <option value="feb_26" {{ $deliverable->month == 'feb_26' ? 'selected' : '' }}>Feb-26
+                                </option>
+                                <option value="mar_26" {{ $deliverable->month == 'mar_26' ? 'selected' : '' }}>Mar-26
+                                </option>
+                            </select>
+                        </div>
+                        <div class="input-section">
+                            <label>Particular <span style="color: red">*</span></label>
+                            <input type="text" class="form-control" name="particular" id="particular"
+                                placeholder="Particulars" value="{{ $deliverable->particulars }}" required>
+                        </div>
+                    </div>
+                    <div class="modal-body-main mb-3">
+                        <div class="input-section" style="width:100%">
+                            <label>Target <span style="color: red">*</span></label>
+                            <input type="text" class="form-control" placeholder="Target" name="target"
+                                id="target" value="{{ $deliverable->target }}" required>
+                        </div>
+                    </div>
+                    <div class="modal-body-main mb-3">
+                        <div class="input-section" style="width:100%">
+                            <label>Description <span style="color: red">*</span></label>
+                            <textarea class="form-control" name="description" id="description" placeholder="Description..." rows="3"
+                                required>{{ $deliverable->description }}</textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     window.addEventListener("DOMContentLoaded", () => {
         const chartConfigs = [{
