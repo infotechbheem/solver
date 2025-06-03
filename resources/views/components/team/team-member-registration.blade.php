@@ -4,16 +4,17 @@
     @include('components.breadcrumb')
     <div class="employee-registration-container">
         <h1 class="employee-registration-title">Team Registration</h1>
-        <form class="employee-form" action="{{ route('store-team-member-registration') }}" method="post">
+        <form class="employee-form" action="{{ route('store-team-member-registration') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="employee-form-grid">
                 <div class="employee-form-group">
                     <label for="gender" class="employee-label">Type of Employment
                         <span class="validate-required">*</span>
                     </label>
-                    <select id="" name="employment_type" class="employee-input" required>
-                        <option value="">Permanent</option>
-                        <option value="">Project Based</option>
+                    <select id="employment_type" name="employment_type" class="employee-input" required>
+                        <option value="">Select Employment Type</option>
+                        <option value="permanent">Permanent</option>
+                        <option value="project_based">Project Based</option>
                     </select>
                 </div>
                 <div class="employee-form-group">
@@ -21,6 +22,7 @@
                         <span class="validate-required">*</span>
                     </label>
                     <select id="position_type" name="position_type" class="employee-input" required>
+                        <option value="">Select Position</option>
                         <option value="employee">Employee</option>
                         <option value="volunteer">Volunteer</option>
                         <option value="intern">Intern</option>
@@ -30,7 +32,8 @@
                     <label for="name" class="employee-label">Full Name
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="text" id="name" name="name" placeholder="Enter full name" class="employee-input" required>
+                    <input type="text" id="name" name="name" placeholder="Enter full name" class="employee-input"
+                        required>
                 </div>
                 <div class="employee-form-group">
                     <label for="father_name" class="employee-label">Father's Name
@@ -50,7 +53,8 @@
                     <label for="email" class="employee-label">Email ID
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="email" id="email" name="email" class="employee-input" placeholder="Enter email" required>
+                    <input type="email" id="email" name="email" class="employee-input" placeholder="Enter email"
+                        required>
                 </div>
                 <div class="employee-form-group">
                     <label for="phone" class="employee-label">Phone Number
@@ -71,6 +75,7 @@
                         <span class="validate-required">*</span>
                     </label>
                     <select id="gender" name="gender" class="employee-input" required>
+                        <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
@@ -119,13 +124,14 @@
                     <label for="" class="employee-label">Emergency Contact Number
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="text" class="employee-input" placeholder="Emergency contact number" required>
+                    <input type="text" id="emergency_contact" name="emergency_contact" class="employee-input"
+                        placeholder="Emergency contact number" required>
                 </div>
                 <div class="employee-form-group">
                     <label for="dob" class="employee-label">Date of Joining
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="date" class="employee-input" required>
+                    <input type="date" class="employee-input" id="doj" name="doj" required>
                 </div>
                 <div class="employee-form-group">
                     <label for="" class="employee-label">Designation
@@ -143,7 +149,7 @@
                     <label for="department" class="employee-label">Department
                         <span class="validate-required">*</span>
                     </label>
-                    <select id="" name="" class="employee-input" required>
+                    <select id="department" name="department" class="employee-input" required>
                         <option value="">Select Department</option>
                         <option value="">Hr Department </option>
                         <option value="">Finance Department</option>
@@ -151,10 +157,10 @@
                     </select>
                 </div>
                 <div class="employee-form-group">
-                    <label for="gender" class="employee-label">Payment Type
+                    <label for="payment_type" class="employee-label">Payment Type
                         <span class="validate-required">*</span>
                     </label>
-                    <select id="gender" name="gender" class="employee-input" required>
+                    <select id="payment_type" name="payment_type" class="employee-input" required>
                         <option value="">Select Payment Type</option>
                         <option value="salary">Salary</option>
                         <option value="stipend">Stipend</option>
@@ -166,25 +172,29 @@
                     <label for="" class="employee-label">Basic Amount
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="number" id="" name="" class="employee-input" placeholder="Enter basic amount" required>
+                    <input type="number" id="basic_amt" name="basic_amt" class="employee-input"
+                        placeholder="Enter basic amount" required>
                 </div>
                 <div class="employee-form-group">
                     <label for="" class="employee-label">CTC Amount
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="number" id="" name="" class="employee-input" placeholder="Enter ctc amount" required>
+                    <input type="number" id="ctc" name="ctc" class="employee-input"
+                        placeholder="Enter ctc amount" required>
                 </div>
                 <div class="employee-form-group">
                     <label for="" class="employee-label">EPF
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="number" id="" name="" class="employee-input" placeholder="Enter epf" required>
+                    <input type="number" id="epf" name="epf" class="employee-input" placeholder="Enter epf"
+                        required>
                 </div>
                 <div class="employee-form-group">
                     <label for="" class="employee-label">ESIC
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="number" id="" name="" class="employee-input" placeholder="Enter esic" required>
+                    <input type="number" id="esic" name="esic" class="employee-input" placeholder="Enter esic"
+                        required>
                 </div>
             </div>
 
@@ -287,8 +297,8 @@
                     <textarea name="address" id="address" cols="30" rows="3"></textarea>
                 </div>
                 <div class="employee-form-group address-section">
-                    <label for="address" class="employee-label">Message (optional)</label>
-                    <textarea name="address" id="address" cols="30" rows="3"></textarea>
+                    <label for="message" class="employee-label">Message (optional)</label>
+                    <textarea name="message" id="message" cols="30" rows="3"></textarea>
                 </div>
             </div>
 

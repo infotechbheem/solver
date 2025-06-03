@@ -58,6 +58,11 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
 
         // update deliverables
         Route::put('/update-deliverables/{id}', 'updateDeliverables')->name('update-deliverables');
+
+        // import
+        Route::post('/overall-target-import', 'overallTargetImport')->name('overall-target-import');
+        // import
+        Route::post('/progress-track-import', 'progressTrakImport')->name('progress-track-import');
     });
     //=================PROGRAM DEPARTMENT END=====================
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
+    protected $table = "teams";
     protected $fillable = [
         'team_id',
         'full_name',
@@ -31,7 +32,7 @@ class Team extends Model
         'epf',
         'esic',
         'photo',
-        'cv/resume',
+        'cv_resume',
         'aadhar_card',
         'pan_card',
         'marksheet',

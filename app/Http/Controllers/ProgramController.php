@@ -8,8 +8,11 @@ use App\Models\Communities;
 use App\Models\DigitalLiteracies;
 use App\Models\SocialProtection;
 use App\Models\Deliverables;
+use App\Models\OverallTargetvsDeliverables;
+use App\Imports\OverallTargetImport;
+use App\Models\ProgressTracker;
 use Illuminate\Support\Facades\DB;
-
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
@@ -487,7 +490,7 @@ class ProgramController extends Controller
         // Define colors array
         $chartColors = ['#FF6384', '#36A2EB', '#FFCD56', '#2ECC71', '#8E44AD', '#E67E22', '#1ABC9C', '#F39C12'];
         $title = "View Program";
-        return view('program-department.view-program', compact('title', 'programs', 'chartData', 'chartColors', 'districtChartData', 'areaChartData', 'projectChartData', 'support_partnerChartData', 'team_member_nameChartData', 'ageChartData', 'genderChartData', 'casteChartData', 'religionChartData', 'occupationChartData', 'familyIncomeChartData','differentlyAbledChartData','supportChartData'));
+        return view('program-department.view-program', compact('title', 'programs', 'chartData', 'chartColors', 'districtChartData', 'areaChartData', 'projectChartData', 'support_partnerChartData', 'team_member_nameChartData', 'ageChartData', 'genderChartData', 'casteChartData', 'religionChartData', 'occupationChartData', 'familyIncomeChartData', 'differentlyAbledChartData', 'supportChartData'));
     }
     public function viewProgramDetails($id)
     {
@@ -504,9 +507,12 @@ class ProgramController extends Controller
     }
     public function deliverabels()
     {
-        $deliverables = Deliverables::get();
+        $deliverables = Deliverables::paginate(10, ['*'], 'deliverables_page');
+        $overallTarget = OverallTargetvsDeliverables::paginate(10, ['*'], 'overallTarget_page');
+        $progressTrack = ProgressTracker::paginate(10, ['*'], 'progressTrack_page');
+
         $title = "Plan & Deliverables";
-        return view('program-department.deliverabels', compact('title','deliverables'));
+        return view('program-department.deliverabels', compact('title', 'deliverables', 'overallTarget', 'progressTrack'));
     }
 
     public function storeProgram(Request $request)
@@ -788,7 +794,8 @@ class ProgramController extends Controller
         }
     }
 
-    public function storeDeliverables(Request $request){
+    public function storeDeliverables(Request $request)
+    {
         try {
             DB::beginTransaction();
 
@@ -832,6 +839,97 @@ class ProgramController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Error deleting Deliverables: ' . $th->getMessage());
+        }
+    }
+
+    public function updateDeliverables(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Find the existing deliverable by ID
+            $deliverable = Deliverables::findOrFail($id);
+
+            // Prepare updated data
+            $deliverableData = [
+                'program' => $request->program,
+                'project_name' => $request->project_name,
+                'project_title' => $request->project_title,
+                'donar_name' => $request->donar_name,
+                'project_duration_from' => $request->project_duration_from,
+                'project_duration_to' => $request->project_duration_to,
+                'project_location' => $request->project_location,
+                'no_of_month' => $request->no_of_month,
+                'month' => $request->month,
+                'particular' => $request->particular,
+                'target' => $request->target,
+                'description' => $request->description,
+            ];
+
+            // Update the existing deliverable
+            $deliverable->update($deliverableData);
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Deliverables Updated Successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function overallTargetImport(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required|file|mimes:xls,xlsx,xlsm',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            Excel::import(new OverallTargetImport, $request->file('import_file'));
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'File Imported Successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function progressTrakImport(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $request->validate([
+                'progressFile' => 'required|file|mimes:xls,xlsx,xlsm',
+            ]);
+
+            $path = $request->file('progressFile')->getRealPath();
+
+            // Excel import logic (maatwebsite/excel v1.1)
+            Excel::load($path, function ($reader) {
+                $results = $reader->get();
+                dd($results);
+                foreach ($results as $row) {
+                    // Replace with your actual model and fields
+                    ProgressTracker::create([
+                        'date' => $request->date,
+                        'location' => $request->location,
+                        'activity' => $request->activity,
+                        'shg_covered' => $request->shg_covered,
+                        'member_enrolled' => $request->member_enrolled,
+                        'schemes_facilitated' => $request->schemes_facilitated,
+                        'legal_docs_processed' => $request->legal_docs_processed,
+                    ]);
+                }
+            });
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Deliverables Imported Successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 }

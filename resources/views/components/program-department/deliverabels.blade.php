@@ -286,11 +286,12 @@
 
                 </div>
                 <div class="table-footer">
-                    <span id="showing-text">Showing 1 of 2</span>
-                    <div class="pagination" id="pagination">
-                        <button onclick="changePage(currentPage - 1)">Previous</button>
-                        <!-- Page numbers will be populated by JavaScript -->
-                        <button onclick="changePage(currentPage + 1)">Next</button>
+                    <span id="showing-text-deliverables">
+                        Showing {{ $deliverables->firstItem() }} to {{ $deliverables->lastItem() }} of
+                        {{ $deliverables->total() }}
+                    </span>
+                    <div class="pagination" id="pagination-deliverables">
+                        {{ $deliverables->appends(request()->except('deliverables_page'))->links() }}
                     </div>
                 </div>
 
@@ -304,13 +305,53 @@
                 (Monthly/Project Duration)</h2>
             <div class="user-create-section-btn d-flex align-items-center"
                 style="justify-content: space-between; padding: 10px 20px;">
-                <!-- Search Bar -->
+
+                <!-- Search Bar (aligned left by default) -->
                 <div class="search-box">
                     <input type="text" class="form-control" placeholder="Search Letter Box"
                         style="width: 250px;">
                 </div>
 
+                <!-- Import Button aligned to right -->
+                <button type="button" class="btn btn-primary ms-auto" data-bs-toggle="modal"
+                    data-bs-target="#importModal">
+                    Import
+                </button>
             </div>
+            <!-- Import Modal -->
+            <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="importModalLabel">Import File</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <form action="{{ route('overall-target-import') }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="importFile" class="form-label">Choose Excel file to import</label>
+                                    <input class="form-control" type="file" name="import_file" id="importFile"
+                                        accept=".xls,.xlsx,.xlsm" required>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {{-- import modal --}}
             <div class="table-section-main-head">
                 <div class="table-section-main">
                     <div class="cards" style="width:100%">
@@ -327,54 +368,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>SHGs to be Activated </td>
-                                        <td>30 </td>
-                                        <td>30</td>
-                                        <td>60%</td>
-                                        <td class="reamark-progress"><span>5 in progress</span> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>SHGs to be Activated </td>
-                                        <td>30 </td>
-                                        <td>30</td>
-                                        <td>60%</td>
-                                        <td class="reamark-progress"><span>5 in progress</span> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>SHGs to be Activated </td>
-                                        <td>30 </td>
-                                        <td>30</td>
-                                        <td>60%</td>
-                                        <td class="reamark-progress"><span>5 in progress</span> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>SHGs to be Activated </td>
-                                        <td>30 </td>
-                                        <td>30</td>
-                                        <td>60%</td>
-                                        <td class="reamark-progress"><span>5 in progress</span> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>SHGs to be Activated </td>
-                                        <td>30 </td>
-                                        <td>30</td>
-                                        <td>60%</td>
-                                        <td class="reamark-progress"><span>5 in progress</span> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>SHGs to be Activated </td>
-                                        <td>30 </td>
-                                        <td>30</td>
-                                        <td>60%</td>
-                                        <td class="remark-pending"><span>pending </span></td>
-                                    </tr>
+                                    @foreach ($overallTarget as $ot)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td style="text-align: left">{{ $ot->key_indicator }}</td>
+                                            <td>{{ $ot->target }}</td>
+                                            <td>{{ $ot->achieved }}</td>
+                                            <td>{{ $ot->completion }}</td>
+                                            <td>{{ $ot->remarks }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -383,11 +386,12 @@
 
                 </div>
                 <div class="table-footer">
-                    <span id="showing-text">Showing 1 of 2</span>
-                    <div class="pagination" id="pagination">
-                        <button onclick="changePage(currentPage - 1)">Previous</button>
-                        <!-- Page numbers will be populated by JavaScript -->
-                        <button onclick="changePage(currentPage + 1)">Next</button>
+                    <span id="showing-text-overallTarget">
+                        Showing {{ $overallTarget->firstItem() }} to {{ $overallTarget->lastItem() }} of
+                        {{ $overallTarget->total() }}
+                    </span>
+                    <div class="pagination" id="pagination-overallTarget">
+                        {{ $overallTarget->appends(request()->except('overallTarget_page'))->links() }}
                     </div>
                 </div>
 
@@ -404,8 +408,46 @@
                     <input type="text" class="form-control" placeholder="Search Letter Box"
                         style="width: 250px;">
                 </div>
-
+                <!-- Import Button aligned to right -->
+                <button type="button" class="btn btn-primary ms-auto" data-bs-toggle="modal"
+                    data-bs-target="#progressrackModal">
+                    Import
+                </button>
             </div>
+            <!-- Import Modal -->
+            <div class="modal fade" id="progressrackModal" tabindex="-1" aria-labelledby="progressrackModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="progressrackModalLabel">Import File</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <form action="{{ route('progress-track-import') }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="progressFile" class="form-label">Choose Excel file to import</label>
+                                    <input class="form-control" type="file" name="progressFile" id="progressFile"
+                                        accept=".xls,.xlsx,.xlsm" required>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {{-- import modal --}}
             <div class="table-section-main-head">
                 <div class="table-section-main">
                     <div class="cards" style="width:100%">
@@ -424,66 +466,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>01-May</td>
-                                        <td>Village A </td>
-                                        <td> SHG Training – Packaging & Schemes</td>
-                                        <td>6</td>
-                                        <td>69</td>
-                                        <td>27</td>
-                                        <td>5</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>01-May</td>
-                                        <td>Village A </td>
-                                        <td> SHG Training – Packaging & Schemes</td>
-                                        <td>6</td>
-                                        <td>69</td>
-                                        <td>27</td>
-                                        <td>5</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>01-May</td>
-                                        <td>Village A </td>
-                                        <td> SHG Training – Packaging & Schemes</td>
-                                        <td>6</td>
-                                        <td>69</td>
-                                        <td>27</td>
-                                        <td>5</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>01-May</td>
-                                        <td>Village A </td>
-                                        <td> SHG Training – Packaging & Schemes</td>
-                                        <td>6</td>
-                                        <td>69</td>
-                                        <td>27</td>
-                                        <td>5</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>01-May</td>
-                                        <td>Village A </td>
-                                        <td> SHG Training – Packaging & Schemes</td>
-                                        <td>6</td>
-                                        <td>69</td>
-                                        <td>27</td>
-                                        <td>5</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>01-May</td>
-                                        <td>Village A </td>
-                                        <td> SHG Training – Packaging & Schemes</td>
-                                        <td>6</td>
-                                        <td>69</td>
-                                        <td>27</td>
-                                        <td>5</td>
-                                    </tr>
+                                    @foreach ($progressTrack as $pt)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($pt->date)->format('d-M') }}</td>
+                                            <td>{{ $pt->location }}</td>
+                                            <td>{{ $pt->activity }}</td>
+                                            <td>{{ $pt->shg_covered }}</td>
+                                            <td>{{ $pt->member_enrolled }}</td>
+                                            <td>{{ $pt->schemes_facilitated }}</td>
+                                            <td>{{ $pt->legal_docs_processed }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -492,11 +486,12 @@
 
                 </div>
                 <div class="table-footer">
-                    <span id="showing-text">Showing 1 of 2</span>
-                    <div class="pagination" id="pagination">
-                        <button onclick="changePage(currentPage - 1)">Previous</button>
-                        <!-- Page numbers will be populated by JavaScript -->
-                        <button onclick="changePage(currentPage + 1)">Next</button>
+                    <span id="showing-text-progressTrack">
+                        Showing {{ $progressTrack->firstItem() }} to {{ $progressTrack->lastItem() }} of
+                        {{ $progressTrack->total() }}
+                    </span>
+                    <div class="pagination" id="pagination-progressTrack">
+                        {{ $progressTrack->appends(request()->except('progressTrack_page'))->links() }}
                     </div>
                 </div>
 
@@ -734,7 +729,7 @@
                         <div class="input-section">
                             <label>Particular <span style="color: red">*</span></label>
                             <input type="text" class="form-control" name="particular" id="particular"
-                                placeholder="Particulars" value="{{ $deliverable->particulars }}" required>
+                                placeholder="Particulars" value="{{ $deliverable->particular }}" required>
                         </div>
                     </div>
                     <div class="modal-body-main mb-3">
