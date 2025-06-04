@@ -36,13 +36,13 @@ return new class extends Migration
             $table->string('ctc_amount')->nullable();
             $table->string('epf')->nullable();
             $table->string('esic')->nullable();
-            $table->string('photo')->nullable();
-            $table->string('cv/resume')->nullable();
-            $table->string('aadhar_card')->nullable();
-            $table->string('pan_card')->nullable();
-            $table->string('marksheet')->nullable();
-            $table->string('address')->nullable();
-            $table->string('message')->nullable();
+            $table->longText('photo')->nullable();
+            $table->longText('cv_resume')->nullable(); // ✅ fixed column name (no slash)
+            $table->longText('aadhar_card')->nullable();
+            $table->longText('pan_card')->nullable();
+            $table->longText('marksheet')->nullable();
+            $table->longText('address')->nullable();
+            $table->longText('message')->nullable();
             $table->timestamps();
         });
     }

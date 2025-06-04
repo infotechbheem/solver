@@ -4,13 +4,9 @@ use App\Http\Controllers\CSRController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Livelihoods;
-use App\Models\Program;
-use App\Models\Communities;
-use App\Models\DigitalLiteracies;
-use App\Models\SocialProtection;
 
 
 Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
@@ -24,8 +20,10 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::get('/team-member-registration', 'teamMemberRegistration')->name('our-team.team-member-registration');
         Route::post('/store-registration', 'storeRegistration')->name('store-team-member-registration');
         Route::get('/all-team-member', 'allTeamMember')->name('our-team.all-team-member');
-        Route::get('/team-member-details', 'teamMemberDetails')->name('our-team.team-member-details');
-        Route::get('/update-team-member', 'updateTeamMember')->name('our-team.update-team-member');
+        Route::get('/team-member-details/{id}', 'teamMemberDetails')->name('our-team.team-member-details');
+        Route::get('/update-team-member/{id}', 'editTeamMember')->name('our-team.update-team-member');
+        Route::delete('/delete-team-member/{id}', 'deleteTeamMember')->name('our-team.delete-team-member');
+        Route::put('/update-team-member-registration/{id}', 'UpdateTeamMember')->name('our-team.update-team-member-registration');
     });
     //=================HR DEPARTMENT END=====================
 
@@ -58,6 +56,11 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
 
         // update deliverables
         Route::put('/update-deliverables/{id}', 'updateDeliverables')->name('update-deliverables');
+
+        // import
+        Route::post('/overall-target-import', 'overallTargetImport')->name('overall-target-import');
+        // import
+        Route::post('/progress-track-import', 'progressTrakImport')->name('progress-track-import');
     });
     //=================PROGRAM DEPARTMENT END=====================
 
@@ -161,18 +164,16 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
 
     // finannce department section start
     // income section
-    Route::get('/finance-department/income/add-income', function () {
-        $title = "Add Income";
-        return view('finance-department.income.add-income', compact('title'));
-    })->name('income.add-income');
-    Route::get('/finance-department/income/view-income', function () {
-        $title = "View Income";
-        return view('finance-department.income.view-income', compact('title'));
-    })->name('income.view-income');
-    Route::get('/finance-department/income/income-details', function () {
-        $title = "Income Details";
-        return view('finance-department.income.income-details', compact('title'));
-    })->name('income.income-details');
+    Route::controller(IncomeController::class)->prefix('/finance-department/income')->group(function () {
+        Route::get('/add-income', 'incomeAdd')->name('income.add-income');
+        Route::post('/store-income', 'incomeStore')->name('store-income');
+        Route::get('/view-income', 'incomeView')->name('income.view-income');
+        Route::delete('/delete-income/{id}', 'incomeDelete')->name('delete-income');
+        Route::get('/income-details/{id}', 'incomeDetails')->name('income.income-details');
+    });
+
+
+
     Route::get('/finance-department/income/update-income-details', function () {
         $title = "Update Income Details";
         return view('finance-department.income.update-income-details', compact('title'));
