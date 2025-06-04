@@ -41,8 +41,8 @@ return new class extends Migration
             $table->longText('aadhar_card')->nullable();
             $table->longText('pan_card')->nullable();
             $table->longText('marksheet')->nullable();
-            $table->string('address')->nullable();
-            $table->string('message')->nullable();
+            $table->longText('address')->nullable();
+            $table->longText('message')->nullable();
             $table->timestamps();
         });
     }

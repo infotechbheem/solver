@@ -16,11 +16,27 @@
             margin: 0;
         }
     </style>
+    @php
+        $donationTypes = [
+            'general_donation' => 'General Donations',
+            'corpus_donation' => 'Corpus Donations',
+            'anonymous_donation' => 'Anonymous Donations',
+        ];
+        $incomeType = [
+            'individual_person_duration' => 'Indivisual Person Donation',
+            'sub_grant' => 'Sub Grant',
+            'contract' => 'Contract',
+            'csr' => 'CSR',
+            'gov_funds' => 'Govt. Funds',
+            'training_fees' => 'Training Fees',
+            'other' => 'Other',
+        ];
+    @endphp
     <div class="employee-card">
         <div class="employee-header">
             <div class="employee-name-details">
                 <h2 class="employee-name">Donor / Organisation Name</h2>
-                <p class="employee-position">Sam Bahadur</p>
+                <p class="employee-position">{{ $donationTypes[$incomeDetail->type_of_donation] ?? 'N/A' }}</p>
             </div>
         </div>
         <div class="employee-body">
@@ -31,9 +47,9 @@
                     <th>Email Id</th>
                 </tr>
                 <tr>
-                    <td>Indivisual Person Donation</td>
-                    <td>Volunteer</td>
-                    <td>john doe</td>
+                    <td>{{ $incomeType[$incomeDetail->type_of_income] ?? 'N/A' }}</td>
+                    <td>{{ $donationTypes[$incomeDetail->type_of_donation] ?? 'N/A' }}</td>
+                    <td>{{ $incomeDetail->email }}</td>
                 </tr>
                 <tr>
                     <th>Contact Number </th>
@@ -41,9 +57,9 @@
                     <th>Pan Number</th>
                 </tr>
                 <tr>
-                    <td>23453647</td>
-                    <td>213242536475</td>
-                    <td>JKw r2rlkqej</td>
+                    <td>{{ $incomeDetail->contact_number }}</td>
+                    <td>{{ $incomeDetail->aadhar }}</td>
+                    <td>{{ $incomeDetail->pan }}</td>
                 </tr>
                 <tr>
                     <th>Sanction Amount</th>
@@ -51,9 +67,9 @@
                     <th>Alloted Human Resource Amount</th>
                 </tr>
                 <tr>
-                    <td>₹24245</td>
-                    <td>₹533647</td>
-                    <td>₹234567</td>
+                    <td>₹{{ $incomeDetail->sanction_amount }}</td>
+                    <td>₹{{ $incomeDetail->amount_received }}</td>
+                    <td>₹{{ $incomeDetail->human_resource }}</td>
                 </tr>
                 <tr>
                     <th>Alloted Camp Expenses Amount</th>
@@ -61,9 +77,9 @@
                     <th>Alloted Equipment & Suplies Amount</th>
                 </tr>
                 <tr>
-                    <td>₹24245</td>
-                    <td>₹533647</td>
-                    <td>₹234567</td>
+                    <td>₹{{ $incomeDetail->camp_exp }}</td>
+                    <td>₹{{ $incomeDetail->training_exp }}</td>
+                    <td>₹{{ $incomeDetail->equipment }}</td>
                 </tr>
                 <tr>
                     <th>Alloted Travel Expenses Amount</th>
@@ -72,9 +88,9 @@
 
                 </tr>
                 <tr>
-                    <td>₹24245</td>
-                    <td>₹533647</td>
-                    <td>₹234567</td>
+                    <td>₹{{ $incomeDetail->travel_exp }}</td>
+                    <td>₹{{ $incomeDetail->material_exp }}</td>
+                    <td>₹{{ $incomeDetail->administrative_exp }}</td>
                 </tr>
                 <tr>
                     <th>Alloted Accomondation Expenses Amount</th>
@@ -83,9 +99,9 @@
 
                 </tr>
                 <tr>
-                    <td>₹24245</td>
-                    <td>₹533647</td>
-                    <td>₹234567</td>
+                    <td>₹{{ $incomeDetail->accomodation_exp }}</td>
+                    <td>₹{{ $incomeDetail->monitoring_exp }}</td>
+                    <td>₹{{ $incomeDetail->miscellaneous_exp }}</td>
                 </tr>
                 <tr>
 
@@ -94,11 +110,17 @@
                     <th>Proof of Evidence </th>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>Bank Transfer</td>
-                    <td><a href="{{ asset('storage/employees/john_resume.pdf') }}" class="employee-link"
-                            target="_blank">Download
-                        </a>
+                    <td>{{ $incomeDetail->no_of_installment }}</td>
+                    <td>{{ $incomeDetail->payment_mode }}</td>
+                    <td>
+                        @if ($incomeDetail->proof_of_evidence)
+                            <a href="{{ asset('storage/' . $incomeDetail->proof_of_evidence) }}" class="employee-link"
+                                target="_blank">
+                                Download
+                            </a>
+                        @else
+                            N/A
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -107,19 +129,22 @@
                     <th>Project Name</th>
                 </tr>
                 <tr>
-                    <td>20/05/2025</td>
-                    <td>Social Protection</td>
-                    <td>JST PRoject</td>
+                    <td>{{ \Carbon\Carbon::parse($incomeDetail->payment_date)->format('d-m-Y') }}</td>
+                    <td>{{ $incomeDetail->type_of_project }}</td>
+                    <td>{{ $incomeDetail->project_name }}</td>
                 </tr>
                 <tr>
                     <th>Project Duration</th>
-                    <th> Project Location</th>
+                    <th>Project Location</th>
                     <th>Project Description</th>
                 </tr>
                 <tr>
-                    <td>20/04/2025 - 20/05/2025</td>
-                    <td> Motihari, Bihar </td>
-                    <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    <td>
+                        {{ \Carbon\Carbon::parse($incomeDetail->project_duration_from)->format('d-m-Y') }} to
+                        {{ \Carbon\Carbon::parse($incomeDetail->project_duration_to)->format('d-m-Y') }}
+                    </td>
+                    <td> {{ $incomeDetail->district.', '.$incomeDetail->state }} </td>
+                    <td>{{ $incomeDetail->project_description }}
                     </td>
                 </tr>
 

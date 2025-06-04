@@ -76,9 +76,9 @@
                     </label>
                     <select id="gender" name="gender" class="employee-input" required>
                         <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
                 <div class="employee-form-group">
@@ -92,7 +92,7 @@
                     <label for="qualification" class="employee-label">College/University
                         <span class="validate-required">*</span>
                     </label>
-                    <input type="text" id="college_university" placeholder="Enter collge/university"
+                    <input type="text" id="college_university" placeholder="Enter college/university"
                         name="college_university" class="employee-input" required>
                 </div>
                 <div class="employee-form-group">
@@ -150,10 +150,9 @@
                         <span class="validate-required">*</span>
                     </label>
                     <select id="department" name="department" class="employee-input" required>
-                        <option value="">Select Department</option>
-                        <option value="">Hr Department </option>
-                        <option value="">Finance Department</option>
-                        <option value="">Other</option>
+                        <option value="hr_department">Hr Department </option>
+                        <option value="finance_department">Finance Department</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
                 <div class="employee-form-group">

@@ -34,9 +34,9 @@
                                 <i class="fa-solid fa-calendar-day"></i>
                             </div>
                             <div class="scr-form-group-content">
-                                <p>Total Expanse</p>
-                                <span>₹ 405002.00</span>
-                                <p>Last 6 month expanse</p>
+                                <p>Total Income</p>
+                                <span>₹ {{ $totalIncome }}</span>
+                                {{-- <p>Last 6 month Income</p> --}}
                             </div>
                         </div>
                     </div>
@@ -46,9 +46,9 @@
                                 <i class="fa-solid fa-hand-holding-heart"></i>
                             </div>
                             <div class="scr-form-group-content">
-                                <p>Today's Expanse </p>
-                                <span>₹ 0</span>
-                                <p>Today expanse</p>
+                                <p>Today's Income </p>
+                                <span>₹ {{ $todayIncomeTotal }}</span>
+                                <p>Today income</p>
                             </div>
                         </div>
                     </div>
@@ -58,9 +58,9 @@
                                 <i class="fa-solid fa-calendar-plus"></i>
                             </div>
                             <div class="scr-form-group-content">
-                                <p>Yesterday's Expanse</p>
-                                <span>₹ 4002.00</span>
-                                <p>This month Expanse</p>
+                                <p>Yesterday's Income</p>
+                                <span>₹ {{ $yesterdayIncomeTotal }}</span>
+                                <p>Yesterday income</p>
                             </div>
                         </div>
                     </div>
@@ -122,223 +122,75 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
+                            @foreach ($incomeList as $list)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $list->type_of_income }}</td>
+                                    <td>{{ $list->type_of_donation }}</td>
+                                    <td>{{ $list->donar_name }}</td>
+                                    <td>{{ $list->email }}</td>
+                                    <td>{{ $list->contact_number }}</td>
+                                    <td>{{ $list->sanction_amount }}</td>
+                                    <td>{{ $list->amount_received }}</td>
+                                    <td>{{ isset($list->payment_mode) ? $list->payment_mode : '-' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($list->payment_date)->format('d-m-Y') }}</td>
+                                    <td>
+                                        <a
+                                            href="{{ url('/finance-department/income/income-details', encrypt($list->id)) }}">
+                                            <button class="btn btn-info">
+                                                <i class="fa-regular fa-eye"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{{ url('/finance-department/income/update-income-details') }}">
+                                            <button class="btn btn-success">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </button>
+                                        </a>
+                                        <form action="{{ route('delete-income', $list->id) }}" method="POST"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Are you sure you want to delete this?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                        </form>
+                                    </td>
 
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Contract</td>
-                                <td>General Donation</td>
-                                <td>John Doe</td>
-                                <td>abc@gmail.com</td>
-                                <td>2343567899</td>
-                                <td>₹9827</td>
-                                <td>₹4300</td>
-                                <td>Cash</td>
-                                <td>20/04/2025</td>
-                                <td>
-                                    <a href="{{ url('/finance-department/income/income-details') }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ url('/finance-department/income/update-income-details') }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-
-
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
 
                 <div class="grant-pagination-container">
-                    <div class="grant-pagination-info">Showing 1 to 4 of 20 records</div>
+                    <div class="grant-pagination-info">
+                        Showing {{ $incomeList->firstItem() }} to {{ $incomeList->lastItem() }} of
+                        {{ $incomeList->total() }} records
+                    </div>
                     <div class="grant-pagination">
-                        <button class="btn btn-light pagination-btn" disabled>Previous</button>
+                        {{-- Previous Button --}}
+                        @if ($incomeList->onFirstPage())
+                            <button class="btn btn-light pagination-btn" disabled>Previous</button>
+                        @else
+                            <a href="{{ $incomeList->previousPageUrl() }}"
+                                class="btn btn-light pagination-btn">Previous</a>
+                        @endif
+
+                        {{-- Page Numbers --}}
                         <div class="pagination-numbers">
-                            <button class="pagination-number active">1</button>
-                            <button class="pagination-number">2</button>
+                            @for ($i = 1; $i <= $incomeList->lastPage(); $i++)
+                                <a href="{{ $incomeList->url($i) }}">
+                                    <button
+                                        class="pagination-number {{ $i == $incomeList->currentPage() ? 'active' : '' }}">{{ $i }}</button>
+                                </a>
+                            @endfor
                         </div>
-                        <button class="btn btn-light pagination-btn">Next</button>
+
+                        {{-- Next Button --}}
+                        @if ($incomeList->hasMorePages())
+                            <a href="{{ $incomeList->nextPageUrl() }}" class="btn btn-light pagination-btn">Next</a>
+                        @else
+                            <button class="btn btn-light pagination-btn" disabled>Next</button>
+                        @endif
                     </div>
                 </div>
 
@@ -348,6 +200,8 @@
 
 
     <script>
+        const incomeLabels = @json($labels);
+        const incomeTotals = @json($totals);
         // Register the plugin for Chart.js
         Chart.register(ChartDataLabels);
 
@@ -356,19 +210,16 @@
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: [
-                    'Indivisual Person', 'Sub Grant', 'Contract',
-                    'CSR', ' Govt. Funds', 'Training Fees', 'Other'
-                ],
+                labels: incomeLabels,
                 datasets: [{
-                    label: 'Hires',
-                    data: [173, 133, 129, 127, 115, 99, 94, 49, 38],
+                    label: 'Amount Received (₹)',
+                    data: incomeTotals,
                     backgroundColor: '#587C50',
                     borderRadius: 5
                 }]
             },
             options: {
-                indexAxis: 'y', // Makes it horizontal
+                indexAxis: 'y', // horizontal bar
                 responsive: true,
                 plugins: {
                     legend: {
@@ -400,18 +251,29 @@
                 type: 'pie',
                 data: {
                     labels: [
-                        'Human Resource', 'Camps Expenses', 'Training & Capacity Building ',
-                        'Equipment & Suplies ', 'Travel Expenses',
+                        'Human Resource', 'Camps Expenses', 'Training & Capacity Building',
+                        'Equipment & Supplies', 'Travel Expenses',
                         'IEC Material Expenses', 'Administrative Expenses',
-                        'Accomondation Expenses', 'Monitoring & Evaluation ', 'Miscellaneous Expenses'
+                        'Accommodation Expenses', 'Monitoring & Evaluation', 'Miscellaneous Expenses'
                     ],
                     datasets: [{
                         label: 'Votes',
-                        data: [12000, 19000, 17000, 15000, 10000, 8000, 6000, 15000, 12000, 18000],
+                        data: [
+                            {{ $pieChartData->human_resource ?? 0 }},
+                            {{ $pieChartData->camp_exp ?? 0 }},
+                            {{ $pieChartData->training_exp ?? 0 }},
+                            {{ $pieChartData->equipment ?? 0 }},
+                            {{ $pieChartData->travel_exp ?? 0 }},
+                            {{ $pieChartData->material_exp ?? 0 }},
+                            {{ $pieChartData->administrative_exp ?? 0 }},
+                            {{ $pieChartData->accomodation_exp ?? 0 }},
+                            {{ $pieChartData->monitoring_exp ?? 0 }},
+                            {{ $pieChartData->miscellaneous_exp ?? 0 }}
+                        ],
                         backgroundColor: [
                             '#FF6384', '#36A2EB', '#FFCD56', '#2ECC71',
                             '#8E44AD', '#E67E22', '#1ABC9C', '#3498DB',
-                            '#F39C12', '#C0392B', '#7F8C8D'
+                            '#F39C12', '#C0392B'
                         ],
                         borderWidth: 1
                     }]
