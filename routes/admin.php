@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -170,14 +171,11 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::get('/view-income', 'incomeView')->name('income.view-income');
         Route::delete('/delete-income/{id}', 'incomeDelete')->name('delete-income');
         Route::get('/income-details/{id}', 'incomeDetails')->name('income.income-details');
+        Route::get('/update-income-details/{id}', 'editIncome')->name('income.update-income-details');
+        Route::put('/update-income/{id}', 'updateIncome')->name('update-income');
+
     });
-
-
-
-    Route::get('/finance-department/income/update-income-details', function () {
-        $title = "Update Income Details";
-        return view('finance-department.income.update-income-details', compact('title'));
-    })->name('income.update-income-details');
+    // income section
     Route::get('/finance-department/income/total-income', function () {
         $title = "Total Income";
         return view('finance-department.income.total-income', compact('title'));
@@ -187,23 +185,27 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         return view('finance-department.income.invoice-setting', compact('title'));
     })->name('income.invoice-setting');
 
+    // Expenditure section
+    Route::controller(ExpenditureController::class)->prefix('/finance-department/expenditure')->group(function () {
+        Route::get('/add-expenditure', 'expenditureAdd')->name('expenditure.add-expenditure');
+        Route::post('/store-expenditure', 'expenditureStore')->name('store-expenditure');
+        Route::get('/view-expenditure', 'expenditureView')->name('expenditure.view-expenditure');
+        Route::delete('/expenditure-delete/{id}', 'expenditureDelete')->name('expenditure-delete');
+        Route::get('/view-expenditure-details/{id}', 'expenditureDetails')->name('expenditure.view-expenditure-details');
+        // Route::get('/update-income-details/{id}', 'editIncome')->name('income.update-income-details');
+        // Route::put('/update-income/{id}', 'updateIncome')->name('update-income');
+
+    });
     // expenditure section
-    Route::get('/finance-department/expenditure/add-expenditure', function () {
-        $title = "Add Expenditure";
-        return view('finance-department.expenditure.add-expenditure', compact('title'));
-    })->name('expenditure.add-expenditure');
-    Route::get('/finance-department/expenditure/view-expenditure', function () {
-        $title = "View Expenditure";
-        return view('finance-department.expenditure.view-expenditure', compact('title'));
-    })->name('expenditure.view-expenditure');
+
+
     Route::get('/finance-department/expenditure/update-expenditure-details', function () {
         $title = "Update Expenditure Details";
         return view('finance-department.expenditure.update-expenditure-details', compact('title'));
     })->name('expenditure.update-expenditure-details');
-    Route::get('/finance-department/expenditure/view-expenditure-details', function () {
-        $title = "View Expenditure Details";
-        return view('finance-department.expenditure.view-expenditure-details', compact('title'));
-    })->name('expenditure.view-expenditure-details');
+
+        
+
     Route::get('/finance-department/expenditure/total-expense', function () {
         $title = "Total Expense";
         return view('finance-department.expenditure.total-expense', compact('title'));

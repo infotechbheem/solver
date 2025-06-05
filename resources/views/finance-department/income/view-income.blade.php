@@ -141,7 +141,7 @@
                                                 <i class="fa-regular fa-eye"></i>
                                             </button>
                                         </a>
-                                        <a href="{{ url('/finance-department/income/update-income-details') }}">
+                                        <a href="{{ url('/finance-department/income/update-income-details', encrypt($list->id)) }}">
                                             <button class="btn btn-success">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </button>

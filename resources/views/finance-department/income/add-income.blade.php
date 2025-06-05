@@ -17,7 +17,7 @@
                         <label>Type of Income <span>*</span></label>
                         <select id="income_type" name="income_type" required>
                             <option value="">Select Income Type</option>
-                            <option value="individual_person_duration">Indivisual Person Donation</option>
+                            <option value="individual_person_duration">Individual Person Donation</option>
                             <option value="sub_grant">Sub Grant</option>
                             <option value="contract">Contract</option>
                             <option value="csr">CSR</option>

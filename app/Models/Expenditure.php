@@ -49,6 +49,7 @@ class Expenditure extends Model
         'sub_total_amount',
         'advance',
         'net_payment',
+        'advance_deposit',
         'type_of_payment',
         'description',
     ];
