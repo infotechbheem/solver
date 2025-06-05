@@ -19,7 +19,7 @@ class Team extends Model
         'employment_type',
         'position_type',
         'qualification',
-        'college/university',
+        'college_university',
         'experience',
         'marital_status',
         'emergency_contact_number',

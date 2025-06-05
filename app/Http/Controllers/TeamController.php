@@ -20,39 +20,6 @@ class TeamController extends Controller
     {
 
         // dd($request->all());
-        $request->validate([
-            'employment_type'      => 'required|string|in:permanent,temporary,contract',
-            'position_type'        => 'required|string|in:employee,manager,intern',
-            'name'                 => 'required|string|max:255',
-            'father_name'          => 'nullable|string|max:255',
-            'mother_name'          => 'nullable|string|max:255',
-            'email'                => 'required|email|max:255|unique:teams,email',
-            'phone_number'         => 'required|string|max:20',
-            'dob'                  => 'required|date|before:today',
-            'gender'               => 'required|string|in:Male,Female,Other',
-            'qualification'        => 'nullable|string|max:100',
-            'college_university'   => 'nullable|string|max:255',
-            'experience'           => 'nullable|string|max:100',
-            'marital_status'       => 'nullable|string|in:single,married,divorced,widowed',
-            'emergency_contact'    => 'nullable|string|max:20',
-            'doj'                  => 'required|date|after_or_equal:dob',
-            'designation'          => 'nullable|string|max:100',
-            'department'           => 'nullable|string|max:100',
-            'payment_type'         => 'nullable|string|in:salary,wages,commission',
-            'basic_amt'            => 'nullable|numeric|min:0',
-            'ctc'                  => 'nullable|numeric|min:0',
-            'epf'                  => 'nullable|numeric|min:0',
-            'esic'                 => 'nullable|numeric|min:0',
-            'address'              => 'nullable|string|max:500',
-            'message'              => 'nullable|string|max:1000',
-
-            // File validations
-            'photoUpload'          => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'resumeUpload'         => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'adharUpload'          => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'panUpload'            => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'marksheetUpload'      => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-        ]);
 
         try {
             DB::beginTransaction();
@@ -142,39 +109,6 @@ class TeamController extends Controller
 
     public function UpdateTeamMember(Request $request, $id)
     {
-        $request->validate([
-            'employment_type'      => 'required|string|in:permanent,temporary,contract',
-            'position_type'        => 'required|string|in:employee,manager,intern',
-            'name'                 => 'required|string|max:255',
-            'father_name'          => 'nullable|string|max:255',
-            'mother_name'          => 'nullable|string|max:255',
-            'email'                => 'required|email|max:255|unique:teams,email,' . $id,
-            'phone_number'         => 'required|string|max:20',
-            'dob'                  => 'required|date|before:today',
-            'gender'               => 'required|string|in:Male,Female,Other',
-            'qualification'        => 'nullable|string|max:100',
-            'college_university'   => 'nullable|string|max:255',
-            'experience'           => 'nullable|string|max:100',
-            'marital_status'       => 'nullable|string|in:single,married,divorced,widowed',
-            'emergency_contact'    => 'nullable|string|max:20',
-            'doj'                  => 'required|date|after_or_equal:dob',
-            'designation'          => 'nullable|string|max:100',
-            'department'           => 'nullable|string|max:100',
-            'payment_type'         => 'nullable|string|in:salary,wages,commission',
-            'basic_amt'            => 'nullable|numeric|min:0',
-            'ctc'                  => 'nullable|numeric|min:0',
-            'epf'                  => 'nullable|numeric|min:0',
-            'esic'                 => 'nullable|numeric|min:0',
-            'address'              => 'nullable|string|max:500',
-            'message'              => 'nullable|string|max:1000',
-
-            // File validations
-            'photoUpload'          => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'resumeUpload'         => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'adharUpload'          => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'panUpload'            => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-            'marksheetUpload'      => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:4096',
-        ]);
 
         try {
 

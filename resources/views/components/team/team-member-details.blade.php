@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td>{{ $teamDetail->qualification }}</td>
-                    <td>{{ $teamDetail->{'college/university'} }}</td>
+                    <td>{{ $teamDetail->college_university }}</td>
                     <td>{{ $teamDetail->experience }}</td>
                 </tr>
                 <tr>
