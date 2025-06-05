@@ -150,6 +150,7 @@
                         <span class="validate-required">*</span>
                     </label>
                     <select id="department" name="department" class="employee-input" required>
+                        <option value="">Select Department</option>
                         <option value="hr_department">Hr Department </option>
                         <option value="finance_department">Finance Department</option>
                         <option value="other">Other</option>

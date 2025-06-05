@@ -100,7 +100,7 @@
                         <span class="validate-required">*</span>
                     </label>
                     <input type="text" id="college_university" placeholder="Enter college/university"
-                        name="college_university" class="employee-input" value="{{ $teams['college/university'] }}"
+                        name="college_university" class="employee-input" value="{{ $teams->college_university }}"
                         required>
                 </div>
                 <div class="employee-form-group">

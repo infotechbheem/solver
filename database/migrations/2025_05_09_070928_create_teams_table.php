@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('employment_type')->nullable();
             $table->string('position_type')->nullable();
             $table->string('qualification')->nullable();
-            $table->string('college/university')->nullable();
+            $table->string('college_university')->nullable();
             $table->string('experience')->nullable();
             $table->string('marital_status')->nullable();
             $table->string('emergency_contact_number')->nullable();
