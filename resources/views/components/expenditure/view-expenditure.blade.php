@@ -132,7 +132,7 @@
                             <th>#</th>
                             <th> Name</th>
                             <th> Date of Expense</th>
-                            <th>Salary </th>
+                            {{-- <th>Salary </th> --}}
                             <th>Project Name</th>
                             <th>Amount</th>
                             <th>TDS Deduction %</th>
@@ -146,134 +146,87 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td> 20/04/2025</td>
-                            <td>₹ 24000</td>
-                            <td> JST Project</td>
-                            <td>₹ 2400</td>
-                            <td>10%</td>
-                            <td>₹ 2400</td>
-                            <td>Online</td>
-                            <td>₹ 2400</td>
-                            <td>₹ 2300</td>
-                            <td>₹ 1300</td>
-                            <td>Direct</td>
-                            <td>
-                                <a href="{{ url('/finance-department/expenditure/view-expenditure-details') }}">
-                                    <button class="btn btn-info"><i class="fa-regular fa-eye"></i></button>
-                                </a>
-                                <a href="{{ url('/finance-department/expenditure/update-expenditure-details') }}">
+                        @foreach ($expenseList as $expense)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $expense->name ?? '-' }}</td>
+                                <td>{{ $expense->expense_date ? \Carbon\Carbon::parse($expense->expense_date)->format('d/m/Y') : '-' }}
+                                </td>
+                                <td>{{ $expense->project_name ?? '-' }}</td>
+                                <td>
+                                    {{ $expense->amount !== null ? '₹' . $expense->amount : '-' }}
+                                </td>
+                                <td>
+                                    {{ $expense->tds_deduction_percentage !== null ? $expense->tds_deduction_percentage . '%' : '-' }}
+                                </td>
+                                <td>
+                                    {{ $expense->tds_deduction_amount !== null ? '₹' . $expense->tds_deduction_amount : '-' }}
+                                </td>
+                                <td>{{ $expense->mode_of_payment ?? '-' }}</td>
+                                <td>
+                                    {{ $expense->sub_total_amount !== null ? '₹' . $expense->sub_total_amount : '-' }}
+                                </td>
+                                <td>
+                                    {{ $expense->advance !== null ? '₹' . $expense->advance : '-' }}
+                                </td>
+                                <td>
+                                    {{ $expense->net_payment !== null ? '₹' . $expense->net_payment : '-' }}
+                                </td>
+                                <td>{{ $expense->type_of_payment ?? '-' }}</td>
+                                <td>
+                                    <a href="{{ url('/finance-department/expenditure/view-expenditure-details', encrypt($expense->id)) }}">
+                                        <button class="btn btn-info"><i class="fa-regular fa-eye"></i></button>
+                                    </a>
+                                    <a href="{{ url('/finance-department/expenditure/update-expenditure-details') }}">
 
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
+                                        <button class="btn btn-success">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </button>
+                                    </a>
+                                    <form action="{{ route('expenditure-delete', $expense->id) }}" method="POST"
+                                        style="display:inline-block;"
+                                        onsubmit="return confirm('Are you sure you want to delete this record?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </td>
 
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>John Doe</td>
-                            <td> 20/04/2025</td>
-                            <td>₹ 24000</td>
-                            <td> JST Project</td>
-                            <td>₹ 2400</td>
-                            <td>10%</td>
-                            <td>₹ 2400</td>
-                            <td>Online</td>
-                            <td>₹ 2400</td>
-                            <td>₹ 2300</td>
-                            <td>₹ 1300</td>
-                            <td>Direct</td>
-                            <td>
-                                <a href="{{ url('/finance-department/expenditure/view-expenditure-details') }}">
-                                    <button class="btn btn-info"><i class="fa-regular fa-eye"></i></button>
-                                </a>
-                                <a href="{{ url('/finance-department/expenditure/update-expenditure-details') }}">
-
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-
-                        <tr>
-                            <td>3</td>
-                            <td>John Doe</td>
-                            <td> 20/04/2025</td>
-                            <td>₹ 24000</td>
-                            <td> JST Project</td>
-                            <td>₹ 2400</td>
-                            <td>10%</td>
-                            <td>₹ 2400</td>
-                            <td>Online</td>
-                            <td>₹ 2400</td>
-                            <td>₹ 2300</td>
-                            <td>₹ 1300</td>
-                            <td>Direct</td>
-                            <td>
-                                <a href="{{ url('/finance-department/expenditure/view-expenditure-details') }}">
-                                    <button class="btn btn-info"><i class="fa-regular fa-eye"></i></button>
-                                </a>
-                                <a href="{{ url('/finance-department/expenditure/update-expenditure-details') }}">
-
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>John Doe</td>
-                            <td> 20/04/2025</td>
-                            <td>₹ 24000</td>
-                            <td> JST Project</td>
-                            <td>₹ 2400</td>
-                            <td>10%</td>
-                            <td>₹ 2400</td>
-                            <td>Online</td>
-                            <td>₹ 2400</td>
-                            <td>₹ 2300</td>
-                            <td>₹ 1300</td>
-                            <td>Direct</td>
-                            <td>
-                                <a href="{{ url('/finance-department/expenditure/view-expenditure-details') }}">
-                                    <button class="btn btn-info"><i class="fa-regular fa-eye"></i></button>
-                                </a>
-                                <a href="{{ url('/finance-department/expenditure/update-expenditure-details') }}">
-
-                                    <button class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
-
-                        </tr>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
 
             <div class="grant-pagination-container">
-                <div class="grant-pagination-info">Showing 1 to 4 of 20 records</div>
+                <div class="grant-pagination-info">
+                    Showing {{ $expenseList->firstItem() }} to {{ $expenseList->lastItem() }} of
+                    {{ $expenseList->total() }} records
+                </div>
                 <div class="grant-pagination">
-                    <button class="btn btn-light pagination-btn" disabled>Previous</button>
+                    <button class="btn btn-light pagination-btn" {{ $expenseList->onFirstPage() ? 'disabled' : '' }}
+                        onclick="window.location='{{ $expenseList->previousPageUrl() }}'">
+                        Previous
+                    </button>
+
                     <div class="pagination-numbers">
-                        <button class="pagination-number active">1</button>
-                        <button class="pagination-number">2</button>
+                        @foreach ($expenseList->getUrlRange(1, $expenseList->lastPage()) as $page => $url)
+                            <button
+                                class="pagination-number {{ $page == $expenseList->currentPage() ? 'active' : '' }}"
+                                onclick="window.location='{{ $url }}'">
+                                {{ $page }}
+                            </button>
+                        @endforeach
                     </div>
-                    <button class="btn btn-light pagination-btn">Next</button>
+
+                    <button class="btn btn-light pagination-btn" {{ !$expenseList->hasMorePages() ? 'disabled' : '' }}
+                        onclick="window.location='{{ $expenseList->nextPageUrl() }}'">
+                        Next
+                    </button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

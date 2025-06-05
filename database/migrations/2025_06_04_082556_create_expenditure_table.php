@@ -54,6 +54,7 @@ return new class extends Migration
             $table->string('sub_total_amount')->nullable();
             $table->string('advance')->nullable();
             $table->string('net_payment')->nullable();
+            $table->string('advance_deposit')->nullable();
             $table->string('type_of_payment')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
