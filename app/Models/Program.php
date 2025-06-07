@@ -26,17 +26,25 @@ class Program extends Model
         'family_income',
     ];
 
-    public function livelihoods(){
+    public function livelihoods()
+    {
         return $this->hasMany(Livelihoods::class);
     }
-     public function digitalLiteracies(){
+    public function digitalLiteracies()
+    {
         return $this->hasMany(DigitalLiteracies::class);
     }
-     public function communities(){
+    public function communities()
+    {
         return $this->hasMany(Communities::class);
     }
-     public function socialProtections(){
+    public function socialProtections()
+    {
         return $this->hasMany(SocialProtection::class);
     }
 
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_member_name');
+    }
 }

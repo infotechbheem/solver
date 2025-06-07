@@ -10,7 +10,9 @@ use App\Models\SocialProtection;
 use App\Models\Deliverables;
 use App\Models\OverallTargetvsDeliverables;
 use App\Imports\OverallTargetImport;
+use App\Imports\ProgressTrackImport;
 use App\Models\ProgressTracker;
+use App\Models\Team;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -19,12 +21,14 @@ class ProgramController extends Controller
 {
     public function addProgram()
     {
+        $team = Team::get();
+
         $title = "Add Program";
-        return view('program-department.add-program', compact('title'));
+        return view('program-department.add-program', compact('title','team'));
     }
     public function viewProgram()
     {
-        $programs = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->paginate(10);
+        $programs = Program::with('team','livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->paginate(10);
 
         $stateWisePercentage = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->get();
 
@@ -199,7 +203,7 @@ class ProgramController extends Controller
         }
 
         // Create a team_member_name-wise count array
-        $teamMemberNameWisePercentage = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->get();
+        $teamMemberNameWisePercentage = Program::with('team','livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->get();
 
         // Create an team_member_name-wise count array
         $team_member_nameCounts = [];
@@ -207,7 +211,7 @@ class ProgramController extends Controller
         foreach ($teamMemberNameWisePercentage as $program) {
             // Loop through all related items and collect team_member_name counts
 
-            $team_member_name = $program->team_member_name ?? null;
+            $team_member_name = $program->team->full_name ?? null;
             if ($team_member_name) {
                 $team_member_nameCounts[$team_member_name] = ($team_member_nameCounts[$team_member_name] ?? 0) + 1;
             } else {
@@ -495,7 +499,7 @@ class ProgramController extends Controller
     public function viewProgramDetails($id)
     {
         $id = decrypt($id);
-        $programDetails = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
+        $programDetails = Program::with('team','livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
 
         $title = "View Program Details";
         return view('program-department.view-program-details', compact('title', 'programDetails'));
@@ -644,10 +648,11 @@ class ProgramController extends Controller
     public function editProgram(Request $request, $id)
     {
         $id = decrypt($id);
+        $team = Team::get();
         $editProgram = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
         $title = 'Edit Program';
 
-        return view('program-department.edit-program', compact('title', 'editProgram'));
+        return view('program-department.edit-program', compact('title', 'editProgram','team'));
     }
 
     public function updateProgram(Request $request, $id)
@@ -899,34 +904,18 @@ class ProgramController extends Controller
 
     public function progressTrakImport(Request $request)
     {
+        $request->validate([
+            'progressFile' => 'required|file|mimes:xls,xlsx,xlsm',
+        ]);
+
         try {
             DB::beginTransaction();
-            $request->validate([
-                'progressFile' => 'required|file|mimes:xls,xlsx,xlsm',
-            ]);
 
-            $path = $request->file('progressFile')->getRealPath();
-
-            // Excel import logic (maatwebsite/excel v1.1)
-            Excel::load($path, function ($reader) {
-                $results = $reader->get();
-                dd($results);
-                foreach ($results as $row) {
-                    // Replace with your actual model and fields
-                    ProgressTracker::create([
-                        'date' => $request->date,
-                        'location' => $request->location,
-                        'activity' => $request->activity,
-                        'shg_covered' => $request->shg_covered,
-                        'member_enrolled' => $request->member_enrolled,
-                        'schemes_facilitated' => $request->schemes_facilitated,
-                        'legal_docs_processed' => $request->legal_docs_processed,
-                    ]);
-                }
-            });
+            Excel::import(new progressTrackImport, $request->file('progressFile'));
 
             DB::commit();
-            return redirect()->back()->with('success', 'Deliverables Imported Successfully');
+
+            return redirect()->back()->with('success', 'File Imported Successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());

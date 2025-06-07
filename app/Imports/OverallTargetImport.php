@@ -20,6 +20,11 @@ class OverallTargetImport implements ToModel, WithHeadingRow
             return null;
         }
 
+        // Check if already exists in DB — skip inserting
+        if (OverallTargetvsDeliverables::where('key_indicator', $deliverables)->exists()) {
+            return null;
+        }
+
         $target = isset($row['target_to_be_achieved']) ? (float) $row['target_to_be_achieved'] : 0;
         $achieved = 0;
 

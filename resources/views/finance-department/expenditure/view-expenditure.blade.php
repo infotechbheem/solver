@@ -10,15 +10,15 @@
     @include('components.expenditure.view-expenditure')
 
     <script>
+        const hireLabels = @json($hireChartLabel);
+        const hireData = @json($hireChartTotal);
         // Register the plugin for Chart.js
         Chart.register(ChartDataLabels);
 
         const screenWidth = window.innerWidth;
 
-        const labels = [
-            'Human Resource', 'Equipment & Suplies', 'Travel Expenses',
-            'IEC Material Expenses', 'Accomondation Expenses', 'Miscellaneous'
-        ];
+        const labels = hireLabels;
+        const data = hireData;
 
         const ctx = document.getElementById('hiresChart').getContext('2d');
 
@@ -27,8 +27,8 @@
             data: {
                 labels: screenWidth <= 426 ? labels.map(() => '') : labels, // hide labels if screen <= 426px
                 datasets: [{
-                    label: 'Hires',
-                    data: [173, 133, 129, 127, 115, 99],
+                    label: 'Expense Type',
+                    data: data,
                     backgroundColor: '#587C50',
                     borderRadius: 5
                 }]
@@ -65,22 +65,18 @@
             chart.update();
         });
 
-
+        const pieLabel = @json($labels);
+        const pieData = @json($data);
         const pieCanvas = document.getElementById('myPieChart'); // Use getElementById
         if (pieCanvas) {
             const pieCtx = pieCanvas.getContext('2d');
             new Chart(pieCtx, {
                 type: 'pie',
                 data: {
-                    labels: [
-                        'Food & Beverage', 'Rent', 'Utilities',
-                        'Insurance', 'Wages & Salaries',
-                        'Office Fixtures & Equipment', 'Legal & Finance Services',
-                        'Official Supplies', 'Travel', 'IT Service', 'Licence & Subscription'
-                    ],
+                    labels: pieLabel,
                     datasets: [{
-                        label: 'Votes',
-                        data: [12, 19, 17, 15, 10, 8, 6, 15, 12, 18, 7],
+                        label: 'Expenditure Distribution',
+                        data: pieData,
                         backgroundColor: [
                             '#FF6384', '#36A2EB', '#FFCD56', '#2ECC71',
                             '#8E44AD', '#E67E22', '#1ABC9C', '#3498DB',

@@ -99,12 +99,9 @@
                     <label>Team Member Name <span>*</span></label>
                     <select name="team_member" id="team_member">
                         <option value="">Select Team Member Name</option>
-                        <option value="neeru" {{ $editProgram->team_member_name == 'neeru' ? 'selected' : '' }}>Neeru
-                        </option>
-                        <option value="jatin" {{ $editProgram->team_member_name == 'jatin' ? 'selected' : '' }}>Jatin
-                        </option>
-                        <option value="ankush" {{ $editProgram->team_member_name == 'ankush' ? 'selected' : '' }}>
-                            Ankush</option>
+                        @foreach($team as $team)
+                            <option value="{{ $team->id }}" {{ $editProgram->team_member_name == $team->id ? 'selected' : '' }}>{{ $team->full_name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="scr-form-group">

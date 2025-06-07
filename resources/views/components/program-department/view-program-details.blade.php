@@ -46,7 +46,7 @@
                 <th>Age</th>
             </tr>
             <tr>
-                <td>{{ $programDetails->team_member_name }}</td>
+                <td>{{ $programDetails->team->full_name }}</td>
                 <td>{{ $programDetails->beneficiary_name }}</td>
                 <td>{{ $programDetails->age }}</td>
             </tr>
