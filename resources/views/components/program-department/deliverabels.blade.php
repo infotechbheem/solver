@@ -277,6 +277,194 @@
                                                 </form>
                                             </td>
                                         </tr>
+                                        {{-- editModal --}}
+                                        <div class="modal fade" id="editModal{{ $deliverable->id }}" tabindex="-1"
+                                            aria-labelledby="editModalLabel{{ $deliverable->id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="editModalLabel{{ $deliverable->id }}">Edit Deliverable
+                                                        </h5>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                            <i class="fa-solid fa-xmark"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {{-- You can place an edit form here prefilled with $deliverable data --}}
+                                                        <form
+                                                            action="{{ route('update-deliverables', $deliverable->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="modal-body-main mb-3">
+                                                                <div class="input-section">
+                                                                    <label>Program <span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="text" placeholder="Program"
+                                                                        class="form-control" name="program"
+                                                                        id="program"
+                                                                        value="{{ $deliverable->program }}" required>
+                                                                </div>
+                                                                <div class="input-section">
+                                                                    <label>Project Name <span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="text" placeholder="Project Name"
+                                                                        class="form-control" name="project_name"
+                                                                        id="project_name"
+                                                                        value="{{ $deliverable->project_name }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body-main mb-3">
+                                                                <div class="input-section">
+                                                                    <label>Donor Name <span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="text" placeholder="Donor Name"
+                                                                        class="form-control" name="donar_name"
+                                                                        id="donar_name"
+                                                                        value="{{ $deliverable->donar_name }}"
+                                                                        required>
+                                                                </div>
+                                                                <div class="input-section">
+                                                                    <label>Project Title <span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="Project Title"
+                                                                        name="project_title" id="project_title"
+                                                                        value="{{ $deliverable->project_title }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body-main mb-3">
+                                                                <div class="input-section">
+                                                                    <label>Project Duration From<span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="project_duration_from"
+                                                                        id="project_duration_from"
+                                                                        value="{{ $deliverable->project_duration_from }}"
+                                                                        required>
+                                                                </div>
+                                                                <div class="input-section">
+                                                                    <label>Project Duration To<span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="project_duration_to"
+                                                                        id="project_duration_to"
+                                                                        value="{{ $deliverable->project_duration_to }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body-main mb-3">
+                                                                <div class="input-section">
+                                                                    <label>Project Location</label>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="Project Location"
+                                                                        name="project_location" id="project_location"
+                                                                        value="{{ $deliverable->project_location }}">
+                                                                </div>
+                                                                <div class="input-section">
+                                                                    <label>No.Of Month</label>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="No. Of Month" name="no_of_month"
+                                                                        id="no_of_month"
+                                                                        value="{{ $deliverable->no_of_month }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body-main mb-3">
+                                                                <div class="input-section"
+                                                                    style="display: flex; flex-direction: column; max-width: 500px;">
+                                                                    <label style="margin-bottom: 4px;">Month <span
+                                                                            style="color: red">*</span></label>
+                                                                    <select class="form-control" name="month"
+                                                                        id="month" required
+                                                                        style="width: 100%; box-sizing: border-box; padding: 6px 8px;">
+                                                                        <option value="" selected>Select Month
+                                                                        </option>
+                                                                        <option value="apr_25"
+                                                                            {{ $deliverable->month == 'apr_25' ? 'selected' : '' }}>
+                                                                            Apr-25
+                                                                        </option>
+                                                                        <option value="may_25"
+                                                                            {{ $deliverable->month == 'may_25' ? 'selected' : '' }}>
+                                                                            May-25
+                                                                        </option>
+                                                                        <option value="jun_25"
+                                                                            {{ $deliverable->month == 'jun_25' ? 'selected' : '' }}>
+                                                                            Jun-25
+                                                                        </option>
+                                                                        <option value="jul_25"
+                                                                            {{ $deliverable->month == 'jul_25' ? 'selected' : '' }}>
+                                                                            Jul-25
+                                                                        </option>
+                                                                        <option value="aug_25"
+                                                                            {{ $deliverable->month == 'aug_25' ? 'selected' : '' }}>
+                                                                            Aug-25
+                                                                        </option>
+                                                                        <option value="sep_25"
+                                                                            {{ $deliverable->month == 'sep_25' ? 'selected' : '' }}>
+                                                                            Sep-25
+                                                                        </option>
+                                                                        <option value="oct_25"
+                                                                            {{ $deliverable->month == 'oct_25' ? 'selected' : '' }}>
+                                                                            Oct-25
+                                                                        </option>
+                                                                        <option value="nov_25"
+                                                                            {{ $deliverable->month == 'nov_25' ? 'selected' : '' }}>
+                                                                            Nov-25
+                                                                        </option>
+                                                                        <option value="jan_26"
+                                                                            {{ $deliverable->month == 'jan_26' ? 'selected' : '' }}>
+                                                                            Jan-26
+                                                                        </option>
+                                                                        <option value="feb_26"
+                                                                            {{ $deliverable->month == 'feb_26' ? 'selected' : '' }}>
+                                                                            Feb-26
+                                                                        </option>
+                                                                        <option value="mar_26"
+                                                                            {{ $deliverable->month == 'mar_26' ? 'selected' : '' }}>
+                                                                            Mar-26
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="input-section">
+                                                                    <label>Particular <span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="particular" id="particular"
+                                                                        placeholder="Particulars"
+                                                                        value="{{ $deliverable->particular }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body-main mb-3">
+                                                                <div class="input-section" style="width:100%">
+                                                                    <label>Target <span
+                                                                            style="color: red">*</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="Target" name="target"
+                                                                        id="target"
+                                                                        value="{{ $deliverable->target }}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body-main mb-3">
+                                                                <div class="input-section" style="width:100%">
+                                                                    <label>Description <span
+                                                                            style="color: red">*</span></label>
+                                                                    <textarea class="form-control" name="description" id="description" placeholder="Description..." rows="3"
+                                                                        required>{{ $deliverable->description }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-primary mt-3">Update</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -471,7 +659,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ \Carbon\Carbon::parse($pt->date)->format('d-M') }}</td>
                                             <td>{{ $pt->location }}</td>
-                                            <td>{{ $pt->activity }}</td>
+                                            <td style="text-align: left">{{ $pt->activity }}</td>
                                             <td>{{ $pt->shg_covered }}</td>
                                             <td>{{ $pt->member_enrolled }}</td>
                                             <td>{{ $pt->schemes_facilitated }}</td>
@@ -628,130 +816,7 @@
     </div>
 </div>
 
-{{-- editModal --}}
-<div class="modal fade" id="editModal{{ $deliverable->id }}" tabindex="-1"
-    aria-labelledby="editModalLabel{{ $deliverable->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel{{ $deliverable->id }}">Edit Deliverable</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                {{-- You can place an edit form here prefilled with $deliverable data --}}
-                <form action="{{ route('update-deliverables', $deliverable->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body-main mb-3">
-                        <div class="input-section">
-                            <label>Program <span style="color: red">*</span></label>
-                            <input type="text" placeholder="Program" class="form-control" name="program"
-                                id="program" value="{{ $deliverable->program }}" required>
-                        </div>
-                        <div class="input-section">
-                            <label>Project Name <span style="color: red">*</span></label>
-                            <input type="text" placeholder="Project Name" class="form-control"
-                                name="project_name" id="project_name" value="{{ $deliverable->project_name }}"
-                                required>
-                        </div>
-                    </div>
-                    <div class="modal-body-main mb-3">
-                        <div class="input-section">
-                            <label>Donor Name <span style="color: red">*</span></label>
-                            <input type="text" placeholder="Donor Name" class="form-control" name="donar_name"
-                                id="donar_name" value="{{ $deliverable->donar_name }}" required>
-                        </div>
-                        <div class="input-section">
-                            <label>Project Title <span style="color: red">*</span></label>
-                            <input type="text" class="form-control" placeholder="Project Title"
-                                name="project_title" id="project_title" value="{{ $deliverable->project_title }}"
-                                required>
-                        </div>
-                    </div>
-                    <div class="modal-body-main mb-3">
-                        <div class="input-section">
-                            <label>Project Duration From<span style="color: red">*</span></label>
-                            <input type="date" class="form-control" name="project_duration_from"
-                                id="project_duration_from" value="{{ $deliverable->project_duration_from }}"
-                                required>
-                        </div>
-                        <div class="input-section">
-                            <label>Project Duration To<span style="color: red">*</span></label>
-                            <input type="date" class="form-control" name="project_duration_to"
-                                id="project_duration_to" value="{{ $deliverable->project_duration_to }}" required>
-                        </div>
-                    </div>
-                    <div class="modal-body-main mb-3">
-                        <div class="input-section">
-                            <label>Project Location</label>
-                            <input type="text" class="form-control" placeholder="Project Location"
-                                name="project_location" id="project_location"
-                                value="{{ $deliverable->project_location }}">
-                        </div>
-                        <div class="input-section">
-                            <label>No.Of Month</label>
-                            <input type="text" class="form-control" placeholder="No. Of Month" name="no_of_month"
-                                id="no_of_month" value="{{ $deliverable->no_of_month }}">
-                        </div>
-                    </div>
-                    <div class="modal-body-main mb-3">
-                        <div class="input-section" style="display: flex; flex-direction: column; max-width: 500px;">
-                            <label style="margin-bottom: 4px;">Month <span style="color: red">*</span></label>
-                            <select class="form-control" name="month" id="month" required
-                                style="width: 100%; box-sizing: border-box; padding: 6px 8px;">
-                                <option value="" selected>Select Month</option>
-                                <option value="apr_25" {{ $deliverable->month == 'apr_25' ? 'selected' : '' }}>Apr-25
-                                </option>
-                                <option value="may_25" {{ $deliverable->month == 'may_25' ? 'selected' : '' }}>May-25
-                                </option>
-                                <option value="jun_25" {{ $deliverable->month == 'jun_25' ? 'selected' : '' }}>Jun-25
-                                </option>
-                                <option value="jul_25" {{ $deliverable->month == 'jul_25' ? 'selected' : '' }}>Jul-25
-                                </option>
-                                <option value="aug_25" {{ $deliverable->month == 'aug_25' ? 'selected' : '' }}>Aug-25
-                                </option>
-                                <option value="sep_25" {{ $deliverable->month == 'sep_25' ? 'selected' : '' }}>Sep-25
-                                </option>
-                                <option value="oct_25" {{ $deliverable->month == 'oct_25' ? 'selected' : '' }}>Oct-25
-                                </option>
-                                <option value="nov_25" {{ $deliverable->month == 'nov_25' ? 'selected' : '' }}>Nov-25
-                                </option>
-                                <option value="jan_26" {{ $deliverable->month == 'jan_26' ? 'selected' : '' }}>Jan-26
-                                </option>
-                                <option value="feb_26" {{ $deliverable->month == 'feb_26' ? 'selected' : '' }}>Feb-26
-                                </option>
-                                <option value="mar_26" {{ $deliverable->month == 'mar_26' ? 'selected' : '' }}>Mar-26
-                                </option>
-                            </select>
-                        </div>
-                        <div class="input-section">
-                            <label>Particular <span style="color: red">*</span></label>
-                            <input type="text" class="form-control" name="particular" id="particular"
-                                placeholder="Particulars" value="{{ $deliverable->particular }}" required>
-                        </div>
-                    </div>
-                    <div class="modal-body-main mb-3">
-                        <div class="input-section" style="width:100%">
-                            <label>Target <span style="color: red">*</span></label>
-                            <input type="text" class="form-control" placeholder="Target" name="target"
-                                id="target" value="{{ $deliverable->target }}" required>
-                        </div>
-                    </div>
-                    <div class="modal-body-main mb-3">
-                        <div class="input-section" style="width:100%">
-                            <label>Description <span style="color: red">*</span></label>
-                            <textarea class="form-control" name="description" id="description" placeholder="Description..." rows="3"
-                                required>{{ $deliverable->description }}</textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
     window.addEventListener("DOMContentLoaded", () => {

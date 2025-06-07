@@ -75,9 +75,9 @@
                     <label>Team Member Name <span>*</span></label>
                     <select name="team_member" id="team_member">
                         <option value="">Select Team Member Name</option>
-                        <option value="neeru">Neeru</option>
-                        <option value="jatin">Jatin</option>
-                        <option value="ankush">Ankush</option>
+                        @foreach($team as $team)
+                            <option value="{{ $team->id }}">{{ $team->full_name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="scr-form-group">

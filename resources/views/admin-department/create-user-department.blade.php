@@ -310,7 +310,7 @@
                                     <div class="modal-body-main mb-3">
                                         <div class="input-section">
                                             <label>Designation</label>
-                                            <input type="text" class="form-control" name="designation"
+                                            <input type="text" class="form-control" name="designationPartner"
                                                 placeholder="Enter designation name">
                                         </div>
                                         <div class="input-section">
@@ -460,7 +460,7 @@
                 let isValid = true;
 
                 let submitBtn = $('#submitBtn');
-            
+
 
                 // Clear previous errors
                 $('.field-error').remove();
@@ -490,11 +490,11 @@
                     e.preventDefault(); // Stop form submission
                     // Disable buttons
                     submitBtn.prop('disabled', true);
-                    
+
                 } else {
                     // Enable buttons
                     submitBtn.prop('disabled', false);
-                    
+
                 }
             });
 
@@ -512,7 +512,7 @@
             $('#submitBtnPartner').on('click', function (e) {
                 let isValid = true;
 
-              
+
                 let submitBtnPartner = $('#submitBtnPartner');
 
                 // Clear previous errors
@@ -521,7 +521,7 @@
                 // Define input elements
                 let ngoNameInput = $('input[name="company_ngo_name"]');
                 let contactPersonInput = $('input[name="contact_person_name"]');
-                let designationInput = $('input[name="designation"]');
+                let designationInput = $('input[name="designationPartner"]');
 
                 // Validation checks
 
@@ -543,11 +543,11 @@
                 if (!isValid) {
                     e.preventDefault(); // Stop form submission
                     // Disable buttons
-                 
+
                     submitBtnPartner.prop('disabled', true);
                 } else {
                     // Enable buttons
-                    
+
                     submitBtnPartner.prop('disabled', false);
                 }
             });

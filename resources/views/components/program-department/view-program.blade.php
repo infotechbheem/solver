@@ -476,7 +476,7 @@
                                 <td>{{ $program->donar_organisation ?? 'N/A' }}</td>
                                 <td>{{ $program->project ?? 'N/A' }}</td>
                                 <td>{{ $program->support_partner ?? 'N/A' }}</td>
-                                <td>{{ $program->team_member_name ?? 'N/A' }}</td>
+                                <td>{{ $program->team->full_name ?? 'N/A' }}</td>
                                 <td>{{ $program->beneficiary_name ?? 'N/A' }}</td>
                                 <td>{{ $program->age ? $program->age . ' Years' : 'N/A' }}</td>
                                 <td>{{ $program->gender ?? 'N/A' }}</td>

@@ -192,19 +192,12 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::get('/view-expenditure', 'expenditureView')->name('expenditure.view-expenditure');
         Route::delete('/expenditure-delete/{id}', 'expenditureDelete')->name('expenditure-delete');
         Route::get('/view-expenditure-details/{id}', 'expenditureDetails')->name('expenditure.view-expenditure-details');
-        // Route::get('/update-income-details/{id}', 'editIncome')->name('income.update-income-details');
-        // Route::put('/update-income/{id}', 'updateIncome')->name('update-income');
+        Route::post('/filter-record', 'expenditureFilterList')->name('filter-record');
+        Route::get('/update-expenditure-details/{id}', 'editExpenditure')->name('expenditure.update-expenditure-details');
+        Route::put('/update-expenditure/{id}', 'updateExpenditure')->name('update-expenditure');
 
     });
-    // expenditure section
 
-
-    Route::get('/finance-department/expenditure/update-expenditure-details', function () {
-        $title = "Update Expenditure Details";
-        return view('finance-department.expenditure.update-expenditure-details', compact('title'));
-    })->name('expenditure.update-expenditure-details');
-
-        
 
     Route::get('/finance-department/expenditure/total-expense', function () {
         $title = "Total Expense";

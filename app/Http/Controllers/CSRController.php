@@ -77,7 +77,7 @@ class CSRController extends Controller
                 'company/ngo_name' => $request->company_ngo_name,
                 'contact_person_name' => $request->contact_person_name,
                 'phone_number' => $request->phone_number,
-                'designation' => $request->designation,
+                'designation' => $request->designationPartner,
                 'email' => $request->email,
             ];
 
@@ -102,7 +102,7 @@ class CSRController extends Controller
                     'password' => $request->password,
                     'organization_name' => $request->company_ngo_name,
                     'contact_person_name' => $request->contact_person_name,
-                    'designation' => $request->designation,
+                    'designation' => $request->designationPartner,
                     'phone_number' => $request->phone_number,
                     'email' => $request->email,
 

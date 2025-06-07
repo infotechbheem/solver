@@ -14,96 +14,25 @@
 <div class="scr-registration-section">
     <div class="containers p-0">
         <div class="csr-registration-main-heading">
-            <p>View Expanse</p>
+            <p>View Expense</p>
         </div>
-        <form class="scr-registration-form">
-            <div class="scr-registration-row">
-                <div class="scr-form-group ">
-                    <div class="scr-form-group-main">
-                        <div class="scr-form-group-icon">
-                            <i class="fa-solid fa-calendar-day"></i>
-                        </div>
-                        <div class="scr-form-group-content">
-                            <p>Total Expanse</p>
-                            <span>₹ 405002.00</span>
-                            <p>Last 6 month expanse</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="scr-form-group ">
-                    <div class="scr-form-group-main ">
-                        <div class="scr-form-group-icon scr-form-group-icon2">
-                            <i class="fa-solid fa-hand-holding-heart"></i>
-                        </div>
-                        <div class="scr-form-group-content">
-                            <p>Today's Expanse </p>
-                            <span>₹ 0</span>
-                            <p>Today expanse</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="scr-form-group ">
-                    <div class="scr-form-group-main">
-                        <div class="scr-form-group-icon scr-form-group-icon3">
-                            <i class="fa-solid fa-calendar-plus"></i>
-                        </div>
-                        <div class="scr-form-group-content">
-                            <p>Yesterday's Expanse</p>
-                            <span>₹ 4002.00</span>
-                            <p>This month Expanse</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="ibox p-0">
-                        <div class="ibox-head">
-                            <div class="ibox-title">Project Based Expenditure</div>
-                        </div>
-                        <div class="ibox-body p-2">
-                            <div style="width: 100%; height: 250px;"> <!-- Added height for responsiveness -->
-                                <canvas id="hiresChart"></canvas>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="ibox p-0">
-                        <div class="ibox-head">
-                            <div class="ibox-title">Office Expenditure</div>
-                        </div>
-                        <div class="ibox-body">
-                            <div class="row align-items-center">
-                                <div class="col-md-12" style="display: flex; justify-content:center">
-                                    <div class="chart-container" style="height: 225px">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {{-- <form class="scr-registration-form" action="{{ route('filter-record') }}" method="POST">
+            @csrf
             <div class="scr-registration-row" style="display: flex;gap:40px">
                 <div class="scr-form-group">
                     <label>Sector of Expenses</label>
                     <div class="view" style="display: flex;gap:1px">
-                        <select>
+                        <select id="expenseSector" name="expenseSector">
                             <option>Select Sector of Expenses</option>
                             <option>Project Base</option>
                             <option>Office Base</option>
                         </select>
-                        <button class="btn btn-success" style="background-color: #587C50">View</button>
                     </div>
                 </div>
                 <div class="scr-form-group">
                     <label>Expenditure Type</label>
                     <div class="view" style="display: flex;gap:1px">
-                        <select>
+                        <select id="expenseType" name="expenseType">
                             <option>Select Expenditure Type</option>
                             <option>Human Resource</option>
                             <option>Transport</option>
@@ -114,12 +43,87 @@
                             <option>Equipments</option>
                             <option>Other Miscellaneous</option>
                         </select>
-                        <button class="btn btn-success" style="background-color: #587C50">View</button>
                     </div>
                 </div>
-
             </div>
-        </form>
+            <div style="display: flex; justify-content: flex-end;">
+                <button class="btn btn-success" style="background-color: #587C50; padding: 8px 24px;">
+                    View
+                </button>
+            </div>
+        </form> --}}
+        <div class="scr-registration-row">
+            <div class="scr-form-group ">
+                <div class="scr-form-group-main">
+                    <div class="scr-form-group-icon">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <div class="scr-form-group-content">
+                        <p>Total Expense</p>
+                        <span>₹ {{ $totalExpenditure }}</span>
+                        {{-- <p>Last 6 month expanse</p> --}}
+                    </div>
+                </div>
+            </div>
+            <div class="scr-form-group ">
+                <div class="scr-form-group-main ">
+                    <div class="scr-form-group-icon scr-form-group-icon2">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="scr-form-group-content">
+                        <p>Today's Expense </p>
+                        <span>₹ {{ $todayExpenditureTotal }}</span>
+                        <p>Today expense</p>
+                    </div>
+                </div>
+            </div>
+            <div class="scr-form-group ">
+                <div class="scr-form-group-main">
+                    <div class="scr-form-group-icon scr-form-group-icon3">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                    </div>
+                    <div class="scr-form-group-content">
+                        <p>Yesterday's Expense</p>
+                        <span>₹ {{ $yesterdayExpenditureTotal }}</span>
+                        <p>This month Expense</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ibox p-0">
+                    <div class="ibox-head">
+                        <div class="ibox-title">Project Based Expenditure</div>
+                    </div>
+                    <div class="ibox-body p-2">
+                        <div style="width: 100%; height: 250px;"> <!-- Added height for responsiveness -->
+                            <canvas id="hiresChart"></canvas>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="ibox p-0">
+                    <div class="ibox-head">
+                        <div class="ibox-title">Office Expenditure</div>
+                    </div>
+                    <div class="ibox-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-12" style="display: flex; justify-content:center">
+                                <div class="chart-container" style="height: 225px">
+                                    <canvas id="myPieChart"></canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="grant-list grant-list-govt ">
             <div class="grant-searchbar">
                 <input type="text" id="grant-search-bar" class="form-control grant-search" placeholder="Search..."
@@ -174,10 +178,11 @@
                                 </td>
                                 <td>{{ $expense->type_of_payment ?? '-' }}</td>
                                 <td>
-                                    <a href="{{ url('/finance-department/expenditure/view-expenditure-details', encrypt($expense->id)) }}">
+                                    <a
+                                        href="{{ url('/finance-department/expenditure/view-expenditure-details', encrypt($expense->id)) }}">
                                         <button class="btn btn-info"><i class="fa-regular fa-eye"></i></button>
                                     </a>
-                                    <a href="{{ url('/finance-department/expenditure/update-expenditure-details') }}">
+                                    <a href="{{ url('/finance-department/expenditure/update-expenditure-details', encrypt   ($expense->id)) }}">
 
                                         <button class="btn btn-success">
                                             <i class="fa-regular fa-pen-to-square"></i>
