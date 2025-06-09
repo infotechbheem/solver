@@ -176,6 +176,7 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::get('/income-details/{id}', 'incomeDetails')->name('income.income-details');
         Route::get('/update-income-details/{id}', 'editIncome')->name('income.update-income-details');
         Route::put('/update-income/{id}', 'updateIncome')->name('update-income');
+        Route::post('/filter-income', 'filterIncome')->name('filter-income');
     });
     // income section
     Route::get('/finance-department/income/total-income', function () {

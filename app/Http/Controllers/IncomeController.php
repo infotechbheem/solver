@@ -24,7 +24,7 @@ class IncomeController extends Controller
         return view('finance-department.income.add-income', compact('title', 'csrList', 'partnerOrgList'));
     }
 
-    public function incomeView()
+    public function incomeView(Request $request)
     {
         $today = Carbon::today();
         $yesterday = Carbon::yesterday();
@@ -72,8 +72,24 @@ class IncomeController extends Controller
         $labels = $hiresChart->pluck('label');
         $totals = $hiresChart->pluck('total');
 
+        $query = Income::query();
+
+        if ($request->filled('income_type')) {
+            $query->where('type_of_income', $request->income_type);
+        }
+
+        if ($request->filled('donation_type')) {
+            $query->where('type_of_donation', $request->donation_type);
+        }
+
+        if ($request->filled('project_type')) {
+            $query->where('type_of_project', $request->project_type);
+        }
+
+        $filteredIncomes = $query->get();
+
         $title = "View Income";
-        return view('finance-department.income.view-income', compact('title', 'incomeList', 'totalIncome', 'todayIncomeTotal', 'yesterdayIncomeTotal', 'pieChartData', 'labels', 'totals'));
+        return view('finance-department.income.view-income', compact('title', 'incomeList', 'totalIncome', 'todayIncomeTotal', 'yesterdayIncomeTotal', 'pieChartData', 'labels', 'totals','filteredIncomes'));
     }
 
     public function incomeStore(Request $request)
@@ -241,5 +257,14 @@ class IncomeController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Failed to update income record: ' . $e->getMessage());
         }
+    }
+
+    public function filterIncome(Request $request)
+    {
+        return redirect()->route('income.view-income', [
+            'income_type' => $request->income_type,
+            'donation_type' => $request->donation_type,
+            'project_type' => $request->project_type,
+        ]);
     }
 }
