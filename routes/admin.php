@@ -9,6 +9,12 @@ use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/register', function () {
+    return view('register');
+});
+Route::get('/forgot_password', function () {
+    return view('forgot_password');
+});
 
 Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
     Route::controller(DashboardController::class)->group(function () {
@@ -90,6 +96,8 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::delete('/letter-box/{id}', 'destroy')->name('letter-box.destroy');
         Route::get('/get-letterbox-data/{id}', 'getData');
         Route::put('/update-letterbox', 'update_letterbox')->name('update-letterbox');
+
+        Route::post('/assign-permission-to-role', 'assignPermissionsToRole')->name('assign-permission-to-role');
     });
 
     //==================USER DEPARTMENT END==========================
@@ -122,12 +130,7 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         return view('index');
     })->name('dashboard');
 
-    Route::get('/register', function () {
-        return view('register');
-    });
-    Route::get('/forgot_password', function () {
-        return view('forgot_password');
-    });
+
     Route::get('/profile', function () {
         return view('profile');
     });
@@ -173,7 +176,6 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::get('/income-details/{id}', 'incomeDetails')->name('income.income-details');
         Route::get('/update-income-details/{id}', 'editIncome')->name('income.update-income-details');
         Route::put('/update-income/{id}', 'updateIncome')->name('update-income');
-
     });
     // income section
     Route::get('/finance-department/income/total-income', function () {
@@ -195,7 +197,6 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::post('/filter-record', 'expenditureFilterList')->name('filter-record');
         Route::get('/update-expenditure-details/{id}', 'editExpenditure')->name('expenditure.update-expenditure-details');
         Route::put('/update-expenditure/{id}', 'updateExpenditure')->name('update-expenditure');
-
     });
 
 

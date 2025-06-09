@@ -28,7 +28,7 @@ class SendPartnerRegistrationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Partner & Orgnization Registration Success',
+            subject: 'Partner & Organization Registration Success',
         );
     }
 

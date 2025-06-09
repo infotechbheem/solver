@@ -48,7 +48,12 @@ class CSRController extends Controller
 
                 $details = [
                     'user_id' => $csr_id,
-                    'password' => $request->password
+                    'password' => $request->password,
+                    'company_name' => $request->company_name,
+                    'contact_person_name' => $request->name,
+                    'phone_number' => $request->phone_number,
+                    'designation' => $request->designation,
+                    'email' => $request->email
                 ];
 
                 Mail::to($request->email)->send(new SendCSRRegistrationMail($details));

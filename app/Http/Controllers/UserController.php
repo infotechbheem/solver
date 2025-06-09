@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CSRPartner;
 use App\Models\LatterBox;
 use App\Models\PartnerOrgnization;
+use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\UserDepartment;
 use App\Models\UserDetails;
@@ -35,27 +36,29 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $userType = [
-                'user_type' => strtolower($request->user_type)
-            ];
+            $userTypeName = strtolower($request->user_type);
 
-            $getUserType = UserType::where('user_type', strtolower($request->user_type))->exists();
+            $getUserType = UserType::where('user_type', $userTypeName)->exists();
 
             if ($getUserType) {
                 DB::rollBack();
-                return redirect()->back()->with('warning', 'This user type is already exist');
+                return redirect()->back()->with('warning', 'This user type already exists');
             }
 
-            $response = UserType::create($userType);
+            // Step 1: Create user type
+            $response = UserType::create([
+                'user_type' => $userTypeName
+            ]);
 
-            if ($response) {
-                DB::commit();
-                return redirect()->back()->with('success', 'User Type Created Successfully');
-            }
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Internal Server Error');
+            // Step 2: Create corresponding Spatie role
+            Role::create([
+                'name' => $userTypeName,
+                'guard_name' => 'web' // or 'api' if you're using API guard
+            ]);
+
+            DB::commit();
+            return redirect()->back()->with('success', 'User Type Created Successfully');
         } catch (\Throwable $th) {
-            //throw $th;
             DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -180,8 +183,10 @@ class UserController extends Controller
     }
     public function userAccessControl()
     {
+        $userTypeList = Role::get();
+        $permissionList = Permission::get();
         $title = "User Access Control";
-        return view('admin-department.user-access-control', compact('title'));
+        return view('admin-department.user-access-control', compact('title', 'userTypeList', 'permissionList'));
     }
     public function letterBox()
     {
@@ -280,10 +285,10 @@ class UserController extends Controller
                 'subject' => $request->subject,
                 'receipt_type' => $request->receipt_type,
                 'date' => $request->date,
-                'latter_box_type' => $request->letter_box,   
+                'latter_box_type' => $request->letter_box,
                 'latter_type' => $request->types_of_letter,
                 'department_id' => $request->department_id,
-                'latter/reference_no' => $request->reference_no,    
+                'latter/reference_no' => $request->reference_no,
                 'description' => $request->description,
             ];
 
@@ -307,5 +312,24 @@ class UserController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
+    }
+
+    public function assignPermissionsToRole(Request $request)
+    {
+        $request->validate([
+            'user_type' => 'required|exists:roles,id',
+            'permissions' => 'array',
+            'permissions.*' => 'integer|exists:permissions,id',
+        ]);
+
+        // Find role by user_type value
+        $role = Role::findById($request->user_type);
+
+        // Convert permission IDs to names for syncPermissions
+        $permissionNames = Permission::whereIn('id', $request->permissions)->pluck('name');
+
+        $role->syncPermissions($permissionNames);
+
+        return back()->with('success', 'Permissions assigned successfully!');
     }
 }

@@ -58,7 +58,7 @@
                 </tr>
                 <tr>
                     <td>{{ $incomeDetail->contact_number }}</td>
-                    <td>{{ $incomeDetail->aadhar }}</td>
+                    <td>{{ isset($incomeDetail->aadhar) ? $incomeDetail->aadhar : '-' }}</td>
                     <td>{{ $incomeDetail->pan }}</td>
                 </tr>
                 <tr>
@@ -143,7 +143,7 @@
                         {{ \Carbon\Carbon::parse($incomeDetail->project_duration_from)->format('d-m-Y') }} to
                         {{ \Carbon\Carbon::parse($incomeDetail->project_duration_to)->format('d-m-Y') }}
                     </td>
-                    <td> {{ $incomeDetail->district.', '.$incomeDetail->state }} </td>
+                    <td> {{ $incomeDetail->district . ', ' . $incomeDetail->state }} </td>
                     <td>{{ $incomeDetail->project_description }}
                     </td>
                 </tr>

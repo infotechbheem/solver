@@ -1,142 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Our CSR Partner Program</title>
+    <title>Welcome to Our Software</title>
     <style>
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f4f4;
+            color: #000000;
+            background-color: #ffffff;
         }
 
-        .container {
-            width: 100%;
+        .email-container {
             max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            padding: 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
         }
 
         .header {
-            background-color: #007bff;
-            color: #ffffff;
             text-align: center;
-            padding: 12px;
+            margin-bottom: 30px;
         }
 
         .header h1 {
+            font-size: 22px;
             margin: 0;
-            font-size: 24px;
         }
 
         .content {
-            padding: 8px;
+            font-size: 15px;
             line-height: 1.6;
-            color: #333333;
         }
 
         .content h2 {
-            font-size: 20px;
-            color: #007bff;
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
         .content p {
             margin: 10px 0;
         }
 
-        .credentials {
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
+        .details {
+            margin-top: 20px;
         }
 
-        .credentials p {
-            margin: 5px 0;
-            font-size: 16px;
+        .details ul {
+            list-style: none;
+            padding: 0;
         }
 
-        .credentials strong {
-            color: #333333;
-        }
-
-        .button {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .button a {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #007bff;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .button a:hover {
-            background-color: #0056b3;
+        .details li {
+            margin-bottom: 8px;
         }
 
         .footer {
-            background-color: #f4f4f4;
             text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            color: #666666;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .container {
-                width: 100%;
-            }
-
-            .header h1 {
-                font-size: 20px;
-            }
-
-            .content h2 {
-                font-size: 18px;
-            }
+            font-size: 13px;
+            margin-top: 40px;
+            color: #555;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="email-container">
         <div class="header">
-            <h1>Welcome to Our CSR Partner Program!</h1>
+            <h1>Welcome to Upliftmis</h1>
         </div>
+
         <div class="content">
-            <h2>Hello, CSR Partner!</h2>
-            <p>Thank you for registering as a CSR Partner with XYZ Company. We are excited to have you on board
-                and look forward to collaborating with you to make a positive impact.</p>
-            <p>Your account has been successfully created. Below are your login credentials to access the CSR Partner
-                Portal:</p>
-            <div class="credentials">
-                <p><strong>User ID:</strong> {{ $details['user_id'] }}</p>
-                <p><strong>Password:</strong> {{ $details['password'] }}</p>
+            <h2>Dear {{ $details['contact_person_name'] }},</h2>
+
+            <p>
+                We are thrilled to welcome you and your organization, <strong>{{ $details['company_name']
+                    }}</strong>, as a valued partner on our platform.
+            </p>
+
+            <p>
+                Your registration was successful, and we are excited to collaborate with you in driving positive impact
+                through innovation and shared efforts.
+            </p>
+
+            <div class="details">
+                <p><strong>Registration Summary:</strong></p>
+                <ul>
+                    <li><strong>Organization Name:</strong> {{ $details['company_name'] }}</li>
+                    <li><strong>Contact Person:</strong> {{ $details['contact_person_name'] }}</li>
+                    <li><strong>Designation:</strong> {{ $details['designation'] }}</li>
+                    <li><strong>Phone Number:</strong> {{ $details['phone_number'] }}</li>
+                    <li><strong>Email Address:</strong> {{ $details['email'] }}</li>
+                    <li><strong>Username:</strong> {{ $details['user_id'] }}</li>
+                    <li><strong>Password:</strong> {{ $details['password'] }}</li>
+                </ul>
             </div>
-            <p>For security reasons, we recommend changing your password after your first login.</p>
-            <div class="button">
-                <a href="[Your_Login_URL]">Log In to Your Account</a>
-            </div>
-            <p>If you have any questions or need assistance, feel free to contact our support team at <a
-                    href="mailto:support@example.com">support@example.com</a>.</p>
-            <p>Welcome again, and let's make a difference together!</p>
-            <p>Best regards,<br>The [Your Company Name] Team</p>
+
+            <p>
+                You can now log in to your account and start managing your partnership activities. If you need
+                assistance, our support team is always here to help.
+            </p>
+
+            <p>
+                We look forward to a fruitful collaboration!
+            </p>
+
+            <p>Warm regards,<br>
+                <strong>Uplift Mis Team</strong>
+            </p>
         </div>
+
         <div class="footer">
-            <p>&copy; [Current_Year] [Your Company Name]. All rights reserved.</p>
-            <p>If you did not register for this account, please contact us at <a
-                    href="mailto:support@example.com">support@example.com</a>.</p>
+            &copy; {{ date('Y') }} Uplift Mis | All Rights Reserved
         </div>
     </div>
 </body>

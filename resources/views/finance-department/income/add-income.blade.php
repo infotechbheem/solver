@@ -9,7 +9,8 @@
             <div class="csr-registration-main-heading">
                 <p>Add Income</p>
             </div>
-            <form class="scr-registration-form" id="incomeForm" action="{{ route('store-income') }}" method="POST" enctype="multipart/form-data">
+            <form class="scr-registration-form" id="incomeForm" action="{{ route('store-income') }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="scr-registration-row">
 
@@ -24,6 +25,28 @@
                             <option value="gov_funds">Govt. Funds</option>
                             <option value="training_fees">Training Fees</option>
                             <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="scr-form-group" id="csr_dropdown_wrapper" style="display: none;">
+                        <label>CSR Type <span>*</span></label>
+                        <select id="csr_type" name="csr_type">
+                            <option value="">Select CSR Type</option>
+                            @foreach ($csrList as $listCsr)
+                                <option value="{{ $listCsr->id }}" data-email="{{ $listCsr->email }}"
+                                    data-contact="{{ $listCsr->phone_number }}">{{ $listCsr->company_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="scr-form-group" id="partner_org_dropdown_wrapper" style="display: none;">
+                        <label>Partner Organisation Type <span>*</span></label>
+                        <select id="partner_orgainisation_type" name="partner_orgainisation_type">
+                            <option value="">Select Partner Organisation Type</option>
+                            @foreach ($partnerOrgList as $pol)
+                                <option value="{{ $pol->id }}" data-email="{{ $pol->email }}"
+                                    data-contact="{{ $pol->phone_number }}">
+                                    {{ $pol->{'company/ngo_name'} }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="scr-form-group">
@@ -53,14 +76,14 @@
                             required>
                     </div>
                     <div class="scr-form-group">
-                        <label>Aadhar Number <span>*</span></label>
-                        <input type="number" id="aadhar" name="aadhar" placeholder="Enter aadhaar number" required>
+                        <label>Aadhar Number</label>
+                        <input type="number" id="aadhar" name="aadhar" placeholder="Enter aadhaar number">
                     </div>
                 </div>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Pan Number <span>*</span></label>
-                        <input type="text" id="pan" name="pan" placeholder="Enter pan number" required>
+                        <label>Pan Number</label>
+                        <input type="text" id="pan" name="pan" placeholder="Enter pan number">
                     </div>
                     <div class="scr-form-group">
                         <label>Sanction Amount <span>*</span></label>
@@ -92,7 +115,8 @@
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
                         <label>Equipment & Suplies <span>*</span></label>
-                        <input type="number" placeholder="Enter amount" id="equip_supplies" name="equip_supplies" required>
+                        <input type="number" placeholder="Enter amount" id="equip_supplies" name="equip_supplies"
+                            required>
                     </div>
                     <div class="scr-form-group">
                         <label>Travel Expenses <span>*</span></label>
@@ -104,8 +128,8 @@
                     </div>
                     <div class="scr-form-group">
                         <label>Administrative Expenses <span>*</span></label>
-                        <input type="number" placeholder="Enter amount" id="administrative_exp" name="administrative_exp"
-                            required>
+                        <input type="number" placeholder="Enter amount" id="administrative_exp"
+                            name="administrative_exp" required>
                     </div>
                 </div>
                 <div class="scr-registration-row">
@@ -125,6 +149,24 @@
                             required>
                     </div>
 
+                </div>
+                <h3 class="scr-registration-heading">Allotted Target</h3>
+
+                <div id="target_container">
+                    <div class="scr-registration-row target-group">
+                        <div class="scr-form-group">
+                            <label>Target Name</label>
+                            <input type="text" placeholder="Enter name" name="target_name[]">
+                        </div>
+                        <div class="scr-form-group">
+                            <label>Target Amount</label>
+                            <input type="number" placeholder="Enter amount" name="target_amount[]">
+                        </div>
+                        <div class="scr-form-group-btn">
+                            <button type="button" class="btn btn-primary add-btn" style="padding: 8px 30px">Add
+                                More</button>
+                        </div>
+                    </div>
                 </div>
                 <h3 class="scr-registration-heading"></h3>
                 <div class="scr-registration-row">
@@ -218,7 +260,7 @@
                         </div>
                         <div class="scr-form-group">
                             <label>Additional Message (optional)</label>
-                            <textarea id="message" name="message" placeholder="Enter Message..." required></textarea>
+                            <textarea id="message" name="message" placeholder="Enter Message..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -232,4 +274,153 @@
             </form>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.getElementById('income_type').addEventListener('change', function() {
+            const selected = this.value;
+            const csrDropdown = document.getElementById('csr_dropdown_wrapper');
+
+            if (selected === 'csr') {
+                csrDropdown.style.display = 'block';
+            } else {
+                csrDropdown.style.display = 'none';
+                document.getElementById('csr_type').value = ''; // Reset value if hidden
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('income_type').addEventListener('change', function() {
+            const selected = this.value;
+            const partnerOrgDropdown = document.getElementById('partner_org_dropdown_wrapper');
+
+            if (selected === 'sub_grant') {
+                partnerOrgDropdown.style.display = 'block';
+            } else {
+                partnerOrgDropdown.style.display = 'none';
+                document.getElementById('partner_orgainisation_type').value = ''; // Reset value if hidden
+            }
+        });
+    </script>
+
+    <script>
+        $('#partner_orgainisation_type').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var email = selectedOption.data('email') || '';
+            var contact = selectedOption.data('contact') || '';
+
+            $('#email').val(email);
+            $('#contact_number').val(contact);
+        });
+
+        // Jab partner_org_dropdown_wrapper hide ho, toh email/contact bhi clear karo
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                const isHidden = $('#partner_org_dropdown_wrapper').css('display') === 'none';
+                if (isHidden) {
+                    $('#email').val('');
+                    $('#contact_number').val('');
+                }
+            });
+        });
+
+        // Observe changes to the wrapper's style
+        observer.observe(document.getElementById('partner_org_dropdown_wrapper'), {
+            attributes: true,
+            attributeFilter: ['style']
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#csr_type').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var email = selectedOption.data('email') || '';
+                var contact = selectedOption.data('contact') || '';
+
+                $('#email').val(email);
+                $('#contact_number').val(contact);
+            });
+
+            // Jab csr_dropdown_wrapper hide ho, toh email/contact bhi clear karo
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    const isHidden = $('#csr_dropdown_wrapper').css('display') === 'none';
+                    if (isHidden) {
+                        $('#email').val('');
+                        $('#contact_number').val('');
+                    }
+                });
+            });
+
+            // Observe changes to the wrapper's style
+            observer.observe(document.getElementById('csr_dropdown_wrapper'), {
+                attributes: true,
+                attributeFilter: ['style']
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            const getNewGroup = () => {
+                return `
+            <div class="scr-registration-row target-group" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="scr-form-group" style="flex: 1;">
+                    <label>Target Name</label>
+                    <input type="text" placeholder="Enter name" name="target_name[]">
+                </div>
+                <div class="scr-form-group" style="flex: 1;">
+                    <label>Target Amount</label>
+                    <input type="number" placeholder="Enter amount" name="target_amount[]">
+                </div>
+                <div class="scr-form-group" style="display: flex; align-items: end;">
+                    <div class="scr-form-group-btn d-flex align-items-center">
+                        <button type="button" class="btn btn-primary add-btn me-2" style="padding: 8px 30px; margin-right: 10px;">Add More</button>
+                        <button type="button" class="btn btn-danger remove-btn" style="padding: 8px 30px;">Remove</button>
+                    </div>
+                </div>
+            </div>`;
+            };
+
+            // Add More Button Click
+            $('#target_container').on('click', '.add-btn', function() {
+                // Remove all Add More buttons
+                $('.add-btn').remove();
+
+                // Append new group
+                $('#target_container').append(getNewGroup());
+
+                updateRemoveBtnVisibility();
+            });
+
+            // Remove Button Click
+            $('#target_container').on('click', '.remove-btn', function() {
+                $(this).closest('.target-group').remove();
+
+                // Ensure only last group has Add More
+                $('.add-btn').remove();
+                $('#target_container .target-group:last .scr-form-group-btn').prepend(
+                    `<button type="button" class="btn btn-primary add-btn me-2" style="padding: 8px 30px; margin-right: 10px;">Add More</button>`
+                );
+
+                updateRemoveBtnVisibility();
+            });
+
+            // Hide remove button from first group only
+            function updateRemoveBtnVisibility() {
+                $('.target-group').each(function(index) {
+                    if (index === 0) {
+                        $(this).find('.remove-btn').hide();
+                    } else {
+                        $(this).find('.remove-btn').show();
+                    }
+                });
+            }
+
+            // Initial setup
+            updateRemoveBtnVisibility();
+        });
+    </script>
 @endsection
