@@ -9,6 +9,8 @@ class Income extends Model
     protected $table = "income";
     protected $fillable = [
         'type_of_income',
+        'csr_type',
+        'partner_orgainisation_type',
         'type_of_donation',
         'donar_name',
         'email',
@@ -27,6 +29,8 @@ class Income extends Model
         'accomodation_exp',
         'monitoring_exp',
         'miscellaneous_exp',
+        'target_name',
+        'target_amount',
         'no_of_installment',
         'payment_mode',
         'proof_of_evidence',

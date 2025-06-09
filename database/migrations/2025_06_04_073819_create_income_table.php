@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('income', function (Blueprint $table) {
             $table->id();
             $table->string('type_of_income')->nullable();
+            $table->string('csr_type')->nullable();
+            $table->string('partner_orgainisation_type')->nullable();
             $table->string('type_of_donation')->nullable();
             $table->string('donar_name')->nullable();
             $table->string('email')->nullable();
@@ -32,6 +34,8 @@ return new class extends Migration
             $table->string('accomodation_exp')->nullable();
             $table->string('monitoring_exp')->nullable();
             $table->string('miscellaneous_exp')->nullable();
+            $table->string('target_name')->nullable();
+            $table->string('target_amount')->nullable();
             $table->string('no_of_installment')->nullable();
             $table->string('payment_mode')->nullable();
             $table->longText('proof_of_evidence')->nullable();

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Income;
+use App\Models\CSRPartner;
+use App\Models\PartnerOrgnization;
 use App\Models\Expenditure;
 use App\Models\InvoiceSetting;
 use Carbon\Carbon;
@@ -15,8 +17,11 @@ class IncomeController extends Controller
 {
     public function incomeAdd()
     {
+        $csrList = CSRPartner::select('id', 'company_name', 'email', 'phone_number')->get();
+        $partnerOrgList = PartnerOrgnization::select('id', 'company/ngo_name', 'email', 'phone_number')->get();
+
         $title = "Add Income";
-        return view('finance-department.income.add-income', compact('title'));
+        return view('finance-department.income.add-income', compact('title', 'csrList', 'partnerOrgList'));
     }
 
     public function incomeView()
@@ -87,6 +92,8 @@ class IncomeController extends Controller
             // Prepare data for insert
             $incomeData = [
                 'type_of_income' => $request->income_type,
+                'csr_type' => $request->csr_type,
+                'partner_orgainisation_type' => $request->partner_orgainisation_type,
                 'type_of_donation' => $request->donation_type,
                 'donar_name' => $request->donar_name,
                 'email' => $request->email,
@@ -117,6 +124,8 @@ class IncomeController extends Controller
                 'district' => $request->district,
                 'project_description' => $request->project_description,
                 'message' => $request->message,
+                'target_name' => json_encode($request->target_name),
+                'target_amount' => json_encode($request->target_amount),
             ];
 
             Income::create($incomeData);
@@ -158,10 +167,12 @@ class IncomeController extends Controller
     public function editIncome($id)
     {
         $id = decrypt($id);
+        $csrList = CSRPartner::select('id', 'company_name', 'email', 'phone_number')->get();
+        $partnerOrgList = PartnerOrgnization::select('id', 'company/ngo_name', 'email', 'phone_number')->get();
         $incomeDetail = Income::where('id', $id)->first();
 
         $title = "Update Income Details";
-        return view('finance-department.income.update-income-details', compact('title', 'incomeDetail'));
+        return view('finance-department.income.update-income-details', compact('title', 'incomeDetail', 'csrList', 'partnerOrgList'));
     }
 
     public function updateIncome(Request $request, $id)
@@ -186,6 +197,8 @@ class IncomeController extends Controller
 
             // Update data
             $income->type_of_income = $request->income_type;
+            $income->csr_type = $request->csr_type;
+            $income->partner_orgainisation_type = $request->partner_orgainisation_type;
             $income->type_of_donation = $request->donation_type;
             $income->donar_name = $request->donar_name;
             $income->email = $request->email;
@@ -215,6 +228,8 @@ class IncomeController extends Controller
             $income->district = $request->district;
             $income->project_description = $request->project_description;
             $income->message = $request->message;
+            $income->target_name = json_encode($request->target_name);
+            $income->target_amount = json_encode($request->target_amount);
 
             // Save updated data
             $income->save();

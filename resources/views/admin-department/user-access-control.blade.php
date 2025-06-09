@@ -67,175 +67,85 @@
             <div class="csr-registration-main-heading">
                 <p>Assign Access Control To User</p>
             </div>
-            <form class="scr-registration-form">
+            <form class="scr-registration-form" action="{{ route('assign-permission-to-role') }}" method="POST">
+                @csrf
+
                 <div class="access-control-options-main">
                     <div class="access-control-options">
                         <label for="user-type">User Type</label>
-                        <select id="user-type" name="user-type" class="access-option-dropdown">
-                            <option value="" disabled selected>Select a user type</option>
-                            <option value="admin">Program Department</option>
-                            <option value="editor">Hr Department</option>
-                            <option value="viewer">Finance Department</option>
+                        <select id="user-type" name="user_type" class="access-option-dropdown" required>
+                            <option value="">Select a user type</option>
+                            @foreach ($userTypeList as $userType)
+                                <option value="{{ $userType->id }}">{{ ucfirst($userType->name) }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
 
-                <h3 class="scr-registration-heading">User Department</h3>
-                <div class="access-control-options">
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user_type">
-                        Create User Type
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_user_type">
-                        Delete User Type
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_department">
-                        Create Department
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_department">
-                        Delete Department
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user">
-                        Create User
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="view_user">
-                        View User
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="edit_user">
-                        Edit User
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="change_user_status">
-                        User Status Change
-                    </label>
-                </div>
-                <h3 class="scr-registration-heading">CSR Profile Management</h3>
-                <div class="access-control-options">
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user_type">
-                        CSR Registration
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_user_type">
-                        View CSR
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_department">
-                        Edit CSR
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_department">
-                        CSR Status Change
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user">
-                        Create Project Category
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="view_user">
-                        Delete Project Category
-                    </label>
+                @php
+                    function formatPermissionName($name)
+                    {
+                        return $name;
+                    }
 
-                </div>
-                <h3 class="scr-registration-heading">CSR Project Management</h3>
-                <div class="access-control-options">
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user_type">
-                        CSR Project Registration
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_user_type">
-                        CSR Project View
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_department">
-                        CSR Project Expense (Beneficiary)
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_department">
-                        CSR Project Expense (Programs/Campaign)
-                    </label>
-                </div>
-                <h3 class="scr-registration-heading">General Expense Management</h3>
-                <div class="access-control-options">
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user_type">
-                        Add Administration Expense
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_user_type">
-                        View Administration Expense
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_department">
-                        Add Campaign / Programs Expenses
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_department">
-                        View Campaign / Program Expenses
-                    </label>
-                </div>
+                    $permissionCategories = [
+                        'User Department' => [
+                            'Create User Type',
+                            'Delete User Type',
+                            'Create Department',
+                            'Delete Department',
+                            'Create User',
+                            'View User',
+                            'Edit User',
+                            'Change User Status',
+                        ],
+                        'CSR Profile Management' => [
+                            'Csr Registration',
+                            'View Csr',
+                            'Edit Csr',
+                            'Csr Status Change',
+                            'Create Project Category',
+                            'Delete Project Category',
+                        ],
+                        'CSR Project Management' => [
+                            'Csr Project Registration',
+                            'Csr Project View',
+                            'Csr Expense Beneficiary',
+                            'Csr Expense Program',
+                        ],
+                        'General Expense Management' => [
+                            'Add Admin Expense',
+                            'View Admin Expense',
+                            'Add Program Expense',
+                            'View Program Expense',
+                        ],
+                        'Attendance Management' => [
+                            'Add Shift',
+                            'Delete Shift',
+                            'Add Holiday',
+                            'Delete Holiday',
+                            'Add Attendance',
+                            'View Attendance',
+                        ],
+                        'Salary Management' => ['Set Salary', 'View Salary', 'Update Salary'],
+                        'General Settings' => ['Update Company Profile', 'Update Mail Config'],
+                    ];
+                @endphp
 
-                <h3 class="scr-registration-heading">Attendance Management</h3>
-                <div class="access-control-options">
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user_type">
-                        Add Shift
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_user_type">
-                        Delete Shift
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_department">
-                        Add Holiday
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_department">
-                        Delect Holiday
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_department">
-                        Add Attendance
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_department">
-                        View Attendance
-                    </label>
-                </div>
-                <h3 class="scr-registration-heading">Salary Management</h3>
-                <div class="access-control-options">
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user_type">
-                        Set Salary
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_user_type">
-                        View Salary
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_department">
-                        Salary Update
-                    </label>
-                </div>
-                <h3 class="scr-registration-heading">General Settings</h3>
-                <div class="access-control-options">
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="create_user_type">
-                        Is Update Company Profile
-
-                    </label>
-                    <label class="access-option">
-                        <input type="checkbox" name="permissions[]" value="delete_user_type">
-                        Is Update Mail Configuration
-                    </label>
-                </div>
+                @foreach ($permissionCategories as $category => $permissionNames)
+                    <h3 class="scr-registration-heading">{{ $category }}</h3>
+                    <div class="access-control-options">
+                        @foreach ($permissionList as $permission)
+                            @if (in_array($permission->name, $permissionNames))
+                                <label class="access-option">
+                                    <input type="checkbox" id="{{ $permission->name }}" name="permissions[]"
+                                        value="{{ $permission->id }}">
+                                    {{ formatPermissionName($permission->name) }}
+                                </label>
+                            @endif
+                        @endforeach
+                    </div>
+                @endforeach
 
                 <div class="scr-form-group-btn" style="justify-content: flex-start">
                     <button type="submit" class="scr-btn">Save Permission</button>

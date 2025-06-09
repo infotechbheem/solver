@@ -28,7 +28,7 @@ class SendCSRRegistrationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'CSR Registration successfull!!',
+            subject: 'CSR Registration Success',
         );
     }
 

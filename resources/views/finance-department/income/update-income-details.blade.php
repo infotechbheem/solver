@@ -37,6 +37,32 @@
                             </option>
                         </select>
                     </div>
+                    <div class="scr-form-group" id="csr_dropdown_wrapper" style="display: none;">
+                        <label>CSR Type <span>*</span></label>
+                        <select id="csr_type" name="csr_type">
+                            <option value="">Select CSR Type</option>
+                            @foreach ($csrList as $listCsr)
+                                <option value="{{ $listCsr->id }}" data-email="{{ $listCsr->email }}"
+                                    data-contact="{{ $listCsr->phone_number }}"
+                                    {{ $incomeDetail->csr_type == $listCsr->id ? 'selected' : '' }}>
+                                    {{ $listCsr->company_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="scr-form-group" id="partner_org_dropdown_wrapper" style="display: none;">
+                        <label>Partner Organisation Type <span>*</span></label>
+                        <select id="partner_orgainisation_type" name="partner_orgainisation_type">
+                            <option value="">Select Partner Organisation Type</option>
+                            @foreach ($partnerOrgList as $pol)
+                                <option value="{{ $pol->id }}" data-email="{{ $pol->email }}"
+                                    data-contact="{{ $pol->phone_number }}"
+                                    {{ $incomeDetail->partner_orgainisation_type == $pol->id ? 'selected' : '' }}>
+                                    {{ $pol->{'company/ngo_name'} }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="scr-form-group">
                         <label>Type of Donation <span>*</span></label>
                         <select id="donation_type" name="donation_type" required>
@@ -71,9 +97,9 @@
                             value="{{ $incomeDetail->contact_number }}" placeholder="contact number" required>
                     </div>
                     <div class="scr-form-group">
-                        <label>Aadhar Number <span>*</span></label>
+                        <label>Aadhar Number</label>
                         <input type="number" id="aadhar" name="aadhar" value="{{ $incomeDetail->aadhar }}"
-                            placeholder="Enter aadhaar number" required>
+                            placeholder="Enter aadhaar number">
                     </div>
                 </div>
                 <div class="scr-registration-row">
@@ -152,6 +178,62 @@
                     </div>
 
                 </div>
+                <h3 class="scr-registration-heading">Allotted Target</h3>
+
+                <div id="target_container">
+                    @php
+                        $names = json_decode($incomeDetail->target_name, true) ?? [];
+                        $amounts = json_decode($incomeDetail->target_amount, true) ?? [];
+                    @endphp
+
+                    @if (count($names) > 0)
+                        @foreach ($names as $index => $name)
+                            <div class="scr-registration-row target-group"
+                                style="display: flex; flex-wrap: wrap; gap: 20px;">
+                                <div class="scr-form-group" style="flex: 1;">
+                                    <label>Target Name</label>
+                                    <input type="text" placeholder="Enter name" name="target_name[]"
+                                        value="{{ old('target_name.' . $index, $name) }}">
+                                </div>
+                                <div class="scr-form-group" style="flex: 1;">
+                                    <label>Target Amount</label>
+                                    <input type="number" placeholder="Enter amount" name="target_amount[]"
+                                        value="{{ old('target_amount.' . $index, $amounts[$index] ?? '') }}">
+                                </div>
+                                <div class="scr-form-group" style="display: flex; align-items: end;">
+                                    <div class="scr-form-group-btn d-flex align-items-center">
+                                        @if ($loop->last)
+                                            <button type="button" class="btn btn-primary add-btn me-2"
+                                                style="padding: 8px 30px; margin-right: 10px;">Add More</button>
+                                        @endif
+                                        <button type="button" class="btn btn-danger remove-btn"
+                                            style="padding: 8px 30px;">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        {{-- Agar data nahi hai to ek empty row show karo --}}
+                        <div class="scr-registration-row target-group" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                            <div class="scr-form-group" style="flex: 1;">
+                                <label>Target Name</label>
+                                <input type="text" placeholder="Enter name" name="target_name[]">
+                            </div>
+                            <div class="scr-form-group" style="flex: 1;">
+                                <label>Target Amount</label>
+                                <input type="number" placeholder="Enter amount" name="target_amount[]">
+                            </div>
+                            <div class="scr-form-group" style="display: flex; align-items: end;">
+                                <div class="scr-form-group-btn d-flex align-items-center">
+                                    <button type="button" class="btn btn-primary add-btn me-2"
+                                        style="padding: 8px 30px; margin-right: 10px;">Add More</button>
+                                    {{-- No remove button on first empty row --}}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
                 <h3 class="scr-registration-heading"></h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
@@ -269,7 +351,7 @@
                         </div>
                         <div class="scr-form-group">
                             <label>Additional Message (optional)</label>
-                            <textarea id="message" name="message" placeholder="Enter Message..." required>{{ $incomeDetail->message }}</textarea>
+                            <textarea id="message" name="message" placeholder="Enter Message..." >{{ $incomeDetail->message }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -283,4 +365,171 @@
             </form>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function toggleCsrDropdown() {
+            const selected = $('#income_type').val();
+            const csrDropdown = $('#csr_dropdown_wrapper');
+
+            if (selected === 'csr') {
+                csrDropdown.show();
+            } else {
+                csrDropdown.hide();
+                $('#csr_type').val('');
+            }
+        }
+
+        $(document).ready(function() {
+            // Initial check on page load
+            toggleCsrDropdown();
+
+            // Bind change event
+            $('#income_type').on('change', function() {
+                toggleCsrDropdown();
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function handleIncomeTypeChange() {
+                const selected = $('#income_type').val();
+                const partnerOrgDropdown = $('#partner_org_dropdown_wrapper');
+
+                if (selected === 'sub_grant') {
+                    partnerOrgDropdown.show();
+                } else {
+                    partnerOrgDropdown.hide();
+                    $('#partner_orgainisation_type').val('');
+
+                    // Reset email and contact only if they are empty or not manually filled
+                    // (Assuming if empty => safe to reset, else preserve)
+                    if ($('#email').val().trim() === '') {
+                        $('#email').val('');
+                    }
+                    if ($('#contact_number').val().trim() === '') {
+                        $('#contact_number').val('');
+                    }
+                }
+            }
+
+            // Initial check on page load
+            handleIncomeTypeChange();
+
+            // Bind change event
+            $('#income_type').on('change', handleIncomeTypeChange);
+
+            // Partner Org Dropdown Change
+            $('#partner_orgainisation_type').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var email = selectedOption.data('email') || '';
+                var contact = selectedOption.data('contact') || '';
+
+                $('#email').val(email);
+                $('#contact_number').val(contact);
+            });
+
+            // CSR Type Dropdown Change
+            $('#csr_type').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var email = selectedOption.data('email') || '';
+                var contact = selectedOption.data('contact') || '';
+
+                $('#email').val(email);
+                $('#contact_number').val(contact);
+            });
+
+            // MutationObserver for partner_org_dropdown_wrapper
+            const partnerOrgObserver = new MutationObserver(function() {
+                if ($('#partner_org_dropdown_wrapper').css('display') === 'none') {
+                    // Reset only if fields are empty
+                    if ($('#email').val().trim() === '') {
+                        $('#email').val('');
+                    }
+                    if ($('#contact_number').val().trim() === '') {
+                        $('#contact_number').val('');
+                    }
+                }
+            });
+
+            partnerOrgObserver.observe(document.getElementById('partner_org_dropdown_wrapper'), {
+                attributes: true,
+                attributeFilter: ['style']
+            });
+
+            // MutationObserver for csr_dropdown_wrapper
+            const csrObserver = new MutationObserver(function() {
+                if ($('#csr_dropdown_wrapper').css('display') === 'none') {
+                    if ($('#email').val().trim() === '') {
+                        $('#email').val('');
+                    }
+                    if ($('#contact_number').val().trim() === '') {
+                        $('#contact_number').val('');
+                    }
+                }
+            });
+
+            csrObserver.observe(document.getElementById('csr_dropdown_wrapper'), {
+                attributes: true,
+                attributeFilter: ['style']
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            const getNewGroup = () => {
+                return `
+        <div class="scr-registration-row target-group" style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <div class="scr-form-group" style="flex: 1;">
+                <label>Target Name</label>
+                <input type="text" placeholder="Enter name" name="target_name[]">
+            </div>
+            <div class="scr-form-group" style="flex: 1;">
+                <label>Target Amount</label>
+                <input type="number" placeholder="Enter amount" name="target_amount[]">
+            </div>
+            <div class="scr-form-group" style="display: flex; align-items: end;">
+                <div class="scr-form-group-btn d-flex align-items-center">
+                    <button type="button" class="btn btn-primary add-btn me-2" style="padding: 8px 30px; margin-right: 10px;">Add More</button>
+                    <button type="button" class="btn btn-danger remove-btn" style="padding: 8px 30px;">Remove</button>
+                </div>
+            </div>
+        </div>`;
+            };
+
+            // Add More Button Click
+            $('#target_container').on('click', '.add-btn', function() {
+                $('.add-btn').remove();
+                $('#target_container').append(getNewGroup());
+                updateRemoveBtnVisibility();
+            });
+
+            // Remove Button Click
+            $('#target_container').on('click', '.remove-btn', function() {
+                $(this).closest('.target-group').remove();
+
+                $('.add-btn').remove();
+                $('#target_container .target-group:last .scr-form-group-btn').prepend(
+                    `<button type="button" class="btn btn-primary add-btn me-2" style="padding: 8px 30px; margin-right: 10px;">Add More</button>`
+                );
+
+                updateRemoveBtnVisibility();
+            });
+
+            // Show remove btn on all except first group
+            function updateRemoveBtnVisibility() {
+                $('.target-group').each(function(index) {
+                    if (index === 0) {
+                        $(this).find('.remove-btn').hide();
+                    } else {
+                        $(this).find('.remove-btn').show();
+                    }
+                });
+            }
+
+            // Initial call on page load
+            updateRemoveBtnVisibility();
+        });
+    </script>
 @endsection
