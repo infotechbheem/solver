@@ -100,11 +100,50 @@
                 </div>
             </form>
             <div class="grant-list grant-list-govt ">
-                <div class="grant-searchbar">
-                    <input type="text" id="grant-search-bar" class="form-control grant-search" placeholder="Search..."
-                        onkeyup="searchGrants()">
-                </div>
+                <form action="{{ route('filter-income') }}" method="POST" id="incomeFilterForm">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select name="income_type" class="form-control">
+                                <option value="">Select Income Type</option>
+                                <option value="individual_person_duration">Individual Person Donation</option>
+                                <option value="sub_grant">Sub Grant</option>
+                                <option value="contract">Contract</option>
+                                <option value="csr">CSR</option>
+                                <option value="gov_funds">Govt. Funds</option>
+                                <option value="training_fees">Training Fees</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="donation_type" class="form-control">
+                                <option value="">Select Donation Type</option>
+                                <option value="general_donation">General Donations</option>
+                                <option value="corpus_donation">Corpus Donations</option>
+                                <option value="anonymous_donation">Anonymous Donations</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="project_type" class="form-control">
+                                <option value="">Select Project Type</option>
+                                <option value="social_protection">Social Protection</option>
+                                <option value="livelihood">Livelihood & Employbility</option>
+                                <option value="communinty_capacity">Community Capacity Building</option>
+                                <option value="digital_literacy">Digital Literacy & Finacial Inclusion</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center">
+                            <button type="submit" class="btn btn-primary">Apply</button>
+                        </div>
+                    </div>
+                </form>
+
                 <div class="grant-table-scroll">
+                    @php
+                        $incomes = $filteredIncomes ?? $incomeList;
+                    @endphp
+
                     <table class="table grant-table" id="grantTable">
                         <thead>
                             <tr>
@@ -114,15 +153,15 @@
                                 <th>Donor/organisation</th>
                                 <th>Email Id</th>
                                 <th>Contact Number</th>
-                                <th>Sanction Amount </th>
-                                <th>Received Amount </th>
-                                <th>Payment Mode </th>
-                                <th>Payment Date </th>
+                                <th>Sanction Amount</th>
+                                <th>Received Amount</th>
+                                <th>Payment Mode</th>
+                                <th>Payment Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($incomeList as $list)
+                            @foreach ($incomes as $list)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $list->type_of_income }}</td>
@@ -132,7 +171,7 @@
                                     <td>{{ $list->contact_number }}</td>
                                     <td>{{ $list->sanction_amount }}</td>
                                     <td>{{ $list->amount_received }}</td>
-                                    <td>{{ isset($list->payment_mode) ? $list->payment_mode : '-' }}</td>
+                                    <td>{{ $list->payment_mode ?? '-' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($list->payment_date)->format('d-m-Y') }}</td>
                                     <td>
                                         <a
@@ -141,7 +180,8 @@
                                                 <i class="fa-regular fa-eye"></i>
                                             </button>
                                         </a>
-                                        <a href="{{ url('/finance-department/income/update-income-details', encrypt($list->id)) }}">
+                                        <a
+                                            href="{{ url('/finance-department/income/update-income-details', encrypt($list->id)) }}">
                                             <button class="btn btn-success">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </button>
@@ -154,7 +194,6 @@
                                             <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                                         </form>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
