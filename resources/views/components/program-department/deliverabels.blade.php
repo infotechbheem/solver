@@ -37,40 +37,67 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="user_create_department">
     <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <div class="ibox bg-success color-white widget-stat">
-                <div class="ibox-body">
-                    <div class="m-b-5">Training on Digital Literacy
+        @foreach ($countings as $counting)
+            <div class="col-lg-6 col-md-6">
+                <div class="ibox bg-success color-white widget-stat">
+                    <div class="ibox-body">
+                        <div style="position: relative; display: inline-block; max-width: 250px;">
+                            <span
+                                style="
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        cursor: pointer;
+        border-bottom: 1px dotted #999;
+        "
+                                onmouseover="this.nextElementSibling.style.display='block';"
+                                onmouseout="this.nextElementSibling.style.display='none';">
+                                {{ \Illuminate\Support\Str::limit($counting->key_indicator, 40, '...') }}
+                            </span>
+
+                            <div
+                                style="
+        display: none;
+        position: absolute;
+        top: 120%;
+        left: 0;
+        background: #333;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        white-space: normal;
+        z-index: 9999;
+        font-size: 12px;
+        max-width: 300px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        ">
+                                {{ $counting->key_indicator }}
+                            </div>
+                        </div>
+                        <h5 class="m-b-5 font-strong">Total Target:{{ $counting->target }}
+                        </h5>
+                        <h5 class="m-b-5 font-strong">Target Achieved:{{ $counting->achieved }}
+                        </h5>
                     </div>
-                    <h2 class="m-b-5 font-strong">10867
-                    </h2>
-                    <i class="fa-solid fa-sack-dollar widget-stat-icon"></i>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-            <div class="ibox bg-info color-white widget-stat">
-                <div class="ibox-body">
-                    <div class="m-b-5">Training on Government Schemes</div>
-                    <h2 class="m-b-5 font-strong">₹ 1250</h2>
-                    <i class="fa-solid fa-hands-holding-circle widget-stat-icon"></i>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
     <div class="containers p-0">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-head">
-                        <div class="ibox-title">Grant Required vs Grant Declined By Program</div>
+                        <div class="ibox-title">Targets</div>
                     </div>
                     <div class="ibox-body p-0 pt-2">
                         <div class="double-chart"><canvas id="chart1"></canvas></div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            {{-- <div class="col-lg-6">
                 <div class="ibox">
                     <div class="ibox-head">
                         <div class="ibox-title">Grant Required vs Grant Declined By Program</div>
@@ -79,7 +106,7 @@
                         <div class="double-chart"><canvas id="chart2"></canvas></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             {{-- <div class="col-lg-6">
                 <div class="ibox">
                     <div class="ibox-head">
@@ -106,7 +133,7 @@
                 </div>
             </div> --}}
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-lg-6 col-md-6">
                 <div class="ibox bg-success color-white widget-stat">
                     <div class="ibox-body">
@@ -198,8 +225,8 @@
                 </div>
             </div>
 
-        </div>
-        <div class="user-create-section mt-4">
+        </div> --}}
+        {{-- <div class="user-create-section mt-4">
             <!-- Top Buttons -->
             <div class="user-create-section-btn d-flex align-items-center"
                 style="justify-content: space-between; padding: 10px 20px;">
@@ -278,7 +305,7 @@
                                             </td>
                                         </tr>
                                         {{-- editModal --}}
-                                        <div class="modal fade" id="editModal{{ $deliverable->id }}" tabindex="-1"
+        {{-- <div class="modal fade" id="editModal{{ $deliverable->id }}" tabindex="-1"
                                             aria-labelledby="editModalLabel{{ $deliverable->id }}"
                                             aria-hidden="true">
                                             <div class="modal-dialog">
@@ -294,7 +321,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         {{-- You can place an edit form here prefilled with $deliverable data --}}
-                                                        <form
+        {{-- <form
                                                             action="{{ route('update-deliverables', $deliverable->id) }}"
                                                             method="POST">
                                                             @csrf
@@ -484,7 +511,7 @@
                 </div>
 
             </div>
-        </div>
+        </div> --}}
         <div class="user-create-section mt-4">
             <!-- Top Buttons -->
             <h2 style="padding: 20px; text-align:center; font-weight:bold; font-size:20px; color:#587C50">Overall
@@ -496,8 +523,8 @@
 
                 <!-- Search Bar (aligned left by default) -->
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Search Letter Box"
-                        style="width: 250px;">
+                    {{-- <input type="text" class="form-control" placeholder="Search Letter Box"
+                        style="width: 250px;"> --}}
                 </div>
 
                 <!-- Import Button aligned to right -->
@@ -531,8 +558,7 @@
 
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Upload</button>
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </form>
 
@@ -593,8 +619,8 @@
                 style="justify-content: space-between; padding: 10px 20px;">
                 <!-- Search Bar -->
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Search Letter Box"
-                        style="width: 250px;">
+                    {{-- <input type="text" class="form-control" placeholder="Search Letter Box"
+                        style="width: 250px;"> --}}
                 </div>
                 <!-- Import Button aligned to right -->
                 <button type="button" class="btn btn-primary ms-auto" data-bs-toggle="modal"
@@ -819,99 +845,28 @@
 
 
 <script>
+    const fullLabels = @json($countings->pluck('key_indicator'));
+    const labels = @json($labels);
+    const totalTargets = @json($totalTargets);
+    const achievedTargets = @json($achievedTargets);
+
     window.addEventListener("DOMContentLoaded", () => {
+        
         const chartConfigs = [{
                 id: 'chart1',
-                labels: ['Leh', 'Jammu', 'Gurgaon', 'Delhi', 'Sonbhadra', 'Banda', 'Darbhanga',
-                    'Uttarkashi', 'Nagpur', 'Noida', 'Latur', 'Pune', 'Other', 'Mysore', 'Banglore',
-                    'Narmada'
-                ],
+                labels: labels,
                 dataset1: {
-                    label: 'Initiated',
-                    data: [5, 10, 12, 3, 7, 9, 12, 15, 8, 6, 5, 7, 12, 13, 5, 2],
+                    label: 'Total Target',
+                    data: totalTargets,
                     color: '#587C50'
                 },
                 dataset2: {
-                    label: 'Onboarded',
-                    data: [8, 6, 14, 6, 7, 12, 3, 5, 8, 5, 7, 8, 12, 5, 12, 17],
+                    label: 'Target Achieved',
+                    data: achievedTargets,
                     color: '#323F2F'
                 }
             },
-            {
-                id: 'chart2',
-                labels: ['Abha Card', 'E-Shram..', 'Shram Yo..', 'Voter ID', 'Aadhaar..', 'PVC Aad',
-                    'PAN Card', 'Widow Pe', 'Food Like', 'PMSBY', 'Ayushma..', 'Kisan Re', 'Other'
-                ],
-                dataset1: {
-                    label: 'Male Applicants',
-                    data: [8, 6, 14, 6, 7, 12, 3, 5, 8, 5, 7, 8, 12],
-                    color: '#587C50'
-                },
-                dataset2: {
-                    label: 'Female Applicants',
-                    data: [5, 10, 12, 3, 7, 9, 12, 15, 8, 6, 5, 7, 12],
-                    color: '#323F2F'
-                }
-            },
-            {
-                id: 'chart3',
-                labels: ['Assam', 'Bihar', 'Delhi', 'Haryana', 'Himachal', 'Jammu&..', 'Karnatka', 'Odisha',
-                    'Maharash..', 'Uttarakhan..', 'Uttar Pra..', 'UT of Lad..', 'Gujrat', 'West Ben..',
-                    'Arunacha..', 'Other'
-                ],
-                dataset1: {
-                    label: 'Budgeted ($K)',
-                    data: [8, 6, 14, 6, 7, 12, 3, 5, 8, 5, 7, 8, 12, 5, 12, 17],
-                    color: '#587C50'
-                },
-                dataset2: {
-                    labels: ['October', 'Noveember', 'December', 'January', 'February', 'March'],
-                    data: [5, 10, 12, 3, 7, 9, 12, 15, 8, 6, 5, 7, 12, 13, 5, 2],
-                    color: '#323F2F'
-                }
-            },
-            {
-                id: 'chart4',
-                labels: ['October', 'Noveember', 'December', 'January', 'February', 'March'],
-                dataset1: {
-                    label: 'Initiated',
-                    data: [5, 10, 12, 3, 7, 9],
-                    color: '#587C50'
-                },
-                dataset2: {
-                    label: 'Onboarded',
-                    data: [8, 6, 14, 6, 7, 12],
-                    color: '#323F2F'
-                }
-            },
-            {
-                id: 'chart5',
-                labels: ['Sonbhadra', 'Delhi'],
-                dataset1: {
-                    label: 'Online Applications',
-                    data: [60, 70],
-                    color: '#587C50'
-                },
-                dataset2: {
-                    label: 'In-person Applications',
-                    data: [55, 15],
-                    color: '#323F2F'
-                }
-            },
-            {
-                id: 'chart6',
-                labels: ['October', 'November', 'December', 'January', 'February', 'March'],
-                dataset1: {
-                    label: 'Volunteers Signed Up',
-                    data: [120, 100, 90, 20, 30, 50],
-                    color: '#587C50'
-                },
-                dataset2: {
-                    label: 'Volunteers Attended',
-                    data: [100, 80, 70, 90, 58, 70],
-                    color: '#323F2F'
-                }
-            }
+
         ];
 
         chartConfigs.forEach(cfg => {
@@ -950,13 +905,98 @@
                             position: 'top'
                         },
                         tooltip: {
-                            enabled: true
+                            enabled: true,
+                            callbacks: {
+                                title: function(context) {
+                                    if (typeof fullLabels !== "undefined" && Array.isArray(
+                                            fullLabels)) {
+                                        return fullLabels[context[0].dataIndex] || '';
+                                    }
+                                    return context[0].label;
+                                }
+                            }
                         }
                     }
                 }
             });
         });
     });
+
+    // {
+    //     id: 'chart2',
+    //     labels: ['Abha Card', 'E-Shram..', 'Shram Yo..', 'Voter ID', 'Aadhaar..', 'PVC Aad',
+    //         'PAN Card', 'Widow Pe', 'Food Like', 'PMSBY', 'Ayushma..', 'Kisan Re', 'Other'
+    //     ],
+    //     dataset1: {
+    //         label: 'Male Applicants',
+    //         data: [8, 6, 14, 6, 7, 12, 3, 5, 8, 5, 7, 8, 12],
+    //         color: '#587C50'
+    //     },
+    //     dataset2: {
+    //         label: 'Female Applicants',
+    //         data: [5, 10, 12, 3, 7, 9, 12, 15, 8, 6, 5, 7, 12],
+    //         color: '#323F2F'
+    //     }
+    // },
+    // {
+    //     id: 'chart3',
+    //     labels: ['Assam', 'Bihar', 'Delhi', 'Haryana', 'Himachal', 'Jammu&..', 'Karnatka', 'Odisha',
+    //         'Maharash..', 'Uttarakhan..', 'Uttar Pra..', 'UT of Lad..', 'Gujrat', 'West Ben..',
+    //         'Arunacha..', 'Other'
+    //     ],
+    //     dataset1: {
+    //         label: 'Budgeted ($K)',
+    //         data: [8, 6, 14, 6, 7, 12, 3, 5, 8, 5, 7, 8, 12, 5, 12, 17],
+    //         color: '#587C50'
+    //     },
+    //     dataset2: {
+    //         labels: ['October', 'Noveember', 'December', 'January', 'February', 'March'],
+    //         data: [5, 10, 12, 3, 7, 9, 12, 15, 8, 6, 5, 7, 12, 13, 5, 2],
+    //         color: '#323F2F'
+    //     }
+    // },
+    // {
+    //     id: 'chart4',
+    //     labels: ['October', 'Noveember', 'December', 'January', 'February', 'March'],
+    //     dataset1: {
+    //         label: 'Initiated',
+    //         data: [5, 10, 12, 3, 7, 9],
+    //         color: '#587C50'
+    //     },
+    //     dataset2: {
+    //         label: 'Onboarded',
+    //         data: [8, 6, 14, 6, 7, 12],
+    //         color: '#323F2F'
+    //     }
+    // },
+    // {
+    //     id: 'chart5',
+    //     labels: ['Sonbhadra', 'Delhi'],
+    //     dataset1: {
+    //         label: 'Online Applications',
+    //         data: [60, 70],
+    //         color: '#587C50'
+    //     },
+    //     dataset2: {
+    //         label: 'In-person Applications',
+    //         data: [55, 15],
+    //         color: '#323F2F'
+    //     }
+    // },
+    // {
+    //     id: 'chart6',
+    //     labels: ['October', 'November', 'December', 'January', 'February', 'March'],
+    //     dataset1: {
+    //         label: 'Volunteers Signed Up',
+    //         data: [120, 100, 90, 20, 30, 50],
+    //         color: '#587C50'
+    //     },
+    //     dataset2: {
+    //         label: 'Volunteers Attended',
+    //         data: [100, 80, 70, 90, 58, 70],
+    //         color: '#323F2F'
+    //     }
+    // }
 </script>
 
 <!-- Bootstrap 5 CSS -->

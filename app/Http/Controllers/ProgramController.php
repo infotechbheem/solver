@@ -24,11 +24,11 @@ class ProgramController extends Controller
         $team = Team::get();
 
         $title = "Add Program";
-        return view('program-department.add-program', compact('title','team'));
+        return view('program-department.add-program', compact('title', 'team'));
     }
     public function viewProgram()
     {
-        $programs = Program::with('team','livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->paginate(10);
+        $programs = Program::with('team', 'livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->paginate(10);
 
         $stateWisePercentage = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->get();
 
@@ -203,7 +203,7 @@ class ProgramController extends Controller
         }
 
         // Create a team_member_name-wise count array
-        $teamMemberNameWisePercentage = Program::with('team','livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->get();
+        $teamMemberNameWisePercentage = Program::with('team', 'livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->get();
 
         // Create an team_member_name-wise count array
         $team_member_nameCounts = [];
@@ -499,7 +499,7 @@ class ProgramController extends Controller
     public function viewProgramDetails($id)
     {
         $id = decrypt($id);
-        $programDetails = Program::with('team','livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
+        $programDetails = Program::with('team', 'livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
 
         $title = "View Program Details";
         return view('program-department.view-program-details', compact('title', 'programDetails'));
@@ -515,8 +515,18 @@ class ProgramController extends Controller
         $overallTarget = OverallTargetvsDeliverables::paginate(10, ['*'], 'overallTarget_page');
         $progressTrack = ProgressTracker::paginate(10, ['*'], 'progressTrack_page');
 
+        $countings = OverallTargetvsDeliverables::get();
+        // dd($countings);
+
+        $labels = $countings->pluck('key_indicator')->map(function ($item) {
+            return \Illuminate\Support\Str::limit($item, 10); // 40 chars max
+        })->toArray();
+
+        $totalTargets = $countings->pluck('target')->toArray();
+        $achievedTargets = $countings->pluck('achieved')->toArray();
+
         $title = "Plan & Deliverables";
-        return view('program-department.deliverabels', compact('title', 'deliverables', 'overallTarget', 'progressTrack'));
+        return view('program-department.deliverabels', compact('title', 'deliverables', 'overallTarget', 'progressTrack', 'countings','labels','totalTargets','achievedTargets'));
     }
 
     public function storeProgram(Request $request)
@@ -652,7 +662,7 @@ class ProgramController extends Controller
         $editProgram = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
         $title = 'Edit Program';
 
-        return view('program-department.edit-program', compact('title', 'editProgram','team'));
+        return view('program-department.edit-program', compact('title', 'editProgram', 'team'));
     }
 
     public function updateProgram(Request $request, $id)
@@ -889,15 +899,12 @@ class ProgramController extends Controller
         ]);
 
         try {
-            DB::beginTransaction();
-
+            OverallTargetvsDeliverables::truncate();
             Excel::import(new OverallTargetImport, $request->file('import_file'));
 
-            DB::commit();
 
             return redirect()->back()->with('success', 'File Imported Successfully');
         } catch (\Throwable $th) {
-            DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
@@ -909,15 +916,12 @@ class ProgramController extends Controller
         ]);
 
         try {
-            DB::beginTransaction();
-
+            ProgressTracker::truncate();
             Excel::import(new progressTrackImport, $request->file('progressFile'));
 
-            DB::commit();
 
             return redirect()->back()->with('success', 'File Imported Successfully');
         } catch (\Throwable $th) {
-            DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
