@@ -44,4 +44,14 @@ class Income extends Model
         'project_description',
         'message',
     ];
+
+    public function csr()
+    {
+        return $this->belongsTo(CSRPartner::class, 'csr_type');
+    }
+
+    public function PartnerOrgnization()
+    {
+        return $this->belongsTo(PartnerOrgnization::class, 'partner_orgainisation_type');
+    }
 }

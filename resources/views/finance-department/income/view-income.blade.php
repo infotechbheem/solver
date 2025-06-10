@@ -99,49 +99,77 @@
                     </div>
                 </div>
             </form>
-            <div class="grant-list grant-list-govt ">
-                <form action="{{ route('filter-income') }}" method="POST" id="incomeFilterForm">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-3">
-                            <select name="income_type" class="form-control">
-                                <option value="">Select Income Type</option>
-                                <option value="individual_person_duration">Individual Person Donation</option>
-                                <option value="sub_grant">Sub Grant</option>
-                                <option value="contract">Contract</option>
-                                <option value="csr">CSR</option>
-                                <option value="gov_funds">Govt. Funds</option>
-                                <option value="training_fees">Training Fees</option>
-                                <option value="other">Other</option>
-                            </select>
+            <div class="grant-list grant-list-govt">
+                <div class="mb-4">
+                    <form action="{{ route('filter-income') }}" method="POST" id="incomeFilterForm">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-3">
+                                <select name="income_type" class="form-control">
+                                    <option value="">Select Income Type</option>
+                                    <option value="individual_person_duration"
+                                        {{ request('income_type') == 'individual_person_duration' ? 'selected' : '' }}>
+                                        Individual Person Donation</option>
+                                    <option value="sub_grant" {{ request('income_type') == 'sub_grant' ? 'selected' : '' }}>
+                                        Sub Grant</option>
+                                    <option value="contract" {{ request('income_type') == 'contract' ? 'selected' : '' }}>
+                                        Contract</option>
+                                    <option value="csr" {{ request('income_type') == 'csr' ? 'selected' : '' }}>CSR
+                                    </option>
+                                    <option value="gov_funds"
+                                        {{ request('income_type') == 'gov_funds' ? 'selected' : '' }}>Govt. Funds</option>
+                                    <option value="training_fees"
+                                        {{ request('income_type') == 'training_fees' ? 'selected' : '' }}>Training Fees
+                                    </option>
+                                    <option value="other" {{ request('income_type') == 'other' ? 'selected' : '' }}>Other
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select name="donation_type" class="form-control">
+                                    <option value="">Select Donation Type</option>
+                                    <option value="general_donation"
+                                        {{ request('donation_type') == 'general_donation' ? 'selected' : '' }}>General
+                                        Donations</option>
+                                    <option value="corpus_donation"
+                                        {{ request('donation_type') == 'corpus_donation' ? 'selected' : '' }}>Corpus
+                                        Donations</option>
+                                    <option value="anonymous_donation"
+                                        {{ request('donation_type') == 'anonymous_donation' ? 'selected' : '' }}>Anonymous
+                                        Donations</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select name="project_type" class="form-control">
+                                    <option value="">Select Project Type</option>
+                                    <option value="social_protection"
+                                        {{ request('project_type') == 'social_protection' ? 'selected' : '' }}>Social
+                                        Protection</option>
+                                    <option value="livelihood"
+                                        {{ request('project_type') == 'livelihood' ? 'selected' : '' }}>Livelihood &
+                                        Employbility</option>
+                                    <option value="communinty_capacity"
+                                        {{ request('project_type') == 'communinty_capacity' ? 'selected' : '' }}>Community
+                                        Capacity Building</option>
+                                    <option value="digital_literacy"
+                                        {{ request('project_type') == 'digital_literacy' ? 'selected' : '' }}>Digital
+                                        Literacy & Finacial Inclusion</option>
+                                    <option value="other" {{ request('project_type') == 'other' ? 'selected' : '' }}>Other
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center">
+                                <button type="submit" class="btn btn-primary">Apply</button>
+                                <button type="button" class="btn btn-secondary ml-4" onclick="resetFilter()">Reset</button>
+                                <button type="button" class="btn btn-info ml-4" onclick="exportData()">Export</button>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <select name="donation_type" class="form-control">
-                                <option value="">Select Donation Type</option>
-                                <option value="general_donation">General Donations</option>
-                                <option value="corpus_donation">Corpus Donations</option>
-                                <option value="anonymous_donation">Anonymous Donations</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select name="project_type" class="form-control">
-                                <option value="">Select Project Type</option>
-                                <option value="social_protection">Social Protection</option>
-                                <option value="livelihood">Livelihood & Employbility</option>
-                                <option value="communinty_capacity">Community Capacity Building</option>
-                                <option value="digital_literacy">Digital Literacy & Finacial Inclusion</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-center">
-                            <button type="submit" class="btn btn-primary">Apply</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
 
                 <div class="grant-table-scroll">
                     @php
-                        $incomes = $filteredIncomes ?? $incomeList;
+                        $incomes = $filteredIncomes->count() > 0 ? $filteredIncomes : $incomeList;
                     @endphp
 
                     <table class="table grant-table" id="grantTable">
@@ -200,38 +228,40 @@
                     </table>
                 </div>
 
-                <div class="grant-pagination-container">
-                    <div class="grant-pagination-info">
-                        Showing {{ $incomeList->firstItem() }} to {{ $incomeList->lastItem() }} of
-                        {{ $incomeList->total() }} records
-                    </div>
-                    <div class="grant-pagination">
-                        {{-- Previous Button --}}
-                        @if ($incomeList->onFirstPage())
-                            <button class="btn btn-light pagination-btn" disabled>Previous</button>
-                        @else
-                            <a href="{{ $incomeList->previousPageUrl() }}"
-                                class="btn btn-light pagination-btn">Previous</a>
-                        @endif
-
-                        {{-- Page Numbers --}}
-                        <div class="pagination-numbers">
-                            @for ($i = 1; $i <= $incomeList->lastPage(); $i++)
-                                <a href="{{ $incomeList->url($i) }}">
-                                    <button
-                                        class="pagination-number {{ $i == $incomeList->currentPage() ? 'active' : '' }}">{{ $i }}</button>
-                                </a>
-                            @endfor
+                @if ($incomes->count() > 0)
+                    <div class="grant-pagination-container">
+                        <div class="grant-pagination-info">
+                            Showing {{ $incomes->firstItem() }} to {{ $incomes->lastItem() }} of {{ $incomes->total() }}
+                            records
                         </div>
+                        <div class="grant-pagination">
+                            {{-- Previous Button --}}
+                            @if ($incomes->onFirstPage())
+                                <button class="btn btn-light pagination-btn" disabled>Previous</button>
+                            @else
+                                <a href="{{ $incomes->previousPageUrl() }}"
+                                    class="btn btn-light pagination-btn">Previous</a>
+                            @endif
 
-                        {{-- Next Button --}}
-                        @if ($incomeList->hasMorePages())
-                            <a href="{{ $incomeList->nextPageUrl() }}" class="btn btn-light pagination-btn">Next</a>
-                        @else
-                            <button class="btn btn-light pagination-btn" disabled>Next</button>
-                        @endif
+                            {{-- Page Numbers --}}
+                            <div class="pagination-numbers">
+                                @for ($i = 1; $i <= $incomes->lastPage(); $i++)
+                                    <a href="{{ $incomes->url($i) }}">
+                                        <button
+                                            class="pagination-number {{ $i == $incomes->currentPage() ? 'active' : '' }}">{{ $i }}</button>
+                                    </a>
+                                @endfor
+                            </div>
+
+                            {{-- Next Button --}}
+                            @if ($incomes->hasMorePages())
+                                <a href="{{ $incomes->nextPageUrl() }}" class="btn btn-light pagination-btn">Next</a>
+                            @else
+                                <button class="btn btn-light pagination-btn" disabled>Next</button>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @endif
 
             </div>
         </div>
@@ -340,4 +370,32 @@
             console.error('Pie chart canvas not found!');
         }
     </script>
+
+    <script>
+        function resetFilter() {
+
+            document.getElementById('incomeFilterForm').reset();
+
+            window.location.href = "{{ route('income.view-income') }}";
+        }
+    </script>
+
+    <script>
+        function exportData() {
+            const form = document.getElementById('incomeFilterForm');
+            const incomeType = form.querySelector('select[name="income_type"]').value;
+            const donationType = form.querySelector('select[name="donation_type"]').value;
+            const projectType = form.querySelector('select[name="project_type"]').value;
+
+            const queryParams = new URLSearchParams({
+                income_type: incomeType,
+                donation_type: donationType,
+                project_type: projectType
+            }).toString();
+
+            const exportUrl = "{{ route('income.export') }}?" + queryParams;
+            window.location.href = exportUrl;
+        }
+    </script>
+
 @endsection

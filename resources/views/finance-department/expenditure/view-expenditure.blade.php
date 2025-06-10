@@ -8,7 +8,7 @@
     </script>
     @include('components.breadcrumb')
     @include('components.expenditure.view-expenditure')
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         const hireLabels = @json($hireChartLabel);
         const hireData = @json($hireChartTotal);
@@ -105,6 +105,58 @@
             });
         } else {
             console.error('Pie chart canvas not found!');
+        }
+    </script>
+
+    <script>
+        function resetFilter() {
+
+            document.getElementById('expenditureFilter').reset();
+
+            window.location.href = "{{ route('expenditure.view-expenditure') }}";
+        }
+    </script>
+
+    <script>
+        function toggleExpenseFields() {
+            var selected = $('#expenseSector').val();
+
+            // Always hide and reset both sections
+            $('#administrativeExpense').hide();
+            $('#expenditureType').hide();
+
+            // Show the relevant section based on selected sector
+            if (selected === 'project_based') {
+                $('#expenditureType').show();
+            } else if (selected === 'office_expenses') {
+                $('#administrativeExpense').show();
+            }
+        }
+
+        $(document).ready(function() {
+            toggleExpenseFields(); // Run on page load
+
+            $('#expenseSector').on('change', function() {
+                toggleExpenseFields(); // Run on dropdown change
+            });
+        });
+    </script>
+
+    <script>
+        function exportExpenseFilter() {
+            const form = document.getElementById('expenditureFilter');
+            const expenseSector = form.querySelector('select[name="expenseSector"]').value;
+            const expenseType = form.querySelector('select[name="expenseType"]').value;
+            const administrativeExpense = form.querySelector('select[name="administrative_expense"]').value;
+
+            const queryParams = new URLSearchParams({
+                expenseSector: expenseSector,
+                expenseType: expenseType,
+                administrative_expense: administrativeExpense
+            }).toString();
+
+            const exportUrl = "{{ route('expenditure.export') }}?" + queryParams;
+            window.location.href = exportUrl;
         }
     </script>
 @endsection

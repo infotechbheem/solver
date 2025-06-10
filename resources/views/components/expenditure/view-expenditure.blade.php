@@ -16,42 +16,6 @@
         <div class="csr-registration-main-heading">
             <p>View Expense</p>
         </div>
-        {{-- <form class="scr-registration-form" action="{{ route('filter-record') }}" method="POST">
-            @csrf
-            <div class="scr-registration-row" style="display: flex;gap:40px">
-                <div class="scr-form-group">
-                    <label>Sector of Expenses</label>
-                    <div class="view" style="display: flex;gap:1px">
-                        <select id="expenseSector" name="expenseSector">
-                            <option>Select Sector of Expenses</option>
-                            <option>Project Base</option>
-                            <option>Office Base</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="scr-form-group">
-                    <label>Expenditure Type</label>
-                    <div class="view" style="display: flex;gap:1px">
-                        <select id="expenseType" name="expenseType">
-                            <option>Select Expenditure Type</option>
-                            <option>Human Resource</option>
-                            <option>Transport</option>
-                            <option>Food</option>
-                            <option>Accomondation</option>
-                            <option>IT Service</option>
-                            <option>Printing</option>
-                            <option>Equipments</option>
-                            <option>Other Miscellaneous</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: flex-end;">
-                <button class="btn btn-success" style="background-color: #587C50; padding: 8px 24px;">
-                    View
-                </button>
-            </div>
-        </form> --}}
         <div class="scr-registration-row">
             <div class="scr-form-group ">
                 <div class="scr-form-group-main">
@@ -124,12 +88,105 @@
             </div>
         </div>
 
-        <div class="grant-list grant-list-govt ">
-            <div class="grant-searchbar">
-                <input type="text" id="grant-search-bar" class="form-control grant-search" placeholder="Search..."
-                    onkeyup="searchGrants()">
-            </div>
+        <div class="grant-list grant-list-govt">
+            <form class="scr-registration-form" action="{{ route('expense-filter') }}" method="POST"
+                id="expenditureFilter">
+                @csrf
+                <div class="scr-registration-row" style="display: flex;gap:40px">
+                    <div class="scr-form-group">
+                        <label>Sector of Expenses</label>
+                        <div class="view" style="display: flex;gap:1px">
+                            <select id="expenseSector" name="expenseSector">
+                                <option value="">Select Sector of Expenses</option>
+                                <option value="project_based"
+                                    {{ request('expenseSector') == 'project_based' ? 'selected' : '' }}>Project Base
+                                </option>
+                                <option value="office_expenses"
+                                    {{ request('expenseSector') == 'office_expenses' ? 'selected' : '' }}>Office
+                                    Expenses
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="scr-form-group" style="display: none;" id="expenditureType">
+                        <label>Expenditure Type</label>
+                        <div class="view" style="display: flex;gap:1px">
+                            <select id="expenseType" name="expenseType">
+                                <option value="">Select Expenditure Type</option>
+                                <option value="human_resource"
+                                    {{ request('expenseType') == 'human_resource' ? 'selected' : '' }}>Human Resource
+                                </option>
+                                <option value="equipment" {{ request('expenseType') == 'equipment' ? 'selected' : '' }}>
+                                    Equipment & Supplies</option>
+                                <option value="travel_expenses"
+                                    {{ request('expenseType') == 'travel_expenses' ? 'selected' : '' }}>Travel Expenses
+                                </option>
+                                <option value="iec_material"
+                                    {{ request('expenseType') == 'iec_material' ? 'selected' : '' }}>IEC Material
+                                    Expenses</option>
+                                <option value="accomodation_expenses"
+                                    {{ request('expenseType') == 'accomodation_expenses' ? 'selected' : '' }}>
+                                    Accomondation Expenses</option>
+                                <option value="miscellaneous_expenses"
+                                    {{ request('expenseType') == 'miscellaneous_expenses' ? 'selected' : '' }}>
+                                    Miscellaneous Expenses</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="scr-form-group" style="display: none;" id="administrativeExpense">
+                        <label>Adminstrative Expenses</label>
+                        <div class="view" style="display: flex;gap:1px">
+                            <select id="administrative_expense" name="administrative_expense">
+                                <option value="">Select Administrative Expense</option>
+                                <option value="food_beverage"
+                                    {{ request('administrative_expense') == 'food_beverage' ? 'selected' : '' }}>Food &
+                                    Beverage</option>
+                                <option value="rent"
+                                    {{ request('administrative_expense') == 'rent' ? 'selected' : '' }}>Rent</option>
+                                <option value="utilities"
+                                    {{ request('administrative_expense') == 'utilities' ? 'selected' : '' }}>Utilities
+                                </option>
+                                <option value="insurance"
+                                    {{ request('administrative_expense') == 'insurance' ? 'selected' : '' }}>Insurance
+                                </option>
+                                <option value="wages_salaries"
+                                    {{ request('administrative_expense') == 'wages_salaries' ? 'selected' : '' }}>Wages
+                                    & Salaries</option>
+                                <option value="office_fixtures"
+                                    {{ request('administrative_expense') == 'office_fixtures' ? 'selected' : '' }}>
+                                    Office Fixtures & Equipment</option>
+                                <option value="legal_finance_service"
+                                    {{ request('administrative_expense') == 'legal_finance_service' ? 'selected' : '' }}>
+                                    Legal & Finance Service Fees</option>
+                                <option value="office_suplies"
+                                    {{ request('administrative_expense') == 'office_suplies' ? 'selected' : '' }}>
+                                    Office Supplies</option>
+                                <option value="travel"
+                                    {{ request('administrative_expense') == 'travel' ? 'selected' : '' }}>Travel
+                                </option>
+                                <option value="it_service"
+                                    {{ request('administrative_expense') == 'it_service' ? 'selected' : '' }}>IT
+                                    Service</option>
+                                <option value="licence_subscriptions"
+                                    {{ request('administrative_expense') == 'licence_subscriptions' ? 'selected' : '' }}>
+                                    Licence & Subscriptions</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                    <button type="button" class="btn btn-secondary ml-4" onclick="resetFilter()">Reset</button>
+                    <button type="button" class="btn btn-info ml-4" onclick="exportExpenseFilter()">Export</button>
+                </div>
+            </form>
             <div class="grant-table-scroll">
+
+                @php
+                    $expenseList = $filteredExpenditure;
+                @endphp
+
                 <table class="table grant-table" id="grantTable">
                     <thead>
                         <tr>
@@ -182,7 +239,8 @@
                                         href="{{ url('/finance-department/expenditure/view-expenditure-details', encrypt($expense->id)) }}">
                                         <button class="btn btn-info"><i class="fa-regular fa-eye"></i></button>
                                     </a>
-                                    <a href="{{ url('/finance-department/expenditure/update-expenditure-details', encrypt   ($expense->id)) }}">
+                                    <a
+                                        href="{{ url('/finance-department/expenditure/update-expenditure-details', encrypt($expense->id)) }}">
 
                                         <button class="btn btn-success">
                                             <i class="fa-regular fa-pen-to-square"></i>
