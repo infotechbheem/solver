@@ -5,24 +5,24 @@
     <div class="row">
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-success color-white widget-stat">
-                <a href="{{ url('/finance-department/income/total-income') }}" style="color: white">
+                <a href="{{ url('/finance-department/income/view-income') }}" style="color: white">
                     <div class="ibox-body">
-                        <h2 class="m-b-5 font-strong">₹ 2001</h2>
+                        <h2 class="m-b-5 font-strong">₹ {{ $totalIncome }}</h2>
                         <div class="m-b-5">Total Income</div>
                         <i class="fa-solid fa-sack-dollar widget-stat-icon"></i>
-                        <div><i class="fa fa-level-up m-r-5"></i><small>25% higher</small></div>
+                        {{-- <div><i class="fa fa-level-up m-r-5"></i><small>25% higher</small></div> --}}
                     </div>
                 </a>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-info color-white widget-stat">
-                <a href="{{ url('/finance-department/expenditure/total-expense') }}" style="color: white">
+                <a href="{{ url('/finance-department/expenditure/view-expenditure') }}" style="color: white">
                     <div class="ibox-body">
-                        <h2 class="m-b-5 font-strong">₹ 1250</h2>
+                        <h2 class="m-b-5 font-strong">₹ {{ $totalExpenditure }}</h2>
                         <div class="m-b-5">Total Expense </div>
                         <i class="fa-solid fa-hands-holding-circle widget-stat-icon"></i>
-                        <div><i class="fa fa-level-up m-r-5"></i><small>17% higher</small></div>
+                        {{-- <div><i class="fa fa-level-up m-r-5"></i><small>17% higher</small></div> --}}
                     </div>
                 </a>
             </div>
@@ -31,10 +31,10 @@
             <div class="ibox bg-warning color-white widget-stat">
                 <a href="{{ url('/hr-department/team/all-team-member') }}" style="color: white">
                     <div class="ibox-body">
-                        <h2 class="m-b-5 font-strong">1570</h2>
+                        <h2 class="m-b-5 font-strong">{{ $totalMember }}</h2>
                         <div class="m-b-5">Total Member</div>
                         <i class="ti-user widget-stat-icon"></i>
-                        <div><i class="fa fa-level-up m-r-5"></i><small>22% higher</small></div>
+                        {{-- <div><i class="fa fa-level-up m-r-5"></i><small>22% higher</small></div> --}}
                     </div>
                 </a>
             </div>
@@ -45,12 +45,12 @@
                     <h2 class="m-b-5 font-strong">108</h2>
                     <div class="m-b-5">NEW USERS</div>
                     <i class="ti-user widget-stat-icon"></i>
-                    <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div>
+                    {{-- <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div> --}}
                 </div>
             </div>
         </div>
     </div>
-    <div class="all-program-all-grant-section">
+    {{-- <div class="all-program-all-grant-section">
         <div class="top-section">All Program - All Grant</div>
         <div class="all-program-all-grant">
             <div class="title">NFP Grants</div>
@@ -76,7 +76,7 @@
                 </select>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-lg-6">
             <div class="ibox">
