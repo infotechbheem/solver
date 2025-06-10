@@ -133,14 +133,14 @@
                         View Income
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ url('/finance-department/income/invoice-setting') }}" class="has-submenu">
                         <div class="sidebar-sub-icon">
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                         Invoice Setting
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
 

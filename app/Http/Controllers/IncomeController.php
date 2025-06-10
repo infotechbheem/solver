@@ -86,7 +86,7 @@ class IncomeController extends Controller
             $query->where('type_of_project', $request->project_type);
         }
 
-        $filteredIncomes = $query->get();
+        $filteredIncomes = $query->paginate(10)->appends($request->all());
 
         $title = "View Income";
         return view('finance-department.income.view-income', compact('title', 'incomeList', 'totalIncome', 'todayIncomeTotal', 'yesterdayIncomeTotal', 'pieChartData', 'labels', 'totals','filteredIncomes'));

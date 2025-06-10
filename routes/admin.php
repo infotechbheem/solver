@@ -198,6 +198,7 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::post('/filter-record', 'expenditureFilterList')->name('filter-record');
         Route::get('/update-expenditure-details/{id}', 'editExpenditure')->name('expenditure.update-expenditure-details');
         Route::put('/update-expenditure/{id}', 'updateExpenditure')->name('update-expenditure');
+        Route::post('/expense-filter', 'filterExpense')->name('expense-filter');
     });
 
 

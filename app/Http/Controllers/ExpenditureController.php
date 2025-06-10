@@ -19,7 +19,7 @@ class ExpenditureController extends Controller
         return view('finance-department.expenditure.add-expenditure', compact('title'));
     }
 
-    public function expenditureView()
+    public function expenditureView(Request $request)
     {
         $today = Carbon::today();
         $yesterday = Carbon::yesterday();
@@ -82,8 +82,24 @@ class ExpenditureController extends Controller
         $hireChartLabel = $hiresChart->pluck('label');
         $hireChartTotal = $hiresChart->pluck('total');
 
+        $query = Expenditure::query();
+
+        if ($request->filled('expenseSector')) {
+            $query->where('expense_sector', $request->expenseSector);
+        }
+
+        if ($request->filled('expenseType')) {
+            $query->where('type_of_expense', $request->expenseType);
+        }
+
+        if ($request->filled('administrative_expense')) {
+            $query->where('administrative_expense', $request->administrative_expense);
+        }
+
+        $filteredExpenditure = $query->paginate(10)->appends($request->all());
+
         $title = "View Expenditure";
-        return view('finance-department.expenditure.view-expenditure', compact('title', 'expenseList', 'totalExpenditure', 'todayExpenditureTotal', 'yesterdayExpenditureTotal', 'labels', 'data', 'hireChartLabel', 'hireChartTotal'));
+        return view('finance-department.expenditure.view-expenditure', compact('title', 'expenseList', 'totalExpenditure', 'todayExpenditureTotal', 'yesterdayExpenditureTotal', 'labels', 'data', 'hireChartLabel', 'hireChartTotal','filteredExpenditure'));
     }
 
     public function expenditureStore(Request $request)
@@ -363,5 +379,14 @@ class ExpenditureController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Failed to update expenditure record: ' . $e->getMessage());
         }
+    }
+
+    public function filterExpense(Request $request)
+    {
+        return redirect()->route('expenditure.view-expenditure', [
+            'expenseSector' => $request->expenseSector,
+            'expenseType' => $request->expenseType,
+            'administrative_expense' => $request->administrative_expense,
+        ]);
     }
 }

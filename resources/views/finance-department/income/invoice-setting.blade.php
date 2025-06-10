@@ -148,7 +148,7 @@
                         <textarea></textarea>
                     </div>
                     <div class="scr-form-group-btn" style="justify-content: center; gap:5px">
-                        <button type="submit" class="btn btn-success" style="padding: 10px 20px"><i
+                        <button type="button" class="btn btn-success" style="padding: 10px 20px"><i
                                 class="fa-solid fa-eye"></i> </button>
                         <button type="submit" class="btn btn-primary" style="padding: 10px 20px">Submit </button>
                     </div>
