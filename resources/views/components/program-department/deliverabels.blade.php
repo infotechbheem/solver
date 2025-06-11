@@ -588,7 +588,7 @@
                                             <td style="text-align: left">{{ $ot->key_indicator }}</td>
                                             <td>{{ $ot->target }}</td>
                                             <td>{{ $ot->achieved }}</td>
-                                            <td>{{ $ot->completion }}</td>
+                                            <td>{{ $ot->completion }}%</td>
                                             <td>{{ $ot->remarks }}</td>
                                         </tr>
                                     @endforeach
@@ -851,7 +851,7 @@
     const achievedTargets = @json($achievedTargets);
 
     window.addEventListener("DOMContentLoaded", () => {
-        
+
         const chartConfigs = [{
                 id: 'chart1',
                 labels: labels,
