@@ -5200,7 +5200,7 @@ body.has-backdrop .backdrop {
     color: white !important;
 }
 
-/* 
+/*
 .side-menu>li.active {
     background-color: #2e4255
 } */
@@ -5535,9 +5535,9 @@ table.dataTable {
 
 
 .table tr:nth-last-child(1) {
-    background-color: #587c50;
-    color: white;
-    font-weight: bold;
+    /* background-color: #587c50; */
+    color: black;
+    /* font-weight: bold; */
 }
 
 
