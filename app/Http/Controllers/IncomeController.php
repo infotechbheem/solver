@@ -175,7 +175,7 @@ class IncomeController extends Controller
     public function incomeDetails($id)
     {
         $id = decrypt($id);
-        $incomeDetail = Income::where('id', $id)->first();
+        $incomeDetail = Income::with('PartnerOrgnization','csr')->where('id', $id)->first();
         $title = "Income Details";
         return view('finance-department.income.income-details', compact('title', 'incomeDetail'));
     }

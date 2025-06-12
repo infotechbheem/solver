@@ -3,7 +3,11 @@
         <div class="csr-registration-main-heading">
             <p>Add Program</p>
         </div>
-        <form class="scr-registration-form" action="{{ route('store-program') }}" method="POST">
+        <div id="duplicate-error" class="alert alert-danger d-none" role="alert">
+            This beneficiary is already assigned to the selected scheme.
+        </div>
+
+        <form class="scr-registration-form" id="beneficiaryForm" action="{{ route('store-program') }}" method="POST">
             @csrf
             <div class="scr-registration-row">
                 <div class="scr-form-group">
@@ -16,16 +20,38 @@
                         <option value="digital_literacy">Digital Literacy & Financial Inclusion</option>
                     </select>
                 </div>
-                <div class="scr-form-group">
-                    <div class="scr-form-group">
-                        <label>Form Date <span>*</span></label>
-                        <input type="date" name="from_date" id="from_date">
+                <div class="scr-form-group" style="width: 100%; max-width: 400px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Project <span
+                            style="color: red;">*</span></label>
+                    <div style="position: relative; width: 100%; max-width: 400px;">
+                        <input type="text" id="projectInput" name="project" placeholder="Select or type project"
+                            style="width: 100%; padding: 8px 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 5px;"
+                            autocomplete="off">
+                        <ul id="projectSuggestions"
+                            style="
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                z-index: 1000;  
+                                background: #fff;
+                                border: 1px solid #ccc;
+                                border-top: none;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                max-height: 150px;
+                                overflow-y: auto;
+                                display: none;
+                                border-radius: 0 0 5px 5px;
+                            ">
+                        </ul>
                     </div>
                 </div>
                 <div class="scr-form-group">
                     <label>State <span>*</span></label>
                     <select id="state" name="state">
-                        <option>Select State</option>
+                        <option value="">Select State</option>
                     </select>
                 </div>
 
@@ -42,21 +68,16 @@
                     <label>Donor Organisation <span>*</span></label>
                     <select name="donor_org" id="donor_org">
                         <option value="">Select Donor Organisation</option>
-                        <option value="npcl">NPCL</option>
-                        <option value="tata">TATA Trust</option>
-                        <option value="smile">Smile Foundation</option>
+                        @foreach ($csr as $csrCompany)
+                            <option value="{{ $csrCompany->id }}">{{ $csrCompany->company_name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="scr-form-group">
-                    <label>Project <span>*</span></label>
-                    <select name="project" id="project">
-                        <option value="">Select Project</option>
-                        <option value="sahyog">Sahyog</option>
-                        <option value="unnati">Unnati</option>
-                        <option value="saksham">Saksham</option>
-                        <option value="uttkarsh">Uttkarsh</option>
-                        <option value="others">Others</option>
-                    </select>
+                    <div class="scr-form-group">
+                        <label>Form Date <span>*</span></label>
+                        <input type="date" name="from_date" id="from_date">
+                    </div>
                 </div>
             </div>
             <div class="scr-registration-row">
@@ -64,18 +85,18 @@
                     <label>Support Partner / Resource Organization <span>*</span></label>
                     <select name="support" id="support">
                         <option value="">Select Support Partner</option>
-                        <option value="kunj">Kunj Innovation Trust</option>
-                        <option value="bhraspati">Bhrashpati Foundation</option>
-                        <option value="yuva">Yuva Bharat Trust</option>
-                        <option value="uplift">Uplift Live Foundation</option>
-                        <option value="mathura">Mathura Health Department</option>
+                        @foreach ($partnerOrg as $partnerOrganisation)
+                            <option value="{{ $partnerOrganisation->id }}">
+                                {{ $partnerOrganisation->{'company/ngo_name'} }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="scr-form-group">
                     <label>Team Member Name <span>*</span></label>
                     <select name="team_member" id="team_member">
                         <option value="">Select Team Member Name</option>
-                        @foreach($team as $team)
+                        @foreach ($team as $team)
                             <option value="{{ $team->id }}">{{ $team->full_name }}</option>
                         @endforeach
                     </select>
@@ -257,7 +278,8 @@
                     <div class="scr-form-group">
                         <label>Describe Support
                             <span>*</span></label>
-                        <input type="text" placeholder="Describe Support" name="support_describe" id="support_describe">
+                        <input type="text" placeholder="Describe Support" name="support_describe"
+                            id="support_describe">
 
                     </div>
 
@@ -319,13 +341,32 @@
                         </select>
                     </div>
                     <div class="scr-form-group">
-                        <label>Project
-
-                            <span>*</span></label>
-                        <select name="community_project" id="community_project">
-                            <option value="">Select Project </option>
-                            <option value="utkarsh">Uttkarsh</option>
-                        </select>
+                        <label>Project<span>*</span></label>
+                        <div style="position: relative; width: 100%; max-width: 400px;">
+                            <input type="text" id="community_projectInput" name="community_project"
+                                placeholder="Select or type project"
+                                style="width: 100%; padding: 8px 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 5px;"
+                                autocomplete="off">
+                            <ul id="communityProjectSuggestions"
+                                style="
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                z-index: 1000;
+                                background: #fff;
+                                border: 1px solid #ccc;
+                                border-top: none;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                max-height: 150px;
+                                overflow-y: auto;
+                                display: none;
+                                border-radius: 0 0 5px 5px;
+                            ">
+                            </ul>
+                        </div>
 
                     </div>
 
@@ -341,7 +382,8 @@
                         <label>Organisation Representative Name
 
                             <span>*</span></label>
-                        <input type="text" placeholder="oragnisation representative" name="org_rep_name" id="org_rep_name">
+                        <input type="text" placeholder="oragnisation representative" name="org_rep_name"
+                            id="org_rep_name">
 
                     </div>
                     <div class="scr-form-group">
@@ -448,10 +490,12 @@
     </div>
 </div>
 
+<!-- 1. jQuery first -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 {{-- add required to the fields --}}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const programTypeSelect = document.getElementById("prog_type");
 
         const sections = {
@@ -467,7 +511,7 @@
             }
         }
 
-        programTypeSelect.addEventListener("change", function () {
+        programTypeSelect.addEventListener("change", function() {
             hideAllSections();
 
             const selected = programTypeSelect.value;
@@ -479,15 +523,15 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('#subBtn').on('click', function (e) {
+    $(document).ready(function() {
+        $('#subBtn').on('click', function(e) {
+            e.preventDefault();
             let isValid = true;
             let subBtn = $('#subBtn');
 
-            // Clear previous errors
+            $('#duplicate-error').addClass('d-none').hide(); // Ensure it's hidden initially
             $('.field-error').remove();
 
-            // Basic required fields
             const fields = {
                 prog_type: $('#prog_type'),
                 from_date: $('#from_date'),
@@ -526,15 +570,17 @@
                 family_income: 'Family Income is required.'
             };
 
-            $.each(fields, function (key, $field) {
-                if (!$field.val() || $field.val().trim() === '' || $field.val().toLowerCase().includes('select')) {
-                    $field.after(`<div class="field-error text-danger mt-1">${messages[key]}</div>`);
+            $.each(fields, function(key, $field) {
+                if (!$field.val() || $field.val().trim() === '' || $field.val().toLowerCase()
+                    .includes('select')) {
+                    $field.after(
+                        `<div class="field-error text-danger mt-1">${messages[key]}</div>`);
                     isValid = false;
                 }
             });
 
-            // Conditional section based on Program Type
             const progType = $('#prog_type').val();
+
             if (progType === 'social_protection') {
                 const extraFields = {
                     differently_abled: $('#differently_abled'),
@@ -547,9 +593,11 @@
                     scheme: 'Scheme Apply is required.'
                 };
 
-                $.each(extraFields, function (key, $field) {
+                $.each(extraFields, function(key, $field) {
                     if (!$field.val() || $field.val().toLowerCase().includes('select')) {
-                        $field.after(`<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`);
+                        $field.after(
+                            `<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`
+                        );
                         isValid = false;
                     }
                 });
@@ -567,9 +615,11 @@
                     support_describe: 'Description of Support is required.'
                 };
 
-                $.each(extraFields, function (key, $field) {
+                $.each(extraFields, function(key, $field) {
                     if (!$field.val() || $field.val().trim() === '') {
-                        $field.after(`<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`);
+                        $field.after(
+                            `<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`
+                        );
                         isValid = false;
                     }
                 });
@@ -587,9 +637,11 @@
                     session_conduct: 'Session Type is required.'
                 };
 
-                $.each(extraFields, function (key, $field) {
+                $.each(extraFields, function(key, $field) {
                     if (!$field.val() || $field.val().toLowerCase().includes('select')) {
-                        $field.after(`<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`);
+                        $field.after(
+                            `<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`
+                        );
                         isValid = false;
                     }
                 });
@@ -615,26 +667,174 @@
                     work_period: 'Working Period is required.'
                 };
 
-                $.each(extraFields, function (key, $field) {
-                    if (!$field.val() || $field.val().trim() === '' || $field.val().toLowerCase().includes('select')) {
-                        $field.after(`<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`);
+                $.each(extraFields, function(key, $field) {
+                    if (!$field.val() || $field.val().trim() === '' || $field.val()
+                        .toLowerCase().includes('select')) {
+                        $field.after(
+                            `<div class="field-error text-danger mt-1">${extraMessages[key]}</div>`
+                        );
                         isValid = false;
                     }
                 });
             }
 
             if (!isValid) {
-                e.preventDefault();
-                subBtn.prop('disabled', true);
-            } else {
                 subBtn.prop('disabled', false);
+                $('html, body').animate({
+                    scrollTop: $('.field-error:first').offset().top - 100
+                }, 500);
+                return;
             }
+
+            // AJAX duplicate check
+            $.ajax({
+                url: '/check-scheme-beneficiary',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    bene_name: $('#bene_name').val(),
+                    gender: $('#gender').val(),
+                    mob_no: $('#mob_no').val(),
+                    scheme: $('#scheme').val()
+                },
+                success: function(response) {
+                    if (response.existsRecord) {
+                        const $errorBox = $('#duplicate-error');
+                        $errorBox
+                            .removeClass('d-none')
+                            .hide()
+                            .text('This beneficiary is already registered for this scheme.')
+                            .fadeIn();
+
+                        setTimeout(() => {
+                            $('html, body').animate({
+                                scrollTop: $errorBox.offset().top - 100
+                            }, 500);
+                        }, 100);
+
+                        subBtn.prop('disabled', false);
+                    } else {
+                        $('#beneficiaryForm')[0].submit();
+                    }
+                },
+                error: function() {
+                    $('#duplicate-error').removeClass('d-none').text(
+                        'Something went wrong. Please try again.'
+                    );
+                    subBtn.prop('disabled', false);
+                }
+            });
         });
 
-        // Remove errors and re-enable on input
-        $(':input, select').on('input change', function () {
+        // Reset validation when user changes input
+        $(':input, select').on('input change', function() {
             $('#subBtn').prop('disabled', false);
             $(this).next('.field-error').remove();
+            $('#duplicate-error').addClass('d-none');
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Suggestion for projectInput
+        const suggestions = ["Sahyog", "Unnati", "Saksham", "Uttkarsh"];
+        const input = document.getElementById('projectInput');
+        const suggestionBox = document.getElementById('projectSuggestions');
+
+        if (input && suggestionBox) {
+            input.addEventListener('input', function() {
+                const term = this.value.trim().toLowerCase();
+                suggestionBox.innerHTML = '';
+
+                if (term === '') {
+                    suggestionBox.style.display = 'none';
+                    return;
+                }
+
+                const filtered = suggestions.filter(s => s.toLowerCase().startsWith(term));
+
+                if (filtered.length === 0) {
+                    suggestionBox.style.display = 'none';
+                    return;
+                }
+
+                filtered.forEach(s => {
+                    const li = document.createElement('li');
+                    li.textContent = s;
+                    li.style.padding = '8px 12px';
+                    li.style.cursor = 'pointer';
+                    li.addEventListener('click', function() {
+                        input.value = s;
+                        suggestionBox.style.display = 'none';
+                    });
+                    li.addEventListener('mouseover', function() {
+                        li.style.background = '#f0f0f0';
+                    });
+                    li.addEventListener('mouseout', function() {
+                        li.style.background = '#fff';
+                    });
+                    suggestionBox.appendChild(li);
+                });
+
+                suggestionBox.style.display = 'block';
+            });
+        }
+
+        // Suggestion for community_projectInput
+        const communityInput = document.getElementById('community_projectInput');
+        const communitySuggestionBox = document.getElementById('communityProjectSuggestions');
+
+        if (communityInput && communitySuggestionBox) {
+            communityInput.addEventListener('input', function() {
+                const term = this.value.trim().toLowerCase();
+                communitySuggestionBox.innerHTML = '';
+
+                if (term === '') {
+                    communitySuggestionBox.style.display = 'none';
+                    return;
+                }
+
+                const filtered = suggestions.filter(s => s.toLowerCase().startsWith(term));
+
+                if (filtered.length === 0) {
+                    communitySuggestionBox.style.display = 'none';
+                    return;
+                }
+
+                filtered.forEach(s => {
+                    const li = document.createElement('li');
+                    li.textContent = s;
+                    li.style.padding = '8px 12px';
+                    li.style.cursor = 'pointer';
+                    li.addEventListener('click', function() {
+                        communityInput.value = s;
+                        communitySuggestionBox.style.display = 'none';
+                    });
+                    li.addEventListener('mouseover', function() {
+                        li.style.background = '#f0f0f0';
+                    });
+                    li.addEventListener('mouseout', function() {
+                        li.style.background = '#fff';
+                    });
+                    communitySuggestionBox.appendChild(li);
+                });
+
+                communitySuggestionBox.style.display = 'block';
+            });
+        }
+
+        // Global click to hide suggestions
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#projectInput') && !e.target.closest('#projectSuggestions')) {
+                if (suggestionBox) suggestionBox.style.display = 'none';
+            }
+
+            if (!e.target.closest('#community_projectInput') && !e.target.closest(
+                    '#communityProjectSuggestions')) {
+                if (communitySuggestionBox) communitySuggestionBox.style.display = 'none';
+            }
         });
     });
 </script>

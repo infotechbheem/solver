@@ -104,9 +104,9 @@
                 </div>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Pan Number <span>*</span></label>
+                        <label>Pan Number</label>
                         <input type="text" id="pan" name="pan" value="{{ $incomeDetail->pan }}"
-                            placeholder="Enter pan number" required>
+                            placeholder="Enter pan number">
                     </div>
                     <div class="scr-form-group">
                         <label>Sanction Amount <span>*</span></label>
@@ -280,29 +280,49 @@
                 <h3 class="scr-registration-heading">Project</h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Type of Project <span>*</span></label>
+                        <label>Type of Program <span>*</span></label>
                         <select id="project_type" name="project_type" required>
-                            <option>Select Project Type </option>
+                            <option value="">Select Program Type </option>
                             <option value="social_protection"
                                 {{ $incomeDetail->type_of_project == 'social_protection' ? 'selected' : '' }}>Social
                                 Protection</option>
-                            <option value="livelihood"
-                                {{ $incomeDetail->type_of_project == 'livelihood' ? 'selected' : '' }}>Livelihood &
-                                Employbility</option>
+                            <option value="livelihood_beneficiray"
+                                {{ $incomeDetail->type_of_project == 'livelihood_beneficiray' ? 'selected' : '' }}>Livelihood Beneficiary</option>
                             <option value="communinty_capacity"
                                 {{ $incomeDetail->type_of_project == 'communinty_capacity' ? 'selected' : '' }}>Community
-                                Capacity Building</option>
+                                Capacity</option>
                             <option value="digital_literacy"
                                 {{ $incomeDetail->type_of_project == 'digital_literacy' ? 'selected' : '' }}>Digital
                                 Literacy & Finacial Inclusion</option>
-                            <option value="other" {{ $incomeDetail->type_of_project == 'other' ? 'selected' : '' }}>Other
-                            </option>
                         </select>
                     </div>
                     <div class="scr-form-group">
                         <label>Project Name <span>*</span></label>
-                        <input type="text" placeholder="project name" id="project_name" name="project_name"
-                            value="{{ $incomeDetail->project_name }}" required>
+                        <div style="position: relative; width: 100%; max-width: 400px;">
+                            <input type="text" id="projectInput" name="project_name"
+                                placeholder="Select or type project" value="{{ $incomeDetail->project_name }}"
+                                style="width: 100%; padding: 8px 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 5px;"
+                                autocomplete="off">
+                            <ul id="projectSuggestions"
+                                style="
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                z-index: 1000;
+                                background: #fff;
+                                border: 1px solid #ccc;
+                                border-top: none;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                max-height: 150px;
+                                overflow-y: auto;
+                                display: none;
+                                border-radius: 0 0 5px 5px;
+                            ">
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
@@ -351,7 +371,7 @@
                         </div>
                         <div class="scr-form-group">
                             <label>Additional Message (optional)</label>
-                            <textarea id="message" name="message" placeholder="Enter Message..." >{{ $incomeDetail->message }}</textarea>
+                            <textarea id="message" name="message" placeholder="Enter Message...">{{ $incomeDetail->message }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -530,6 +550,57 @@
 
             // Initial call on page load
             updateRemoveBtnVisibility();
+        });
+    </script>
+
+    {{-- suggestion --}}
+    <script>
+        const suggestions = ["Sahyog", "Unnati", "Saksham", "Uttkarsh"];
+        const input = document.getElementById('projectInput');
+        const suggestionBox = document.getElementById('projectSuggestions');
+
+        input.addEventListener('input', function() {
+            const term = this.value.trim().toLowerCase();
+            suggestionBox.innerHTML = '';
+
+            if (term === '') {
+                suggestionBox.style.display = 'none';
+                return;
+            }
+
+            const filtered = suggestions.filter(s => s.toLowerCase().startsWith(term));
+
+            if (filtered.length === 0) {
+                suggestionBox.style.display = 'none';
+                return;
+            }
+
+            filtered.forEach(s => {
+                const li = document.createElement('li');
+                li.textContent = s;
+                li.style.padding = '8px 12px';
+                li.style.cursor = 'pointer';
+                li.addEventListener('click', function() {
+                    input.value = s;
+                    suggestionBox.style.display = 'none';
+                });
+                li.addEventListener('mouseover', function() {
+                    li.style.background = '#f0f0f0';
+                });
+                li.addEventListener('mouseout', function() {
+                    li.style.background = '#fff';
+                });
+                suggestionBox.appendChild(li);
+            });
+
+            suggestionBox.style.display = 'block';
+        });
+
+        // Hide suggestion box if clicked outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#projectInput') && !e.target.closest('#projectSuggestions')) {
+                suggestionBox.style.display = 'none';
+            }
         });
     </script>
 @endsection

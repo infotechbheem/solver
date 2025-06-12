@@ -95,7 +95,8 @@ class DashboardController extends Controller
         $tooltipsAlotedTarget = $grantTargetByProgram->pluck('detail');
         $totalsAlotedTarget = $grantTargetByProgram->pluck('total');
 
-        return view('index', compact('totalIncome', 'totalExpenditure', 'totalMember', 'labels', 'totals', 'beneficiaryInProgram', 'labelsAlotedTarget', 'totalsAlotedTarget','tooltipsAlotedTarget'));
+        $TotalBenefiary = Program::count();
+        return view('index', compact('totalIncome', 'totalExpenditure', 'totalMember', 'labels', 'totals', 'beneficiaryInProgram', 'labelsAlotedTarget', 'totalsAlotedTarget','tooltipsAlotedTarget','TotalBenefiary'));
     }
 
     public function logout()

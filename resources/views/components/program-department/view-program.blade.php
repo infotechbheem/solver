@@ -37,26 +37,70 @@
 
                                 </div>
                                 <div class="col-md-5 grapgh-content">
-                                    <ul>
-                                        @foreach ($chartData['labels'] as $index => $label)
-                                            @php
-                                                $color = $chartColors[$index % count($chartColors)];
-                                                $percentage = $chartData['data'][$index];
-                                            @endphp
-                                            <li><span style="color: {{ $color }};">●</span> {{ $label }}
-                                                {{ $percentage }}%</li>
-                                        @endforeach
+                                    <ul id="chartLabelList">
+                                        {{-- Dynamic labels will be rendered here --}}
                                     </ul>
 
-                                    {{-- <div class="next-prev-btn">
-                                        <button class="btn btn-outline-primary">
+                                    <div class="next-prev-btn">
+                                        <button type="button" class="btn btn-outline-primary" id="prevBtn">
                                             <i class="fa-solid fa-angle-left"></i>
                                         </button>
-                                        <button class="btn btn-outline-success">
+                                        <button type="button" class="btn btn-outline-success" id="nextBtn">
                                             <i class="fa-solid fa-angle-right"></i>
                                         </button>
-                                    </div> --}}
+                                    </div>
+
+                                    {{-- Pass chart data to JS --}}
+                                    <script>
+                                        const chartLabels = @json($chartData['labels']);
+                                        const chartValues = @json($chartData['data']);
+                                        const chartColors = @json($chartColors);
+                                    </script>
                                 </div>
+
+                                {{-- Pagination Script --}}
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const listEl = document.getElementById('chartLabelList');
+                                        const prevBtn = document.getElementById('prevBtn');
+                                        const nextBtn = document.getElementById('nextBtn');
+
+                                        const itemsPerPage = 4;
+                                        let currentPage = 0;
+
+                                        function renderList() {
+                                            listEl.innerHTML = '';
+                                            const start = currentPage * itemsPerPage;
+                                            const end = start + itemsPerPage;
+
+                                            for (let i = start; i < end && i < chartLabels.length; i++) {
+                                                const color = chartColors[i % chartColors.length];
+                                                const li = document.createElement('li');
+                                                li.innerHTML = `<span style="color: ${color};">●</span> ${chartLabels[i]} ${chartValues[i]}%`;
+                                                listEl.appendChild(li);
+                                            }
+
+                                            prevBtn.disabled = currentPage === 0;
+                                            nextBtn.disabled = end >= chartLabels.length;
+                                        }
+
+                                        prevBtn.addEventListener('click', () => {
+                                            if (currentPage > 0) {
+                                                currentPage--;
+                                                renderList();
+                                            }
+                                        });
+
+                                        nextBtn.addEventListener('click', () => {
+                                            if ((currentPage + 1) * itemsPerPage < chartLabels.length) {
+                                                currentPage++;
+                                                renderList();
+                                            }
+                                        });
+
+                                        renderList();
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -75,17 +119,71 @@
 
                                 </div>
                                 <div class="col-md-5 grapgh-content">
-                                    <ul>
-                                        @foreach ($districtChartData['labels'] as $index => $label)
-                                            <li>
-                                                <span
-                                                    style="color: {{ $chartColors[$index % count($chartColors)] }};">●</span>
-                                                {{ $label }} {{ $districtChartData['data'][$index] }}%
-                                            </li>
-                                        @endforeach
+                                    <ul id="districtLabelList">
+                                        {{-- JavaScript will populate the district labels --}}
                                     </ul>
 
+                                    <div class="next-prev-btn">
+                                        <button type="button" class="btn btn-outline-primary" id="districtPrevBtn">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success" id="districtNextBtn">
+                                            <i class="fa-solid fa-angle-right"></i>
+                                        </button>
+                                    </div>
                                 </div>
+
+                                {{-- Inject JS-friendly data --}}
+                                <script>
+                                    const districtLabels = @json($districtChartData['labels']);
+                                    const districtData = @json($districtChartData['data']);
+                                    const districtColors = @json($chartColors);
+                                </script>
+
+                                {{-- Pagination script --}}
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const districtListEl = document.getElementById('districtLabelList');
+                                        const districtPrevBtn = document.getElementById('districtPrevBtn');
+                                        const districtNextBtn = document.getElementById('districtNextBtn');
+
+                                        const districtItemsPerPage = 4;
+                                        let districtCurrentPage = 0;
+
+                                        function renderDistrictList() {
+                                            districtListEl.innerHTML = '';
+                                            const start = districtCurrentPage * districtItemsPerPage;
+                                            const end = start + districtItemsPerPage;
+
+                                            for (let i = start; i < end && i < districtLabels.length; i++) {
+                                                const color = districtColors[i % districtColors.length];
+                                                const li = document.createElement('li');
+                                                li.innerHTML =
+                                                    `<span style="color: ${color};">●</span> ${districtLabels[i]} ${districtData[i]}%`;
+                                                districtListEl.appendChild(li);
+                                            }
+
+                                            districtPrevBtn.disabled = districtCurrentPage === 0;
+                                            districtNextBtn.disabled = end >= districtLabels.length;
+                                        }
+
+                                        districtPrevBtn.addEventListener('click', () => {
+                                            if (districtCurrentPage > 0) {
+                                                districtCurrentPage--;
+                                                renderDistrictList();
+                                            }
+                                        });
+
+                                        districtNextBtn.addEventListener('click', () => {
+                                            if ((districtCurrentPage + 1) * districtItemsPerPage < districtLabels.length) {
+                                                districtCurrentPage++;
+                                                renderDistrictList();
+                                            }
+                                        });
+
+                                        renderDistrictList();
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -150,7 +248,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                {{-- <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
                             <div class="ibox-title">Support Patner / Resource Orgnisation</div>
@@ -177,7 +275,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
@@ -208,8 +306,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
@@ -239,6 +335,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
@@ -269,8 +367,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
@@ -299,6 +395,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
@@ -329,8 +427,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
@@ -360,6 +456,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-6">
                     <div class="ibox p-0">
                         <div class="ibox-head">
@@ -384,21 +482,6 @@
 
                                     </ul>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="ibox p-0">
-                        <div class="ibox-head">
-                            <div class="ibox-title">Support</div>
-                        </div>
-                        <div class="ibox-body p-2">
-                            <div class="ibox-chart" style="width: 100%; "> <!-- Added height for responsiveness -->
-                                <canvas id="hiresChart"></canvas>
 
                             </div>
                         </div>
@@ -433,13 +516,59 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox p-0">
+                        <div class="ibox-head">
+                            <div class="ibox-title">Support</div>
+                        </div>
+                        <div class="ibox-body p-2">
+                            <div class="ibox-chart" style="width: 100%; height: 200px;"> <!-- Set desired height -->
+                                <canvas id="hiresChart" style="height: 100% !important;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
         <div class="grant-list grant-list-govt ">
-            <div class="grant-searchbar">
-                <input type="text" id="grant-search-bar" class="form-control grant-search"
-                    placeholder="Search..." onkeyup="searchGrants()">
+            <div class="mb-4">
+                <form action="{{ route('filter-progam') }}" method="POST" id="programFilterForm">
+                    @csrf
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <select name="program_type" class="form-control">
+                                <option value="">Select Program Type</option>
+                                <option value="social_protection"
+                                    {{ request('program_type') == 'social_protection' ? 'selected' : '' }}>
+                                    Social Protection
+                                </option>
+                                <option value="livelihood_beneficiray"
+                                    {{ request('program_type') == 'livelihood_beneficiray' ? 'selected' : '' }}>
+                                    Livelihood Beneficiary
+                                </option>
+                                <option value="community_capacity"
+                                    {{ request('program_type') == 'community_capacity' ? 'selected' : '' }}>
+                                    Community Capacity
+                                </option>
+                                <option value="digital_literacy"
+                                    {{ request('program_type') == 'digital_literacy' ? 'selected' : '' }}>
+                                    Digital Literacy & Finacial Inclusion
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mr-2">Apply</button>
+                            <button type="button" class="btn btn-secondary mr-2"
+                                onclick="resetFilter()">Reset</button>
+                            <button type="button" class="btn btn-info" onclick="exportData()">Export</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
+            @php
+                $programs = $filteredProgram->count() > 0 ? $filteredProgram : $programs;
+            @endphp
             <div class="grant-table-scroll">
                 <table class="table grant-table" id="grantTable">
                     <thead>
@@ -473,9 +602,9 @@
                                 </td>
                                 <td>{{ $program->state ?? 'N/A' }}</td>
                                 <td>{{ $program->district ?? 'N/A' }}</td>
-                                <td>{{ $program->donar_organisation ?? 'N/A' }}</td>
+                                <td>{{ $program->csr->company_name ?? 'N/A' }}</td>
                                 <td>{{ $program->project ?? 'N/A' }}</td>
-                                <td>{{ $program->support_partner ?? 'N/A' }}</td>
+                                <td>{{ $program->partnerOrg['company/ngo_name'] ?? 'N/A' }}</td>
                                 <td>{{ $program->team->full_name ?? 'N/A' }}</td>
                                 <td>{{ $program->beneficiary_name ?? 'N/A' }}</td>
                                 <td>{{ $program->age ? $program->age . ' Years' : 'N/A' }}</td>
@@ -520,7 +649,7 @@
                 <div class="grant-pagination">
                     {{-- Previous Button --}}
                     <button class="btn btn-light pagination-btn" {{ $programs->onFirstPage() ? 'disabled' : '' }}
-                        onclick="window.location='{{ $programs->previousPageUrl() }}'">
+                        onclick="window.location='{{ request()->fullUrlWithQuery(['page' => $programs->currentPage() - 1]) }}'">
                         Previous
                     </button>
 
@@ -528,7 +657,7 @@
                     <div class="pagination-numbers">
                         @for ($page = 1; $page <= $programs->lastPage(); $page++)
                             <button class="pagination-number {{ $programs->currentPage() == $page ? 'active' : '' }}"
-                                onclick="window.location='{{ $programs->url($page) }}'">
+                                onclick="window.location='{{ request()->fullUrlWithQuery(['page' => $page]) }}'">
                                 {{ $page }}
                             </button>
                         @endfor
@@ -536,7 +665,7 @@
 
                     {{-- Next Button --}}
                     <button class="btn btn-light pagination-btn" {{ $programs->hasMorePages() ? '' : 'disabled' }}
-                        onclick="window.location='{{ $programs->nextPageUrl() }}'">
+                        onclick="window.location='{{ request()->fullUrlWithQuery(['page' => $programs->currentPage() + 1]) }}'">
                         Next
                     </button>
                 </div>
@@ -569,11 +698,13 @@
             id: 'project',
             data: @json($projectChartData['data']),
             labels: @json($projectChartData['labels'])
-        }, {
-            id: 'support_partner',
-            data: @json($support_partnerChartData['data']),
-            labels: @json($support_partnerChartData['labels'])
-        }, {
+        },
+        // {
+        //     id: 'support_partner',
+        //     data: @json($support_partnerChartData['data']),
+        //     labels: @json($support_partnerChartData['labels'])
+        // },
+        {
             id: 'team_member_name',
             data: @json($team_member_nameChartData['data']),
             labels: @json($team_member_nameChartData['labels'])
@@ -676,6 +807,7 @@
         options: {
             indexAxis: 'y',
             responsive: true,
+            maintainAspectRatio: false, // Add this line
             plugins: {
                 legend: {
                     display: false
@@ -704,4 +836,28 @@
         chart.data.labels = newWidth <= 426 ? labels.map(() => '') : labels;
         chart.update();
     });
+</script>
+
+
+<script>
+    function resetFilter() {
+
+        document.getElementById('programFilterForm').reset();
+
+        window.location.href = "{{ route('our-program.view-program') }}";
+    }
+</script>
+
+<script>
+    function exportData() {
+        const form = document.getElementById('programFilterForm');
+        const programType = form.querySelector('select[name="program_type"]').value;
+
+        const queryParams = new URLSearchParams({
+            program_type: programType
+        }).toString();
+
+        const exportUrl = "{{ route('program.export') }}?" + queryParams;
+        window.location.href = exportUrl;
+    }
 </script>

@@ -47,4 +47,14 @@ class Program extends Model
     {
         return $this->belongsTo(Team::class, 'team_member_name');
     }
+
+    public function csr()
+    {
+        return $this->belongsTo(CSRPartner::class, 'donar_organisation');
+    }
+
+    public function partnerOrg()
+    {
+        return $this->belongsTo(PartnerOrgnization::class, 'support_partner');
+    }
 }

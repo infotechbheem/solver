@@ -22,6 +22,23 @@
                         Add Letter Box
                     </button>
                 </div>
+                @php
+                    $letterType = [
+                        'offer_letter' => 'Offer Letter',
+                        'appointment_letter' => 'Appointment Letter',
+                        'office_order' => 'Office Order',
+                        'govt_notice' => 'Govt. Notice',
+                        'letter_recomndation' => 'Letter Of Recomndation',
+                        'cover_letter' => 'Cover Letter',
+                        'resignation_letter' => 'Resignation Letter',
+                        'annoucement_letter' => 'Annoucement Letter',
+                        'complaint_letter' => 'Complaint Letter',
+                        'thank_you_letter' => 'Thank You Letter',
+                        'interview_follow_up_letter' => 'Interview Follow Up Letter',
+                        'termination_letter' => 'Termination Letters',
+                        'other' => 'Other',
+                    ];
+                @endphp
 
 
                 <div class="table-section-main-head">
@@ -54,10 +71,10 @@
                                                 <td>{{ $latterBox->receipt_type ?? '-' }}</td>
                                                 <td>{{ $latterBox->date ?? '-' }}</td>
                                                 <td>{{ $latterBox->latter_box_type ?? '-' }}</td>
-                                                <td>{{ $latterBox->latter_type ?? '-' }}</td>
+                                                <td>{{ $letterType[$latterBox->latter_type] ?? '-' }}</td>
                                                 <td>{{ $latterBox->{'latter/reference_no'} ?? '-' }}</td>
                                                 <td>{{ $latterBox->subject ?? '-' }}</td>
-                                                <td>{{ $latterBox->description ?? "Not Available" }}</td>
+                                                <td>{{ $latterBox->description ?? 'Not Available' }}</td>
                                                 <td>
                                                     {{-- edit --}}
                                                     <button class="btn btn-success btn-sm edit-btn"
@@ -144,7 +161,8 @@
                                         </div>
                                         <div class="input-section">
                                             <label>Name <span style="color: red">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter name" name="name">
+                                            <input type="text" class="form-control" placeholder="Enter name"
+                                                name="name">
                                         </div>
                                     </div>
                                     <div class="modal-body-main mb-3">
@@ -153,7 +171,8 @@
                                             <select name="department_id" id="department_id" class="form-control">
                                                 <option value="">Select Department</option>
                                                 @foreach ($departments as $department)
-                                                    <option value="{{ $department->id }}">{{ $department->user_department }}
+                                                    <option value="{{ $department->id }}">
+                                                        {{ $department->user_department }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -253,7 +272,8 @@
                                         </div>
                                         <div class="input-section">
                                             <label>Name <span style="color: red">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter name" name="name">
+                                            <input type="text" class="form-control" placeholder="Enter name"
+                                                name="name">
                                         </div>
                                     </div>
                                     <div class="modal-body-main mb-3">
@@ -262,7 +282,8 @@
                                             <select name="department_id" id="department_id" class="form-control">
                                                 <option value="">Select Department</option>
                                                 @foreach ($departments as $department)
-                                                    <option value="{{ $department->id }}">{{ $department->user_department }}
+                                                    <option value="{{ $department->id }}">
+                                                        {{ $department->user_department }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -298,15 +319,14 @@
                                         </div>
                                         <div class="input-section">
                                             <label>Subject <span style="color: red">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter subject" id="subject"
-                                                name="subject">
+                                            <input type="text" class="form-control" placeholder="Enter subject"
+                                                id="subject" name="subject">
                                         </div>
                                     </div>
                                     <div class="modal-body-main mb-3">
                                         <div class="input-section" style="width:100%">
                                             <label>Description <span style="color: red">*</span></label>
-                                            <textarea class="form-control" id="description" rows="3"
-                                                name="description"></textarea>
+                                            <textarea class="form-control" id="description" rows="3" name="description"></textarea>
                                         </div>
                                     </div>
 
@@ -327,7 +347,8 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Letter Description</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="modalDescriptionContent">
                                 <!-- Description will be loaded here -->
@@ -347,11 +368,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const descriptionButtons = document.querySelectorAll('.view-description-btn');
 
             descriptionButtons.forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const description = this.getAttribute('data-description');
                     document.getElementById('modalDescriptionContent').textContent = description;
                 });
@@ -362,8 +383,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- add required to the fields --}}
     <script>
-        $(document).ready(function () {
-            $('#saveBtn').on('click', function (e) {
+        $(document).ready(function() {
+            $('#saveBtn').on('click', function(e) {
                 let isValid = true;
                 let saveBtn = $('#saveBtn');
 
@@ -396,9 +417,10 @@
                 };
 
                 // Validate each field
-                $.each(fields, function (key, $field) {
+                $.each(fields, function(key, $field) {
                     if (!$field.val() || $field.val().trim() === '') {
-                        $field.after(`<div class="field-error text-danger mt-1">${messages[key]}</div>`);
+                        $field.after(
+                            `<div class="field-error text-danger mt-1">${messages[key]}</div>`);
                         isValid = false;
                     }
                 });
@@ -412,45 +434,48 @@
             });
 
             // Re-enable and clean error messages on any input
-            $(':input').on('input change', function () {
+            $(':input').on('input change', function() {
                 $('#saveBtn').prop('disabled', false);
                 $(this).next('.field-error').remove();
             });
         });
     </script>
-   
+
     {{-- data populate for edit --}}
     <script>
-        $(document).on('click', '.edit-btn', function () {
+        $(document).on('click', '.edit-btn', function() {
             var id = $(this).data('id');
 
             $.ajax({
                 url: '/get-letterbox-data/' + id,
                 type: 'GET',
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     var data = response.data;
 
                     $('#letterboxId').val(data.id);
-                    $('#receipt_type option[value="' + data.receipt_type + '"]').attr('selected', 'selected');
+                    $('#receipt_type option[value="' + data.receipt_type + '"]').attr('selected',
+                        'selected');
                     $('#edit-date').val(data.date);
-                    $('#letter_box option[value="' + data.latter_box_type + '"]').attr('selected', 'selected');
+                    $('#letter_box option[value="' + data.latter_box_type + '"]').attr('selected',
+                        'selected');
                     $('input[name="name"]').val(data.name);
-                    $('#department_id option[value="' + data.department_id + '"]').attr('selected', 'selected');
+                    $('#department_id option[value="' + data.department_id + '"]').attr('selected',
+                        'selected');
                     $('#reference_no').val(`${data['latter/reference_no']}`);
-                    $('#types_of_letter option[value="' + data.latter_type + '"]').attr('selected', 'selected');
+                    $('#types_of_letter option[value="' + data.latter_type + '"]').attr('selected',
+                        'selected');
                     $('#subject').val(data.subject);
                     $('#description').val(data.description);
 
                     // Show modal if needed
                     $('#editLetterbox').modal('show');
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.log(xhr.responseText);
                     alert('Failed to fetch data');
                 }
             });
         });
     </script>
-
 @endsection

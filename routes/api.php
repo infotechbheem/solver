@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Exports\IncomeExport;
 use App\Exports\ExpenditureExport;
+use App\Exports\ProgramExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/user', function (Request $request) {
@@ -35,6 +36,8 @@ Route::get('/export-income', function (Request $request) {
     return Excel::download(new IncomeExport($filters), 'income_data.xlsx');
 })->name('income.export');
 
+// export expenditure
+
 Route::get('/export-expenditure', function (Request $request) {
     $filters = [
         'expenseSector' => $request->expenseSector,
@@ -43,3 +46,12 @@ Route::get('/export-expenditure', function (Request $request) {
     ];
     return Excel::download(new ExpenditureExport($filters), 'expenditure_data.xlsx');
 })->name('expenditure.export');
+
+// export program
+
+Route::get('/export-program', function (Request $request) {
+    $filters = [
+        'program_type' => $request->program_type,
+    ];
+    return Excel::download(new ProgramExport($filters), 'program_data.xlsx');
+})->name('program.export');

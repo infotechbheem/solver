@@ -99,14 +99,14 @@
                         All Team
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ url('/hr-department/attendance/view-attendance') }}">
                         <div class="sidebar-sub-icon">
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                         View Attendance
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
 
