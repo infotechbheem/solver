@@ -141,20 +141,22 @@
                             </div>
                             <div class="col-md-3">
                                 <select name="project_type" class="form-control">
-                                    <option value="">Select Project Type</option>
+                                    <option value="">Select Program Type</option>
                                     <option value="social_protection"
-                                        {{ request('project_type') == 'social_protection' ? 'selected' : '' }}>Social
-                                        Protection</option>
-                                    <option value="livelihood"
-                                        {{ request('project_type') == 'livelihood' ? 'selected' : '' }}>Livelihood &
-                                        Employbility</option>
-                                    <option value="communinty_capacity"
-                                        {{ request('project_type') == 'communinty_capacity' ? 'selected' : '' }}>Community
-                                        Capacity Building</option>
+                                        {{ request('project_type') == 'social_protection' ? 'selected' : '' }}>
+                                        Social Protection
+                                    </option>
+                                    <option value="livelihood_beneficiray"
+                                        {{ request('project_type') == 'livelihood_beneficiray' ? 'selected' : '' }}>
+                                        Livelihood Beneficiary
+                                    </option>
+                                    <option value="community_capacity"
+                                        {{ request('project_type') == 'community_capacity' ? 'selected' : '' }}>
+                                        Community Capacity
+                                    </option>
                                     <option value="digital_literacy"
-                                        {{ request('project_type') == 'digital_literacy' ? 'selected' : '' }}>Digital
-                                        Literacy & Finacial Inclusion</option>
-                                    <option value="other" {{ request('project_type') == 'other' ? 'selected' : '' }}>Other
+                                        {{ request('project_type') == 'digital_literacy' ? 'selected' : '' }}>
+                                        Digital Literacy & Finacial Inclusion
                                     </option>
                                 </select>
                             </div>

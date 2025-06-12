@@ -68,6 +68,11 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::post('/overall-target-import', 'overallTargetImport')->name('overall-target-import');
         // import
         Route::post('/progress-track-import', 'progressTrakImport')->name('progress-track-import');
+
+        Route::post('/check-scheme-beneficiary', 'checkBeneficiary');
+
+        Route::post('/filter-progam', 'filterProgram')->name('filter-progam');
+
     });
     //=================PROGRAM DEPARTMENT END=====================
 

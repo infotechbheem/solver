@@ -13,6 +13,8 @@ use App\Imports\OverallTargetImport;
 use App\Imports\ProgressTrackImport;
 use App\Models\ProgressTracker;
 use App\Models\Team;
+use App\Models\CSRPartner;
+use App\Models\PartnerOrgnization;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -22,13 +24,29 @@ class ProgramController extends Controller
     public function addProgram()
     {
         $team = Team::get();
+        $csr = CSRPartner::get();
+        $partnerOrg = PartnerOrgnization::get();
 
         $title = "Add Program";
-        return view('program-department.add-program', compact('title', 'team'));
+        return view('program-department.add-program', compact('title', 'team', 'csr', 'partnerOrg'));
     }
-    public function viewProgram()
+
+    public function checkBeneficiary(Request $request)
     {
-        $programs = Program::with('team', 'livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->paginate(10);
+        $existsRecord = Program::where('beneficiary_name', $request->bene_name)
+            ->where('gender', $request->gender)
+            ->where('mobile_number', $request->mob_no)
+            ->whereHas('socialProtections', function ($query) use ($request) {
+                $query->where('applied_scheme', $request->scheme);
+            })
+            ->exists();
+
+        return response()->json(['existsRecord' => $existsRecord]);
+    }
+
+    public function viewProgram(Request $request)
+    {
+        $programs = Program::with('csr', 'partnerOrg', 'team', 'livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->paginate(10);
 
         $stateWisePercentage = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->get();
 
@@ -491,10 +509,27 @@ class ProgramController extends Controller
             $supportChartData['data'][] = $count;
         }
 
+        // filter
+        $query = Program::query()->with([
+            'csr',
+            'partnerOrg',
+            'team',
+            'livelihoods',
+            'digitalLiteracies',
+            'communities',
+            'socialProtections'
+        ]);
+
+        if ($request->filled('program_type')) {
+            $query->where('program_type', $request->program_type);
+        }
+
+        $filteredProgram = $query->paginate(10)->appends($request->all());
+
         // Define colors array
         $chartColors = ['#FF6384', '#36A2EB', '#FFCD56', '#2ECC71', '#8E44AD', '#E67E22', '#1ABC9C', '#F39C12'];
         $title = "View Program";
-        return view('program-department.view-program', compact('title', 'programs', 'chartData', 'chartColors', 'districtChartData', 'areaChartData', 'projectChartData', 'support_partnerChartData', 'team_member_nameChartData', 'ageChartData', 'genderChartData', 'casteChartData', 'religionChartData', 'occupationChartData', 'familyIncomeChartData', 'differentlyAbledChartData', 'supportChartData'));
+        return view('program-department.view-program', compact('title', 'programs', 'chartData', 'chartColors', 'districtChartData', 'areaChartData', 'projectChartData', 'support_partnerChartData', 'team_member_nameChartData', 'ageChartData', 'genderChartData', 'casteChartData', 'religionChartData', 'occupationChartData', 'familyIncomeChartData', 'differentlyAbledChartData', 'supportChartData', 'filteredProgram'));
     }
     public function viewProgramDetails($id)
     {
@@ -526,7 +561,7 @@ class ProgramController extends Controller
         $achievedTargets = $countings->pluck('achieved')->toArray();
 
         $title = "Plan & Deliverables";
-        return view('program-department.deliverabels', compact('title', 'deliverables', 'overallTarget', 'progressTrack', 'countings','labels','totalTargets','achievedTargets'));
+        return view('program-department.deliverabels', compact('title', 'deliverables', 'overallTarget', 'progressTrack', 'countings', 'labels', 'totalTargets', 'achievedTargets'));
     }
 
     public function storeProgram(Request $request)
@@ -659,10 +694,12 @@ class ProgramController extends Controller
     {
         $id = decrypt($id);
         $team = Team::get();
+        $csr = CSRPartner::get();
+        $partnerOrg = PartnerOrgnization::get();
         $editProgram = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
         $title = 'Edit Program';
 
-        return view('program-department.edit-program', compact('title', 'editProgram', 'team'));
+        return view('program-department.edit-program', compact('title', 'editProgram', 'team','partnerOrg','csr'));
     }
 
     public function updateProgram(Request $request, $id)
@@ -924,5 +961,12 @@ class ProgramController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
+    }
+
+    public function filterProgram(Request $request)
+    {
+        return redirect()->route('our-program.view-program', [
+            'program_type' => $request->program_type,
+        ]);
     }
 }

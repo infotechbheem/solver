@@ -3,7 +3,11 @@
         <div class="csr-registration-main-heading">
             <p>Edit Program</p>
         </div>
-        <form class="scr-registration-form" action="{{ route('update-program',$editProgram->id) }}" method="POST">
+        <div id="duplicate-error" class="alert alert-danger d-none" role="alert">
+            This beneficiary is already assigned to the selected scheme.
+        </div>
+        <form class="scr-registration-form" id="beneficiaryForm" action="{{ route('update-program', $editProgram->id) }}"
+            method="POST">
             @csrf
             @method('PUT')
 
@@ -27,16 +31,40 @@
                     </select>
                 </div>
 
-                <div class="scr-form-group">
-                    <div class="scr-form-group">
-                        <label>Form Date <span>*</span></label>
-                        <input type="date" name="from_date" id="from_date" value="{{ $editProgram->date }}">
+                <div class="scr-form-group" style="width: 100%; max-width: 400px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Project <span
+                            style="color: red;">*</span></label>
+                    <div style="position: relative; width: 100%; max-width: 400px;">
+                        <input type="text" id="projectInput" name="project" placeholder="Select or type project"
+                            value="{{ $editProgram->project }}"
+                            style="width: 100%; padding: 8px 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 5px;"
+                            autocomplete="off">
+                        <ul id="projectSuggestions"
+                            style="
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                z-index: 1000;
+                                background: #fff;
+                                border: 1px solid #ccc;
+                                border-top: none;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                max-height: 150px;
+                                overflow-y: auto;
+                                display: none;
+                                border-radius: 0 0 5px 5px;
+                            ">
+                        </ul>
                     </div>
                 </div>
+
                 <div class="scr-form-group">
                     <label>State <span>*</span></label>
                     <select id="state" name="state" data-selected="{{ $editProgram->state }}">
-                        <option>Select State</option>
+                        <option value="">Select State</option>
                     </select>
                 </div>
 
@@ -53,29 +81,19 @@
                     <label>Donor Organisation <span>*</span></label>
                     <select name="donor_org" id="donor_org">
                         <option value="">Select Donor Organisation</option>
-                        <option value="npcl" {{ $editProgram->donar_organisation == 'npcl' ? 'selected' : '' }}>NPCL
-                        </option>
-                        <option value="tata" {{ $editProgram->donar_organisation == 'tata' ? 'selected' : '' }}>TATA
-                            Trust</option>
-                        <option value="smile" {{ $editProgram->donar_organisation == 'smile' ? 'selected' : '' }}>Smile
-                            Foundation</option>
+                        @foreach ($csr as $csrCompany)
+                            <option value="{{ $csrCompany->id }}"
+                                {{ isset($editProgram) && $editProgram->donar_organisation == $csrCompany->id ? 'selected' : '' }}>
+                                {{ $csrCompany->company_name }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="scr-form-group">
-                    <label>Project <span>*</span></label>
-                    <select name="project" id="project">
-                        <option value="">Select Project</option>
-                        <option value="sahyog" {{ $editProgram->project == 'sahyog' ? 'selected' : '' }}>Sahyog
-                        </option>
-                        <option value="unnati" {{ $editProgram->project == 'unnati' ? 'selected' : '' }}>Unnati
-                        </option>
-                        <option value="saksham" {{ $editProgram->project == 'saksham' ? 'selected' : '' }}>Saksham
-                        </option>
-                        <option value="uttkarsh" {{ $editProgram->project == 'uttkarsh' ? 'selected' : '' }}>Uttkarsh
-                        </option>
-                        <option value="others" {{ $editProgram->project == 'others' ? 'selected' : '' }}>Others
-                        </option>
-                    </select>
+                    <div class="scr-form-group">
+                        <label>Form Date <span>*</span></label>
+                        <input type="date" name="from_date" id="from_date" value="{{ $editProgram->date }}">
+                    </div>
                 </div>
             </div>
             <div class="scr-registration-row">
@@ -83,24 +101,22 @@
                     <label>Support Partner / Resource Organization <span>*</span></label>
                     <select name="support" id="support">
                         <option value="">Select Support Partner</option>
-                        <option value="kunj" {{ $editProgram->support_partner == 'kunj' ? 'selected' : '' }}>Kunj
-                            Innovation Trust</option>
-                        <option value="bhraspati" {{ $editProgram->support_partner == 'bhraspati' ? 'selected' : '' }}>
-                            Bhrashpati Foundation</option>
-                        <option value="yuva" {{ $editProgram->support_partner == 'yuva' ? 'selected' : '' }}>Yuva
-                            Bharat Trust</option>
-                        <option value="uplift" {{ $editProgram->support_partner == 'uplift' ? 'selected' : '' }}>Uplift
-                            Live Foundation</option>
-                        <option value="mathura" {{ $editProgram->support_partner == 'mathura' ? 'selected' : '' }}>
-                            Mathura Health Department</option>
+                        @foreach ($partnerOrg as $partnerOrganisation)
+                            <option value="{{ $partnerOrganisation->id }}"
+                                {{ isset($editProgram) && $editProgram->support_partner == $partnerOrganisation->id ? 'selected' : '' }}>
+                                {{ $partnerOrganisation->{'company/ngo_name'} }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="scr-form-group">
                     <label>Team Member Name <span>*</span></label>
                     <select name="team_member" id="team_member">
                         <option value="">Select Team Member Name</option>
-                        @foreach($team as $team)
-                            <option value="{{ $team->id }}" {{ $editProgram->team_member_name == $team->id ? 'selected' : '' }}>{{ $team->full_name }}</option>
+                        @foreach ($team as $team)
+                            <option value="{{ $team->id }}"
+                                {{ $editProgram->team_member_name == $team->id ? 'selected' : '' }}>
+                                {{ $team->full_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -447,10 +463,10 @@
                         <label>Differently Abled <span>*</span></label>
                         <select name="differently_abled_community" id="differently_abled_community">
                             <option value="">Select Differently Abled</option>
-                            <option value="yes"
-                                {{ $community->differently_abled == 'yes' ? 'selected' : '' }}>Yes</option>
-                            <option value="no"
-                                {{ $community->differently_abled == 'no' ? 'selected' : '' }}>No</option>
+                            <option value="yes" {{ $community->differently_abled == 'yes' ? 'selected' : '' }}>Yes
+                            </option>
+                            <option value="no" {{ $community->differently_abled == 'no' ? 'selected' : '' }}>No
+                            </option>
                         </select>
                     </div>
 
@@ -466,12 +482,33 @@
                     </div>
 
                     <div class="scr-form-group">
-                        <label>Project <span>*</span></label>
-                        <select name="community_project" id="community_project">
-                            <option value="">Select Project</option>
-                            <option value="utkarsh"
-                                {{ $community->project == 'utkarsh' ? 'selected' : '' }}>Uttkarsh</option>
-                        </select>
+                        <label>Project<span>*</span></label>
+                        <div style="position: relative; width: 100%; max-width: 400px;">
+                            <input type="text" id="community_projectInput" name="community_project"
+                                placeholder="Select or type project" value="{{ $community->project }}"
+                                style="width: 100%; padding: 8px 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 5px;"
+                                autocomplete="off">
+                            <ul id="communityProjectSuggestions"
+                                style="
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                z-index: 1000;
+                                background: #fff;
+                                border: 1px solid #ccc;
+                                border-top: none;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                max-height: 150px;
+                                overflow-y: auto;
+                                display: none;
+                                border-radius: 0 0 5px 5px;
+                            ">
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
 
@@ -509,13 +546,16 @@
                         <label>Working Period<span>*</span></label>
                         <select name="work_period" id="work_period">
                             <option value="">Select Working Period</option>
-                            <option value="newley" {{ $community->working_period == 'newley' ? 'selected' : '' }}>Newley
+                            <option value="newley" {{ $community->working_period == 'newley' ? 'selected' : '' }}>
+                                Newley
                                 Registered</option>
-                            <option value="1_year" {{ $community->working_period == '1_year' ? 'selected' : '' }}>1 Year
+                            <option value="1_year" {{ $community->working_period == '1_year' ? 'selected' : '' }}>1
+                                Year
                             </option>
                             <option value="1-3" {{ $community->working_period == '1-3' ? 'selected' : '' }}>1 year
                                 Above - 3 Year</option>
-                            <option value="3" {{ $community->working_period == '3' ? 'selected' : '' }}>More Than 3
+                            <option value="3" {{ $community->working_period == '3' ? 'selected' : '' }}>More
+                                Than 3
                                 Year</option>
                         </select>
                     </div>
@@ -526,13 +566,17 @@
                             <option value="">Select Number of Member</option>
                             <option value="1-5" {{ $community->no_of_members == '1-5' ? 'selected' : '' }}>01 - 05
                             </option>
-                            <option value="6-10" {{ $community->no_of_members == '6-10' ? 'selected' : '' }}>06 - 10
+                            <option value="6-10" {{ $community->no_of_members == '6-10' ? 'selected' : '' }}>06 -
+                                10
                             </option>
-                            <option value="11-20" {{ $community->no_of_members == '11-20' ? 'selected' : '' }}>11 - 20
+                            <option value="11-20" {{ $community->no_of_members == '11-20' ? 'selected' : '' }}>11 -
+                                20
                             </option>
-                            <option value="21-30" {{ $community->no_of_members == '21-30' ? 'selected' : '' }}>21 - 30
+                            <option value="21-30" {{ $community->no_of_members == '21-30' ? 'selected' : '' }}>21 -
+                                30
                             </option>
-                            <option value="30" {{ $community->no_of_members == '30' ? 'selected' : '' }}>30+</option>
+                            <option value="30" {{ $community->no_of_members == '30' ? 'selected' : '' }}>30+
+                            </option>
                         </select>
                     </div>
 
@@ -541,20 +585,24 @@
                         <select name="org_focus_work_area" id="org_focus_work_area">
                             <option value="">Select Working Area</option>
                             <option value="health"
-                                {{ $community->org_focused_working_area == 'health' ? 'selected' : '' }}>Health</option>
+                                {{ $community->org_focused_working_area == 'health' ? 'selected' : '' }}>Health
+                            </option>
                             <option value="education"
                                 {{ $community->org_focused_working_area == 'education' ? 'selected' : '' }}>Education
                             </option>
                             <option value="agriculture"
-                                {{ $community->org_focused_working_area == 'agriculture' ? 'selected' : '' }}>Agriculture
+                                {{ $community->org_focused_working_area == 'agriculture' ? 'selected' : '' }}>
+                                Agriculture
                                 and Farmer Welfare</option>
                             <option value="livelihood"
-                                {{ $community->org_focused_working_area == 'livelihood' ? 'selected' : '' }}>Livelihood
+                                {{ $community->org_focused_working_area == 'livelihood' ? 'selected' : '' }}>
+                                Livelihood
                             </option>
                             <option value="cultural_promotion"
                                 {{ $community->org_focused_working_area == 'cultural_promotion' ? 'selected' : '' }}>
                                 Cultural Promotion</option>
-                            <option value="food" {{ $community->org_focused_working_area == 'food' ? 'selected' : '' }}>
+                            <option value="food"
+                                {{ $community->org_focused_working_area == 'food' ? 'selected' : '' }}>
                                 Food</option>
                             <option value="other"
                                 {{ $community->org_focused_working_area == 'other' ? 'selected' : '' }}>Other</option>
@@ -567,23 +615,21 @@
                         <label>Support<span>*</span></label>
                         <select name="community_support" id="community_support">
                             <option value="">Select Support</option>
-                            <option value="new_ngo"
-                                {{ $community->support == 'new_ngo' ? 'selected' : '' }}>New Ngo
+                            <option value="new_ngo" {{ $community->support == 'new_ngo' ? 'selected' : '' }}>New Ngo
                                 Registration</option>
-                            <option value="ngo_docs"
-                                {{ $community->support == 'ngo_docs' ? 'selected' : '' }}>Ngo Other
+                            <option value="ngo_docs" {{ $community->support == 'ngo_docs' ? 'selected' : '' }}>Ngo
+                                Other
                                 Documentation Support</option>
-                            <option value="new_shg"
-                                {{ $community->support == 'new_shg' ? 'selected' : '' }}>New SHG
+                            <option value="new_shg" {{ $community->support == 'new_shg' ? 'selected' : '' }}>New SHG
                                 Registration</option>
-                            <option value="shg_docs"
-                                {{ $community->support == 'shg_docs' ? 'selected' : '' }}>SHG Documentation
+                            <option value="shg_docs" {{ $community->support == 'shg_docs' ? 'selected' : '' }}>SHG
+                                Documentation
                                 Support</option>
-                            <option value="fpo_fpc"
-                                {{ $community->support == 'fpo_fpc' ? 'selected' : '' }}>FPO/FPC Formation
+                            <option value="fpo_fpc" {{ $community->support == 'fpo_fpc' ? 'selected' : '' }}>FPO/FPC
+                                Formation
                             </option>
-                            <option value="fpo_docs"
-                                {{ $community->support == 'fpo_docs' ? 'selected' : '' }}>FPO/FPC
+                            <option value="fpo_docs" {{ $community->support == 'fpo_docs' ? 'selected' : '' }}>
+                                FPO/FPC
                                 Documentation Support</option>
                             <option value="financial_management"
                                 {{ $community->support == 'financial_management' ? 'selected' : '' }}>
@@ -591,14 +637,14 @@
                             <option value="governance_training"
                                 {{ $community->support == 'governance_training' ? 'selected' : '' }}>
                                 Governance Training</option>
-                            <option value="branding"
-                                {{ $community->support == 'branding' ? 'selected' : '' }}>Branding And
+                            <option value="branding" {{ $community->support == 'branding' ? 'selected' : '' }}>
+                                Branding And
                                 Promotion</option>
                             <option value="financial_inlusion"
                                 {{ $community->support == 'financial_inlusion' ? 'selected' : '' }}>
                                 Financial Inclusion</option>
-                            <option value="marketing"
-                                {{ $community->support == 'marketing' ? 'selected' : '' }}>Marketing
+                            <option value="marketing" {{ $community->support == 'marketing' ? 'selected' : '' }}>
+                                Marketing
                             </option>
                             <option value="legal" {{ $community->support == 'legal' ? 'selected' : '' }}>
                                 Legal Awareness</option>
@@ -656,6 +702,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 {{-- add required to the fields --}}
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -691,6 +738,109 @@
         programTypeSelect.addEventListener("change", function() {
             hideAllSections();
             showSelectedSection();
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Suggestion for projectInput
+        const suggestions = ["Sahyog", "Unnati", "Saksham", "Uttkarsh"];
+        const input = document.getElementById('projectInput');
+        const suggestionBox = document.getElementById('projectSuggestions');
+
+        if (input && suggestionBox) {
+            input.addEventListener('input', function() {
+                const term = this.value.trim().toLowerCase();
+                suggestionBox.innerHTML = '';
+
+                if (term === '') {
+                    suggestionBox.style.display = 'none';
+                    return;
+                }
+
+                const filtered = suggestions.filter(s => s.toLowerCase().startsWith(term));
+
+                if (filtered.length === 0) {
+                    suggestionBox.style.display = 'none';
+                    return;
+                }
+
+                filtered.forEach(s => {
+                    const li = document.createElement('li');
+                    li.textContent = s;
+                    li.style.padding = '8px 12px';
+                    li.style.cursor = 'pointer';
+                    li.addEventListener('click', function() {
+                        input.value = s;
+                        suggestionBox.style.display = 'none';
+                    });
+                    li.addEventListener('mouseover', function() {
+                        li.style.background = '#f0f0f0';
+                    });
+                    li.addEventListener('mouseout', function() {
+                        li.style.background = '#fff';
+                    });
+                    suggestionBox.appendChild(li);
+                });
+
+                suggestionBox.style.display = 'block';
+            });
+        }
+
+        // Suggestion for community_projectInput
+        const communityInput = document.getElementById('community_projectInput');
+        const communitySuggestionBox = document.getElementById('communityProjectSuggestions');
+
+        if (communityInput && communitySuggestionBox) {
+            communityInput.addEventListener('input', function() {
+                const term = this.value.trim().toLowerCase();
+                communitySuggestionBox.innerHTML = '';
+
+                if (term === '') {
+                    communitySuggestionBox.style.display = 'none';
+                    return;
+                }
+
+                const filtered = suggestions.filter(s => s.toLowerCase().startsWith(term));
+
+                if (filtered.length === 0) {
+                    communitySuggestionBox.style.display = 'none';
+                    return;
+                }
+
+                filtered.forEach(s => {
+                    const li = document.createElement('li');
+                    li.textContent = s;
+                    li.style.padding = '8px 12px';
+                    li.style.cursor = 'pointer';
+                    li.addEventListener('click', function() {
+                        communityInput.value = s;
+                        communitySuggestionBox.style.display = 'none';
+                    });
+                    li.addEventListener('mouseover', function() {
+                        li.style.background = '#f0f0f0';
+                    });
+                    li.addEventListener('mouseout', function() {
+                        li.style.background = '#fff';
+                    });
+                    communitySuggestionBox.appendChild(li);
+                });
+
+                communitySuggestionBox.style.display = 'block';
+            });
+        }
+
+        // Global click to hide suggestions
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#projectInput') && !e.target.closest('#projectSuggestions')) {
+                if (suggestionBox) suggestionBox.style.display = 'none';
+            }
+
+            if (!e.target.closest('#community_projectInput') && !e.target.closest(
+                    '#communityProjectSuggestions')) {
+                if (communitySuggestionBox) communitySuggestionBox.style.display = 'none';
+            }
         });
     });
 </script>

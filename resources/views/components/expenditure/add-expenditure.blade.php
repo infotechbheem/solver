@@ -20,10 +20,34 @@
                         <option value="office_expenses">Office Expenses</option>
                     </select>
                 </div>
-                <div class="scr-form-group">
+                <div class="scr-form-group" id="pro_name" style="display: none;">
                     <div class="scr-form-group">
                         <label>Project Name <span>*</span></label>
-                        <input type="text" id="project_name" name="project_name" placeholder="project name" required>
+                        <div style="position: relative; width: 100%; max-width: 400px;">
+                            <input type="text" id="projectInput" name="project_name"
+                                placeholder="Select or type project"
+                                style="width: 100%; padding: 8px 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 5px;"
+                                autocomplete="off">
+                            <ul id="projectSuggestions"
+                                style="
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                z-index: 1000;
+                                background: #fff;
+                                border: 1px solid #ccc;
+                                border-top: none;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                max-height: 150px;
+                                overflow-y: auto;
+                                display: none;
+                                border-radius: 0 0 5px 5px;
+                            ">
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -65,11 +89,11 @@
                     </select>
                 </div>
             </div>
-            <div id="human_res" style="display: none;">
+            <div id="human_res">
                 <h3 class="scr-registration-heading">Human Resource</h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Human Resource<span>*</span></label>
+                        <label>Human Resource</label>
                         <select id="human_resource" name="human_resource">
                             <option value="">Select</option>
                             <option value="salary">Salary</option>
@@ -79,54 +103,49 @@
                         </select>
                     </div>
                     <div class="scr-form-group">
-                        <label>Date Of Expense <span>*</span></label>
+                        <label>Date Of Expense</label>
                         <input type="date" id="hr_expense_date" name="hr_expense_date">
                     </div>
                 </div>
             </div>
-            <div id="equip" style="display: none;">
+            <div id="equip">
                 <h3 class="scr-registration-heading">Equipment & and Suplies</h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Date Of Expense <span>*</span></label>
+                        <label>Date Of Expense</label>
                         <input type="date" id="equip_expense_date" name="equip_expense_date">
                     </div>
                     <div class="scr-form-group">
-                        <label>Cost <span>*</span></label>
+                        <label>Cost</label>
                         <input type="text" id="equip_cost" name="equip_cost" placeholder="Enter cost">
                     </div>
                     <div class="scr-form-group">
-                        <label> Supplier Name<span>*</span></label>
+                        <label>Supplier Name</label>
                         <input type="text" id="equip_supplier_name" name="equip_supplier_name"
                             placeholder="Enter suplier name">
                     </div>
                 </div>
             </div>
-            {{-- <div class="scr-registration-row">
-                  <div class="scr-form-group">
-                      <label> Equipment Description </label>
-                      <textarea></textarea>
-                  </div>
-              </div> --}}
-            <div id="travel" style="display: none;">
+
+            <div id="travel">
                 <h3 class="scr-registration-heading">Travel Expenses</h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>date <span>*</span></label>
+                        <label>Date</label>
                         <input type="date" id="travel_exp_date" name="travel_exp_date">
                     </div>
                     <div class="scr-form-group">
-                        <label>Departure <span>*</span></label>
+                        <label>Departure</label>
                         <input type="text" id="travel_exp_departure" name="travel_exp_departure"
                             placeholder="Enter Departure">
                     </div>
                     <div class="scr-form-group">
-                        <label>Arrival <span>*</span></label>
+                        <label>Arrival</label>
                         <input type="text" id="travel_exp_arrirval" name="travel_exp_arrirval"
                             placeholder="Enter arrival">
                     </div>
                     <div class="scr-form-group">
-                        <label>Mode of Travel<span>*</span></label>
+                        <label>Mode of Travel</label>
                         <select id="travel_exp_mode_of_travel" name="travel_exp_mode_of_travel">
                             <option value="">Select Travel Mode</option>
                             <option value="air">Air</option>
@@ -139,16 +158,16 @@
                     </div>
                 </div>
             </div>
-            <div id="material" style="display: none;">
+
+            <div id="material">
                 <h3 class="scr-registration-heading">IEC Materials Expenses</h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Date Of Expanse <span>*</span></label>
+                        <label>Date Of Expanse</label>
                         <input type="date" id="date_of_material_exp" name="date_of_material_exp">
                     </div>
-
                     <div class="scr-form-group">
-                        <label>Item <span>*</span></label>
+                        <label>Item</label>
                         <select id="item" name="item">
                             <option value="">Select Item</option>
                             <option value="pamphlets"> Pamphlets / Flyers</option>
@@ -158,67 +177,68 @@
                         </select>
                     </div>
                     <div class="scr-form-group">
-                        <label>Quantity <span>*</span></label>
+                        <label>Quantity</label>
                         <input type="text" id="quantity" name="quantity" placeholder="Enter quantity">
                     </div>
                 </div>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Rate Per Unit <span>*</span></label>
-                        <input type="text"vid="rate_per_unit" name="rate_per_unit" placeholder="rate per unit">
+                        <label>Rate Per Unit</label>
+                        <input type="text" id="rate_per_unit" name="rate_per_unit" placeholder="rate per unit">
                     </div>
                     <div class="scr-form-group">
-                        <label>Total Cost <span>*</span></label>
+                        <label>Total Cost</label>
                         <input type="text" id="total_cost" name="total_cost" placeholder="total cost">
                     </div>
                     <div class="scr-form-group">
-                        <label>Remarks <span>*</span></label>
+                        <label>Remarks</label>
                         <input type="text" id="remarks" name="remarks" placeholder="remarks">
                     </div>
                 </div>
             </div>
-            <div id="accomodation" style="display: none;">
+
+            <div id="accomodation">
                 <h3 class="scr-registration-heading">Accomodation Expenses</h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Date <span>*</span></label>
+                        <label>Date</label>
                         <input type="date" id="date_of_accommodation_exp" name="date_of_accommodation_exp">
                     </div>
                     <div class="scr-form-group">
-                        <label>Check In <span>*</span></label>
+                        <label>Check In</label>
                         <input type="text" id="checkin" name="checkin" placeholder="Enter check in">
                     </div>
                     <div class="scr-form-group">
-                        <label>Check Out <span>*</span></label>
+                        <label>Check Out</label>
                         <input type="text" id="checkout" name="checkout" placeholder="Enter check out">
                     </div>
                     <div class="scr-form-group">
-                        <label>No. Of days <span>*</span></label>
+                        <label>No. Of days</label>
                         <input type="text" id="no_of_days" name="no_of_days" placeholder="Enter no. of days">
                     </div>
                 </div>
             </div>
-            <div id="miscellaneous" style="display: none;">
+
+            <div id="miscellaneous">
                 <h3 class="scr-registration-heading">Miscellaneous Expenses</h3>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Date Of Expense <span>*</span></label>
+                        <label>Date Of Expense</label>
                         <input type="date" id="date_of_miscellaneous_exp" name="date_of_miscellaneous_exp">
                     </div>
                     <div class="scr-form-group">
-                        <label>Other <span>*</span></label>
+                        <label>Other</label>
                         <input type="text" id="other" name="other" placeholder="Enter cost">
                     </div>
                     <div class="scr-form-group">
-                        <label> Remarks<span>*</span></label>
+                        <label>Remarks</label>
                         <input type="text" id="miscellaneous_exp_remarks" name="miscellaneous_exp_remarks"
                             placeholder="Enter remarks">
                     </div>
-
                 </div>
                 <div class="scr-registration-row">
                     <div class="scr-form-group">
-                        <label>Miscellaneous Description<span>*</span></label>
+                        <label>Miscellaneous Description</label>
                         <textarea id="miscellaneous_exp_discription" name="miscellaneous_exp_discription" cols="30" rows="10"></textarea>
                     </div>
                 </div>
@@ -323,56 +343,15 @@
         // Always reset values inside both dependent sections
         $('#expenditureAdmin').hide().find('input, select').val('');
         $('#expenditureType').hide().find('input, select').val('');
+        $('#pro_name').hide().find('input, select').val('');
 
         if (selected === 'project_based') {
             $('#expenditureType').show();
+            $('#pro_name').show();
         } else if (selected === 'office_expenses') {
             $('#expenditureAdmin').show();
+            $('#pro_name').hide();
         }
-    });
-</script>
-<script>
-    function hideAllExpenseSections() {
-        $('#human_res, #equip, #travel, #material, #accomodation, #miscellaneous').hide();
-    }
-
-    $('#type_of_expense').on('change', function() {
-        var selected = $(this).val();
-        hideAllExpenseSections();
-
-        switch (selected) {
-            case 'human_resource':
-                $('#human_res').show();
-                break;
-            case 'equipment':
-                $('#equip').show();
-                break;
-            case 'travel_expenses':
-                $('#travel').show();
-                break;
-            case 'iec_material':
-                $('#material').show();
-                break;
-            case 'accomodation_expenses':
-                $('#accomodation').show();
-                break;
-            case 'miscellaneous_expenses':
-                $('#miscellaneous').show();
-                break;
-        }
-    });
-
-    // Observer to hide all if #type_of_expense is hidden
-    const observer = new MutationObserver(() => {
-        if (!$('#type_of_expense').is(':visible')) {
-            hideAllExpenseSections();
-        }
-    });
-
-    // Observe parent node for visibility changes
-    observer.observe(document.getElementById('type_of_expense').parentNode, {
-        attributes: true,
-        attributeFilter: ['style', 'class']
     });
 </script>
 <script>
@@ -415,4 +394,54 @@
             document.getElementById('advanceDeposit').style.display = 'none';
         }
     }
+</script>
+{{-- suggestion --}}
+<script>
+    const suggestions = ["Sahyog", "Unnati", "Saksham", "Uttkarsh"];
+    const input = document.getElementById('projectInput');
+    const suggestionBox = document.getElementById('projectSuggestions');
+
+    input.addEventListener('input', function() {
+        const term = this.value.trim().toLowerCase();
+        suggestionBox.innerHTML = '';
+
+        if (term === '') {
+            suggestionBox.style.display = 'none';
+            return;
+        }
+
+        const filtered = suggestions.filter(s => s.toLowerCase().startsWith(term));
+
+        if (filtered.length === 0) {
+            suggestionBox.style.display = 'none';
+            return;
+        }
+
+        filtered.forEach(s => {
+            const li = document.createElement('li');
+            li.textContent = s;
+            li.style.padding = '8px 12px';
+            li.style.cursor = 'pointer';
+            li.addEventListener('click', function() {
+                input.value = s;
+                suggestionBox.style.display = 'none';
+            });
+            li.addEventListener('mouseover', function() {
+                li.style.background = '#f0f0f0';
+            });
+            li.addEventListener('mouseout', function() {
+                li.style.background = '#fff';
+            });
+            suggestionBox.appendChild(li);
+        });
+
+        suggestionBox.style.display = 'block';
+    });
+
+    // Hide suggestion box if clicked outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#projectInput') && !e.target.closest('#projectSuggestions')) {
+            suggestionBox.style.display = 'none';
+        }
+    });
 </script>

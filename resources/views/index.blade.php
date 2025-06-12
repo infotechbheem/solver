@@ -3,50 +3,103 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <div class="row">
-        <div class="col-lg-4 col-md-6">
+        <style>
+            .ibox {
+                min-height: 140px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .ibox-body {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .font-strong {
+                font-weight: 600;
+                font-size: 22px;
+            }
+
+            .m-b-5 {
+                margin-bottom: 5px;
+            }
+
+            .widget-stat-icon {
+                font-size: 36px;
+                opacity: 0.8;
+                align-self: flex-end;
+            }
+
+            .widget-stat a {
+                text-decoration: none;
+                color: white;
+                display: block;
+                height: 100%;
+            }
+        </style>
+
+        <div class="col-lg-3 col-md-6">
             <div class="ibox bg-success color-white widget-stat">
-                <a href="{{ url('/finance-department/income/view-income') }}" style="color: white">
+                <a href="{{ url('/finance-department/income/view-income') }}">
                     <div class="ibox-body">
-                        <h2 class="m-b-5 font-strong">₹ {{ $totalIncome }}</h2>
-                        <div class="m-b-5">Total Income</div>
+                        <div>
+                            <h2 class="m-b-5 font-strong">₹ {{ $totalIncome }}</h2>
+                            <div class="m-b-5">Total Income</div>
+                        </div>
                         <i class="fa-solid fa-sack-dollar widget-stat-icon"></i>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
+
+        <div class="col-lg-3 col-md-6">
             <div class="ibox bg-info color-white widget-stat">
-                <a href="{{ url('/finance-department/expenditure/view-expenditure') }}" style="color: white">
+                <a href="{{ url('/finance-department/expenditure/view-expenditure') }}">
                     <div class="ibox-body">
-                        <h2 class="m-b-5 font-strong">₹ {{ $totalExpenditure }}</h2>
-                        <div class="m-b-5">Total Expense </div>
+                        <div>
+                            <h2 class="m-b-5 font-strong">₹ {{ $totalExpenditure }}</h2>
+                            <div class="m-b-5">Total Expense</div>
+                        </div>
                         <i class="fa-solid fa-hands-holding-circle widget-stat-icon"></i>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
+
+        <div class="col-lg-3 col-md-6">
             <div class="ibox bg-warning color-white widget-stat">
-                <a href="{{ url('/hr-department/team/all-team-member') }}" style="color: white">
+                <a href="{{ url('/hr-department/team/all-team-member') }}">
                     <div class="ibox-body">
-                        <h2 class="m-b-5 font-strong">{{ $totalMember }}</h2>
-                        <div class="m-b-5">Total Member</div>
+                        <div>
+                            <h2 class="m-b-5 font-strong">{{ $totalMember }}</h2>
+                            <div class="m-b-5">Total Member</div>
+                        </div>
                         <i class="ti-user widget-stat-icon"></i>
                     </div>
                 </a>
             </div>
         </div>
-        {{-- <div class="col-lg-3 col-md-6">
+
+        <div class="col-lg-3 col-md-6">
             <div class="ibox bg-danger color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong">108</h2>
-                    <div class="m-b-5">NEW USERS</div>
-                    <i class="ti-user widget-stat-icon"></i> --}}
-        {{-- <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div> --}}
-        {{-- </div>
+                    <div>
+                        <h2 class="m-b-5 font-strong">{{ $TotalBenefiary }}</h2>
+                        <div class="m-b-5">Total Beneficiary</div>
+                        {{-- <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div> --}}
+                    </div>
+                    <i class="ti-user widget-stat-icon"></i>
+                </div>
             </div>
-        </div> --}}
+        </div>
     </div>
+
     {{-- <div class="all-program-all-grant-section">
         <div class="top-section">All Program - All Grant</div>
         <div class="all-program-all-grant">
