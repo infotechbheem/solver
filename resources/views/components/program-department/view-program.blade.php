@@ -561,7 +561,11 @@
                             <button type="submit" class="btn btn-primary mr-2">Apply</button>
                             <button type="button" class="btn btn-secondary mr-2"
                                 onclick="resetFilter()">Reset</button>
-                            <button type="button" class="btn btn-info" onclick="exportData()">Export</button>
+                            <button type="button" class="btn btn-info mr-2" data-toggle="modal"
+                                data-target="#importModal">
+                                Import
+                            </button>
+                            <button type="button" class="btn btn-info mr-2" onclick="exportData()">Export</button>
                         </div>
                     </div>
                 </form>
@@ -668,6 +672,34 @@
                         onclick="window.location='{{ request()->fullUrlWithQuery(['page' => $programs->currentPage() + 1]) }}'">
                         Next
                     </button>
+                </div>
+            </div>
+            <!-- Import Modal -->
+            <div class="modal fade" id="importModal" tabindex="-1" role="dialog"
+                aria-labelledby="importModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form action="{{ route('program-import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Import Excel File</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Select Excel File</label>
+                                    <input type="file" name="excel_file" class="form-control"
+                                        accept=".xlsx,.xls,.csv" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Import</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 

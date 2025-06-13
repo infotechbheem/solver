@@ -72,6 +72,7 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::post('/check-scheme-beneficiary', 'checkBeneficiary');
 
         Route::post('/filter-progam', 'filterProgram')->name('filter-progam');
+        Route::post('/program-import', 'importProgram')->name('program-import');
 
     });
     //=================PROGRAM DEPARTMENT END=====================

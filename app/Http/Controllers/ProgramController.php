@@ -11,6 +11,7 @@ use App\Models\Deliverables;
 use App\Models\OverallTargetvsDeliverables;
 use App\Imports\OverallTargetImport;
 use App\Imports\ProgressTrackImport;
+use App\Imports\ProgramImport;
 use App\Models\ProgressTracker;
 use App\Models\Team;
 use App\Models\CSRPartner;
@@ -699,7 +700,7 @@ class ProgramController extends Controller
         $editProgram = Program::with('livelihoods', 'digitalLiteracies', 'communities', 'socialProtections')->where('id', $id)->first();
         $title = 'Edit Program';
 
-        return view('program-department.edit-program', compact('title', 'editProgram', 'team','partnerOrg','csr'));
+        return view('program-department.edit-program', compact('title', 'editProgram', 'team', 'partnerOrg', 'csr'));
     }
 
     public function updateProgram(Request $request, $id)
@@ -968,5 +969,16 @@ class ProgramController extends Controller
         return redirect()->route('our-program.view-program', [
             'program_type' => $request->program_type,
         ]);
+    }
+
+    public function importProgram(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,csv,xls',
+        ]);
+
+        Excel::import(new ProgramImport, $request->file('excel_file'));
+
+        return back()->with('success', 'Excel file imported successfully!');
     }
 }
