@@ -37,54 +37,76 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="user_create_department">
     <div class="row">
-        @foreach ($countings as $counting)
-            <div class="col-lg-6 col-md-6">
-                <div class="ibox bg-success color-white widget-stat">
-                    <div class="ibox-body">
-                        <div style="position: relative; display: inline-block; max-width: 250px;">
-                            <span
-                                style="
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-        cursor: pointer;
-        border-bottom: 1px dotted #999;
-        "
-                                onmouseover="this.nextElementSibling.style.display='block';"
-                                onmouseout="this.nextElementSibling.style.display='none';">
-                                {{ \Illuminate\Support\Str::limit($counting->key_indicator, 40, '...') }}
-                            </span>
+        @foreach ($countings as $index => $counting)
+            <div class="col-lg-6 col-md-6 mb-4">
+                <div class="card shadow-sm p-3">
 
-                            <div
-                                style="
-        display: none;
-        position: absolute;
-        top: 120%;
-        left: 0;
-        background: #333;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 4px;
-        white-space: normal;
-        z-index: 9999;
-        font-size: 12px;
-        max-width: 300px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        ">
-                                {{ $counting->key_indicator }}
-                            </div>
+                    <!-- Hoverable Text with Full Tooltip -->
+                    <div style="position: relative; display: inline-block; max-width: 100%;">
+                        <span
+                            style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; cursor: pointer; border-bottom: 1px dotted #999;"
+                            onmouseover="this.nextElementSibling.style.display='block';"
+                            onmouseout="this.nextElementSibling.style.display='none';">
+                            {{ \Illuminate\Support\Str::limit($counting->key_indicator, 50, '...') }}
+                        </span>
+
+                        <!-- Tooltip Div -->
+                        <div
+                            style="display: none; position: absolute; top: 120%; left: 0; background: #333; color: #fff; padding: 5px 10px; border-radius: 4px; white-space: normal; z-index: 9999; font-size: 12px; max-width: 300px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+                            {{ $counting->key_indicator }}
                         </div>
-                        <h5 class="m-b-5 font-strong">Total Target:{{ $counting->target }}
-                        </h5>
-                        <h5 class="m-b-5 font-strong">Target Achieved:{{ $counting->achieved }}
-                        </h5>
                     </div>
+
+                    <!-- Donut Chart Canvas -->
+                    <canvas id="chart-{{ $index }}"
+                        style="width: 80px; height: 80px; display: block; margin: 10px auto;"></canvas>
+
+                    <!-- Values -->
+                    <p class="mt-3 mb-1"><strong>Total Target:</strong> {{ $counting->target }}</p>
+                    <p class="mb-0"><strong>Target Achieved:</strong> {{ $counting->achieved }}</p>
                 </div>
             </div>
         @endforeach
     </div>
+
+    <!-- Chart Init Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @foreach ($countings as $index => $counting)
+                new Chart(document.getElementById('chart-{{ $index }}'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Achieved', 'Remaining'],
+                        datasets: [{
+                            data: [{{ $counting->achieved }},
+                                {{ max($counting->target - $counting->achieved, 0) }}
+                            ],
+                            backgroundColor: ['#28a745', '#e0e0e0'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        cutout: '70%',
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.raw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            @endforeach
+        });
+    </script>
+
     <div class="containers p-0">
         <div class="row">
             <div class="col-lg-12">
