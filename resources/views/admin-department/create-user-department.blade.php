@@ -10,7 +10,7 @@
         }
     </style>
 
-    @include('components.breadcrumb',['title' => 'User Department'])
+    @include('components.breadcrumb', ['title' => 'User Department'])
     <div class="user_create_department">
 
         <div class="containers p-0">
@@ -25,6 +25,7 @@
                     </button>
                     <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#viewAllModal">Partner
                         Organisation</button>
+                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#userModal">User</button>
 
                 </div>
                 <!-- Tables Section -->
@@ -171,11 +172,93 @@
 
                     </div>
                 </div>
+
+                {{-- user details --}}
+                <div class="table-section-main-head">
+                    <div class="table-section-main">
+                        <div class="cards" style="width:100%">
+                            <div class="card-header">
+                                <h5 class="m-0"><b>All Users</b></h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-bordered mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>SN</th>
+                                            <th>Name</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Created At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($userDetails as $key => $user)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->username }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ __formatDate($user->created_at) }}</td>
+                                                <td>
+                                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm"
+                                                        onclick="openAssignRoleModal({{ $user->id }})">
+                                                        Assign Role
+                                                    </a>
+
+                                                    <a href="{{ route('delete-user', $user->id) }}"
+                                                        class="btn btn-danger btn-sm">Delete</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 <!-- Modals -->
 
-                <!-- Create User Type Modal -->
-                <div class="modal fade" id="createUserTypeModal" tabindex="-1" aria-labelledby="createUserTypeModalLabel"
+                {{-- assign role modal --}}
+                <div class="modal fade" id="assignRoleModal" tabindex="-1" aria-labelledby="assignRoleModalLabel"
                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="{{ route('assign-role-to-user') }}" method="POST">
+                            @csrf
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="assignRoleModalLabel">Assign Role</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <!-- Hidden User ID -->
+                                    <input type="hidden" name="user_id" id="modal_user_id">
+
+                                    <!-- Role Dropdown -->
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Select Role</label>
+                                        <select name="role_id" id="role" class="form-control" required>
+                                            <option value="">-- Select Role --</option>
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}">{{ ucfirst($role->name) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Assign</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Create User Type Modal -->
+                <div class="modal fade" id="createUserTypeModal" tabindex="-1"
+                    aria-labelledby="createUserTypeModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -188,8 +271,8 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label>User Type Name</label>
-                                        <input type="text" name="user_type" id="user_type" class="form-control" required
-                                            placeholder="Enter user type">
+                                        <input type="text" name="user_type" id="user_type" class="form-control"
+                                            required placeholder="Enter user type">
                                     </div>
                                     <button class="btn btn-primary" type="submit">Save</button>
                                 </form>
@@ -337,6 +420,68 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- user modal --}}
+                <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">User</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"><i
+                                        class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('store-user') }}" method="post">
+                                    @csrf
+                                    <div class="modal-body-main mb-3">
+                                        <div class="input-section">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" name="user-name"
+                                                placeholder="Enter Name">
+                                        </div>
+                                        <div class="input-section">
+                                            <label>Designation</label>
+                                            <input type="text" class="form-control" name="user-designation"
+                                                placeholder="Enter designation name">
+                                        </div>
+                                    </div>
+                                    <div class="modal-body-main mb-3">
+                                        <div class="input-section">
+                                            <label>Mobile Number</label>
+                                            <input type="text" class="form-control" name="phone_number"
+                                                placeholder="Enter mobile number">
+                                        </div>
+                                        <div class="input-section">
+                                            <label>Authorised Email Id</label>
+                                            <input type="text" class="form-control" name="email"
+                                                placeholder="Enter  authorised email">
+                                        </div>
+                                    </div>
+                                    <div class="modal-body-main mb-3">
+                                        <div class="input-section">
+                                            <label>Create Password</label>
+                                            <input type="password" name="password" class="form-control"
+                                                placeholder="Enter password">
+                                        </div>
+                                        <div class="input-section">
+                                            <label>Department</label>
+                                            <select name="user-department" class="form-control">
+                                                <option value="">Select Department</option>
+                                                @foreach ($userDepartment as $department)
+                                                    <option value="{{ $department->id }}">
+                                                        {{ strtoupper($department->user_department) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit" id="submitBtnUser">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -350,8 +495,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- email check --}}
     <script>
-        $(document).ready(function () {
-            $('input[name="email"]').on('change', function () {
+        $(document).ready(function() {
+            $('input[name="email"]').on('change', function() {
                 let emailInput = $(this);
                 let email = emailInput.val();
                 let errorBox = emailInput.next('.email-error');
@@ -366,19 +511,20 @@
                 if (email.length > 0) {
                     emailInput.next('.email-error').remove();
                     $.ajax({
-                        url: '{{ route("check-email-availability") }}',
+                        url: '{{ route('check-email-availability') }}',
                         type: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
                             email: email
                         },
-                        success: function (response) {
+                        success: function(response) {
                             if (response.isEmailAvailable) {
-                                emailInput.after('<div class="email-error text-danger mt-1">Email already exists.</div>');
+                                emailInput.after(
+                                    '<div class="email-error text-danger mt-1">Email already exists.</div>'
+                                );
                                 submitBtn.prop('disabled', true);
                                 submitBtnPartner.prop('disabled', true);
-                            }
-                            else {
+                            } else {
                                 submitBtn.prop('disabled', false);
                                 submitBtnPartner.prop('disabled', false);
                             }
@@ -390,8 +536,8 @@
     </script>
     {{-- password validation --}}
     <script>
-        $(document).ready(function () {
-            $('input[name="password"]').on('change', function () {
+        $(document).ready(function() {
+            $('input[name="password"]').on('change', function() {
                 let passwordInput = $(this);
                 let password = passwordInput.val();
                 let errorBox = passwordInput.next('.password-error');
@@ -408,11 +554,12 @@
 
                 if (!isValid && password.length > 0) {
                     // Show error message
-                    passwordInput.after('<div class="password-error" style="color: red; font-size: 14px; margin-top: 4px;">Password must be at least 8 characters long and include a letter, a number, and a special character.</div>');
+                    passwordInput.after(
+                        '<div class="password-error" style="color: red; font-size: 14px; margin-top: 4px;">Password must be at least 8 characters long and include a letter, a number, and a special character.</div>'
+                    );
                     submitBtn.prop('disabled', true);
                     submitBtnPartner.prop('disabled', true);
-                }
-                else {
+                } else {
                     passwordInput.after('');
                     submitBtn.prop('disabled', false);
                     submitBtnPartner.prop('disabled', false);
@@ -423,8 +570,8 @@
 
     {{-- phone validation --}}
     <script>
-        $(document).ready(function () {
-            $('input[name="phone_number"]').on('change', function () {
+        $(document).ready(function() {
+            $('input[name="phone_number"]').on('change', function() {
                 let phoneInput = $(this);
                 let phone = phoneInput.val();
                 let errorBox = phoneInput.next('.phone-error');
@@ -436,15 +583,17 @@
                     errorBox.remove();
                 }
 
-                let isValid = /^[6-9]\d{9}$/.test(phone) && !/^(\d)\1{9}$/.test(phone) && phone !== '1234567890' && phone !== '0123456789';
+                let isValid = /^[6-9]\d{9}$/.test(phone) && !/^(\d)\1{9}$/.test(phone) && phone !==
+                    '1234567890' && phone !== '0123456789';
 
                 if (!isValid && phone.length > 0) {
                     // Show error message
-                    phoneInput.after('<div class="phone-error" style="color: red; font-size: 14px; margin-top: 4px;">Mobile number must be exactly 10 digits and contain only numbers and should be a valid number.</div>');
+                    phoneInput.after(
+                        '<div class="phone-error" style="color: red; font-size: 14px; margin-top: 4px;">Mobile number must be exactly 10 digits and contain only numbers and should be a valid number.</div>'
+                    );
                     submitBtn.prop('disabled', true);
                     submitBtnPartner.prop('disabled', true);
-                }
-                else {
+                } else {
                     phoneInput.after('');
                     submitBtn.prop('disabled', false);
                     submitBtnPartner.prop('disabled', false);
@@ -455,8 +604,8 @@
 
     {{-- add required to name, company name and designation --}}
     <script>
-        $(document).ready(function () {
-            $('#submitBtn').on('click', function (e) {
+        $(document).ready(function() {
+            $('#submitBtn').on('click', function(e) {
                 let isValid = true;
 
                 let submitBtn = $('#submitBtn');
@@ -472,17 +621,21 @@
 
                 // Validation checks
                 if (!companyNameInput.val().trim()) {
-                    companyNameInput.after('<div class="field-error text-danger mt-1">Company name is required.</div>');
+                    companyNameInput.after(
+                        '<div class="field-error text-danger mt-1">Company name is required.</div>');
                     isValid = false;
                 }
 
                 if (!nameInput.val().trim()) {
-                    nameInput.after('<div class="field-error text-danger mt-1">Authorised Person Name is required.</div>');
+                    nameInput.after(
+                        '<div class="field-error text-danger mt-1">Authorised Person Name is required.</div>'
+                    );
                     isValid = false;
                 }
 
                 if (!designationInput.val().trim()) {
-                    designationInput.after('<div class="field-error text-danger mt-1">Designation is required.</div>');
+                    designationInput.after(
+                        '<div class="field-error text-danger mt-1">Designation is required.</div>');
                     isValid = false;
                 }
 
@@ -499,7 +652,7 @@
             });
 
             // Re-enable buttons on any input change
-            $('input').on('input', function () {
+            $('input').on('input', function() {
                 $('#submitBtn').prop('disabled', false);
                 $(this).next('.field-error').remove(); // remove error on user typing
             });
@@ -508,8 +661,8 @@
 
     {{-- add required to name, company name and designation --}}
     <script>
-        $(document).ready(function () {
-            $('#submitBtnPartner').on('click', function (e) {
+        $(document).ready(function() {
+            $('#submitBtnPartner').on('click', function(e) {
                 let isValid = true;
 
 
@@ -526,17 +679,21 @@
                 // Validation checks
 
                 if (!ngoNameInput.val().trim()) {
-                    ngoNameInput.after('<div class="field-error text-danger mt-1">Company/NGO name is required.</div>');
+                    ngoNameInput.after(
+                        '<div class="field-error text-danger mt-1">Company/NGO name is required.</div>');
                     isValid = false;
                 }
 
                 if (!contactPersonInput.val().trim()) {
-                    contactPersonInput.after('<div class="field-error text-danger mt-1">Authorised person name is required.</div>');
+                    contactPersonInput.after(
+                        '<div class="field-error text-danger mt-1">Authorised person name is required.</div>'
+                    );
                     isValid = false;
                 }
 
                 if (!designationInput.val().trim()) {
-                    designationInput.after('<div class="field-error text-danger mt-1">Designation is required.</div>');
+                    designationInput.after(
+                        '<div class="field-error text-danger mt-1">Designation is required.</div>');
                     isValid = false;
                 }
 
@@ -553,11 +710,75 @@
             });
 
             // Re-enable buttons on any input change
-            $('input').on('input', function () {
+            $('input').on('input', function() {
                 $('#submitBtnPartner').prop('disabled', false);
                 $(this).next('.field-error').remove(); // remove error on user typing
             });
         });
     </script>
+    {{-- add required to name, company name and designation --}}
+    <script>
+        $(document).ready(function() {
+            $('#submitBtnUser').on('click', function(e) {
+                let isValid = true;
 
+
+                let submitBtnUser = $('#submitBtnUser');
+
+                // Clear previous errors
+                $('.field-error').remove();
+
+                // Define input elements
+                let userNameInput = $('input[name="user-name"]');
+                let userDepartment = $('select[name="user-department"]')
+                let userInput = $('input[name="user-designation"]');
+
+                // Validation checks
+
+                if (!userNameInput.val().trim()) {
+                    userNameInput.after(
+                        '<div class="field-error text-danger mt-1">Name is required.</div>');
+                    isValid = false;
+                }
+
+                if (!userDepartment.val().trim()) {
+                    userDepartment.after(
+                        '<div class="field-error text-danger mt-1">User Department is required.</div>');
+                    isValid = false;
+                }
+
+                if (!userInput.val().trim()) {
+                    userInput.after(
+                        '<div class="field-error text-danger mt-1">Designation is required.</div>');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault(); // Stop form submission
+                    // Disable buttons
+
+                    submitBtnUser.prop('disabled', true);
+                } else {
+                    // Enable buttons
+
+                    submitBtnUser.prop('disabled', false);
+                }
+            });
+
+            // Re-enable buttons on any input change
+            $('input').on('input', function() {
+                $('#submitBtnUser').prop('disabled', false);
+                $(this).next('.field-error').remove(); // remove error on user typing
+            });
+        });
+    </script>
+
+
+    <script>
+        function openAssignRoleModal(userId) {
+            document.getElementById('modal_user_id').value = userId;
+            let assignModal = new bootstrap.Modal(document.getElementById('assignRoleModal'));
+            assignModal.show();
+        }
+    </script>
 @endsection

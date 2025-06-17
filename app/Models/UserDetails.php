@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserDetails extends Model
 {
     protected $table = 'user_details';
-    protected $fillable = ['name', 'phone_number', 'email', 'address', 'designation_id', 'department_id', 'status'];
+    protected $fillable = ['name', 'phone_number', 'email', 'address', 'designation_id', 'department_id', 'status','designation','user_id'];
 
     public function userType()
     {
@@ -16,5 +16,10 @@ class UserDetails extends Model
     public function department()
     {
         return $this->belongsTo(UserDepartment::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

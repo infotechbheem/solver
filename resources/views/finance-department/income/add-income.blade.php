@@ -159,7 +159,7 @@
                             <input type="text" placeholder="Enter name" name="target_name[]">
                         </div>
                         <div class="scr-form-group">
-                            <label>Target Amount</label>
+                            <label>Target Number</label>
                             <input type="number" placeholder="Enter amount" name="target_amount[]">
                         </div>
                         <div class="scr-form-group-btn">
@@ -395,7 +395,7 @@
                     <input type="text" placeholder="Enter name" name="target_name[]">
                 </div>
                 <div class="scr-form-group" style="flex: 1;">
-                    <label>Target Amount</label>
+                    <label>Target Number</label>
                     <input type="number" placeholder="Enter amount" name="target_amount[]">
                 </div>
                 <div class="scr-form-group" style="display: flex; align-items: end;">

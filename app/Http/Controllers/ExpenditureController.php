@@ -99,13 +99,11 @@ class ExpenditureController extends Controller
         $filteredExpenditure = $query->paginate(10)->appends($request->all());
 
         $title = "View Expenditure";
-        return view('finance-department.expenditure.view-expenditure', compact('title', 'expenseList', 'totalExpenditure', 'todayExpenditureTotal', 'yesterdayExpenditureTotal', 'labels', 'data', 'hireChartLabel', 'hireChartTotal','filteredExpenditure'));
+        return view('finance-department.expenditure.view-expenditure', compact('title', 'expenseList', 'totalExpenditure', 'todayExpenditureTotal', 'yesterdayExpenditureTotal', 'labels', 'data', 'hireChartLabel', 'hireChartTotal', 'filteredExpenditure'));
     }
 
     public function expenditureStore(Request $request)
     {
-        // dd($request->all());
-
         try {
             DB::beginTransaction();
 
@@ -166,6 +164,60 @@ class ExpenditureController extends Controller
                 'description' => $request->description,
                 'invoice' => $invoicePath,
                 'proof_of_payment' => $proofPath,
+
+                // HR
+                'hr_amount' => $request->hr_amount,
+                'hr_section' => $request->hr_section,
+                'hr_tds_deduction_percentage' => $request->hr_tds_deduction_percentage,
+                'hr_tds_deduction_amount' => $request->hr_tds_deduction_amount,
+                'hr_pan' => $request->hr_pan,
+                'hr_tds_deduction_date' => $request->hr_tds_deduction_date,
+                'hr_total_amount' => $request->hr_total_amount,
+
+                // Equipment
+                'equip_amount' => $request->equip_amount,
+                'equip_section' => $request->equip_section,
+                'equip_tds_deduction_percentage' => $request->equip_tds_deduction_percentage,
+                'equip_tds_deduction_amount' => $request->equip_tds_deduction_amount,
+                'equip_pan' => $request->equip_pan,
+                'equip_tds_deduction_date' => $request->equip_tds_deduction_date,
+                'equip_total_amount' => $request->equip_total_amount,
+
+                // Travel
+                'travel_exp_amount' => $request->travel_exp_amount,
+                'travel_exp_section' => $request->travel_exp_section,
+                'travel_exp_tds_deduction_percentage' => $request->travel_exp_tds_deduction_percentage,
+                'travel_exp_tds_deduction_amount' => $request->travel_exp_tds_deduction_amount,
+                'travel_exp_pan' => $request->travel_exp_pan,
+                'travel_exp_tds_deduction_date' => $request->travel_exp_tds_deduction_date,
+                'travel_exp_total_amount' => $request->travel_exp_total_amount,
+
+                // Material
+                'material_amount' => $request->material_amount,
+                'material_section' => $request->material_section,
+                'material_tds_deduction_percentage' => $request->material_tds_deduction_percentage,
+                'material_tds_deduction_amount' => $request->material_tds_deduction_amount,
+                'material_pan' => $request->material_pan,
+                'material_tds_deduction_date' => $request->material_tds_deduction_date,
+                'material_total_amount' => $request->material_total_amount,
+
+                // Accommodation
+                'accomodation_amount' => $request->accomodation_amount,
+                'accomodation_section' => $request->accomodation_section,
+                'accomodation_tds_deduction_percentage' => $request->accomodation_tds_deduction_percentage,
+                'accomodation_tds_deduction_amount' => $request->accomodation_tds_deduction_amount,
+                'accomodation_pan' => $request->accomodation_pan,
+                'accomodation_tds_deduction_date' => $request->accomodation_tds_deduction_date,
+                'accomodation_total_amount' => $request->accomodation_total_amount,
+
+                // Miscellaneous
+                'miscellaneous_amount' => $request->miscellaneous_amount,
+                'miscellaneous_section' => $request->miscellaneous_section,
+                'miscellaneous_tds_deduction_percentage' => $request->miscellaneous_tds_deduction_percentage,
+                'miscellaneous_tds_deduction_amount' => $request->miscellaneous_tds_deduction_amount,
+                'miscellaneous_pan' => $request->miscellaneous_pan,
+                'miscellaneous_tds_deduction_date' => $request->miscellaneous_tds_deduction_date,
+                'miscellaneous_total_amount' => $request->miscellaneous_total_amount,
             ];
 
             Expenditure::create($expenditureData);

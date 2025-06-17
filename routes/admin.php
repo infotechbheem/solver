@@ -16,9 +16,10 @@ Route::get('/forgot_password', function () {
     return view('forgot_password');
 });
 
-Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
+Route::middleware(['admin_auth:field,program,finance,hr,partner_or_ngo,csr_partner', 'clear_cache'])->group(function () {
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/auth/admin/dashboard', 'adminDashboard')->name('admin.dashboard');
+        Route::post('/dashboardFilter', 'dashboardFilter')->name('dashboardFilter');
         Route::get('/admin-logout', 'logout')->name('admin.logout');
     });
 
@@ -73,7 +74,6 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
 
         Route::post('/filter-progam', 'filterProgram')->name('filter-progam');
         Route::post('/program-import', 'importProgram')->name('program-import');
-
     });
     //=================PROGRAM DEPARTMENT END=====================
 
@@ -87,10 +87,15 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         Route::get('/admin-department/delete-user-type/{id}', 'deleteUserType')->name('delete.user-type');
         Route::get('/admin-department/delete-user-department/{id}', 'deleteDepartment')->name('delete.user-department');
 
-        Route::post('/admin-department/store-user-registration', 'storeUserRegistration')->name('store-user-registration');
+        Route::post('/admin-department/store-user-registration', 'storeUserRegistration')->name('store-user');
         Route::get('/admin-department/view-user', 'viewUser')->name('view-user');
         Route::get('/admin-department/user-status-change/{id}', 'userStatusChange')->name('user-status-change');
         Route::get('/admin-department/user-access-control', 'userAccessControl')->name('user-access-control');
+
+        // delete user
+        Route::get('/admin-department/user-delete/{id}', 'deleteUser')->name('delete-user');
+        // role assign to user
+        Route::post('/admin-department/role-assign-to-user', 'assignUserRole')->name('assign-role-to-user');
 
         Route::get('/admin-department/letter-box', 'letterBox')->name('letter-box');
         Route::post('/admin-department/store-letter-box', 'storeLetterBox')->name('store-letter-box');
@@ -225,10 +230,12 @@ Route::middleware(['admin_auth', 'clear_cache'])->group(function () {
         $title = "Team Member Registartion";
         return view('auth.human-resource.team.team-member-registration', compact('title'));
     })->name('auth-human-resource.our-team.team-member-registration');
-    Route::get('/auth/human-resource/team/all-team-member', function () {
-        $title = "All Team Member ";
-        return view('auth.human-resource.team.all-team-member', compact('title'));
-    })->name('auth-human-resource.our-team.all-team-member');
+    Route::get('/auth/human-resource/team/all-team-member', [TeamController::class, 'allTeamMember'])
+        ->name('auth-human-resource.our-team.all-team-member');
+    // Route::get('/auth/human-resource/team/all-team-member', function () {
+    //     $title = "All Team Member ";
+    //     return view('auth.human-resource.team.all-team-member', compact('title'));
+    // })->name('auth-human-resource.our-team.all-team-member');
     Route::get('/auth/human-resource/team/team-member-details', function () {
         $title = "Team Member Deatils";
         return view('auth.human-resource.team.team-member-details', compact('title'));

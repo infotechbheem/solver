@@ -39,16 +39,16 @@
                     </tr>
                 @endif
 
-                @if ($expenseDetail->name || $expenseDetail->type_of_expense || $expenseDetail->administrative_expense)
+                @if ($expenseDetail->name || $expenseDetail->administrative_expense)
                     <tr>
                         <th>Name</th>
-                        <th>Type of Expenditure</th>
                         <th>Administrative Expenses</th>
+                        <th></th>
                     </tr>
                     <tr>
                         <td>{{ $expenseDetail->name }}</td>
-                        <td>{{ $expenseDetail->type_of_expense }}</td>
                         <td>{{ $expenseDetail->administrative_expense }}</td>
+                        <td></td>
                     </tr>
                 @endif
 
@@ -261,15 +261,81 @@
                 @if ($expenseDetail->proof_of_payment)
                     <tr>
                         <th>Proof Of Payment</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
                         <td>
                             <a href="{{ asset('storage/' . $expenseDetail->proof_of_payment) }}"
                                 target="_blank">Download</a>
                         </td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 @endif
+                {{-- Grouped TDS Sections by Category --}}
+                @php
+                    $tdsCategories = [
+                        'hr' => 'Human Resource',
+                        'equip' => 'Equipment',
+                        'travel_exp' => 'Travel',
+                        'material' => 'Material',
+                        'accomodation' => 'Accommodation',
+                        'miscellaneous' => 'Miscellaneous',
+                    ];
+                @endphp
+
+                @foreach ($tdsCategories as $prefix => $label)
+                    @php
+                        $amount = $expenseDetail->{$prefix . '_amount'};
+                        $section = $expenseDetail->{$prefix . '_section'};
+                        $percentage = $expenseDetail->{$prefix . '_tds_deduction_percentage'};
+                        $deduction = $expenseDetail->{$prefix . '_tds_deduction_amount'};
+                        $pan = $expenseDetail->{$prefix . '_pan'};
+                        $date = $expenseDetail->{$prefix . '_tds_deduction_date'};
+                        $total = $expenseDetail->{$prefix . '_total_amount'};
+                    @endphp
+
+                    @if ($amount || $section || $percentage || $deduction || $pan || $date || $total)
+                        <tr>
+                            <th colspan="3" style="background-color: #f0f0f0;">TDS Details – {{ $label }}</th>
+                        </tr>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Section</th>
+                            <th>TDS Deduction %</th>
+                        </tr>
+                        <tr>
+                            <td>{{ $amount }}</td>
+                            <td>{{ $section }}</td>
+                            <td>{{ $percentage }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>TDS Deduction Amount</th>
+                            <th>PAN Number</th>
+                            <th>TDS Deduction Date</th>
+                        </tr>
+                        <tr>
+                            <td>{{ $deduction }}</td>
+                            <td>{{ $pan }}</td>
+                            <td>{{ $date ? \Carbon\Carbon::parse($date)->format('d/m/Y') : '' }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Total Amount</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>{{ $total }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    @endif
+                @endforeach
             </table>
         </div>
     </div>
+
 @endsection

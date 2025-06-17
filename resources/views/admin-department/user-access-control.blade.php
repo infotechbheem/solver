@@ -76,73 +76,40 @@
                         <select id="user-type" name="user_type" class="access-option-dropdown" required>
                             <option value="">Select a user type</option>
                             @foreach ($userTypeList as $userType)
-                                <option value="{{ $userType->id }}">{{ ucfirst($userType->name) }}</option>
+                                <option value="{{ $userType->id }}">
+                                    {{ ucwords(str_replace('_', ' ', $userType->name)) }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
                 @php
-                    function formatPermissionName($name)
+                    // Group permissions by group_name
+                    $groupedPermissions = $permissionList->groupBy('group_name');
+
+                    // Optional: Format group_name to proper display format
+                    function formatGroupName($groupName)
                     {
-                        return $name;
+                        return ucwords(str_replace('_', ' ', $groupName));
                     }
 
-                    $permissionCategories = [
-                        'User Department' => [
-                            'Create User Type',
-                            'Delete User Type',
-                            'Create Department',
-                            'Delete Department',
-                            'Create User',
-                            'View User',
-                            'Edit User',
-                            'Change User Status',
-                        ],
-                        'CSR Profile Management' => [
-                            'Csr Registration',
-                            'View Csr',
-                            'Edit Csr',
-                            'Csr Status Change',
-                            'Create Project Category',
-                            'Delete Project Category',
-                        ],
-                        'CSR Project Management' => [
-                            'Csr Project Registration',
-                            'Csr Project View',
-                            'Csr Expense Beneficiary',
-                            'Csr Expense Program',
-                        ],
-                        'General Expense Management' => [
-                            'Add Admin Expense',
-                            'View Admin Expense',
-                            'Add Program Expense',
-                            'View Program Expense',
-                        ],
-                        'Attendance Management' => [
-                            'Add Shift',
-                            'Delete Shift',
-                            'Add Holiday',
-                            'Delete Holiday',
-                            'Add Attendance',
-                            'View Attendance',
-                        ],
-                        'Salary Management' => ['Set Salary', 'View Salary', 'Update Salary'],
-                        'General Settings' => ['Update Company Profile', 'Update Mail Config'],
-                    ];
+                    // Optional: Format permission name
+                    function formatPermissionName($name)
+                    {
+                        return ucwords(str_replace('_', ' ', $name));
+                    }
                 @endphp
 
-                @foreach ($permissionCategories as $category => $permissionNames)
-                    <h3 class="scr-registration-heading">{{ $category }}</h3>
+                @foreach ($groupedPermissions as $group => $permissions)
+                    <h3 class="scr-registration-heading">{{ formatGroupName($group) }}</h3>
                     <div class="access-control-options">
-                        @foreach ($permissionList as $permission)
-                            @if (in_array($permission->name, $permissionNames))
-                                <label class="access-option">
-                                    <input type="checkbox" id="{{ $permission->name }}" name="permissions[]"
-                                        value="{{ $permission->id }}">
-                                    {{ formatPermissionName($permission->name) }}
-                                </label>
-                            @endif
+                        @foreach ($permissions as $permission)
+                            <label class="access-option">
+                                <input type="checkbox" id="{{ $permission->name }}" name="permissions[]"
+                                    value="{{ $permission->id }}">
+                                {{ formatPermissionName($permission->name) }}
+                            </label>
                         @endforeach
                     </div>
                 @endforeach
