@@ -56,6 +56,55 @@ return new class extends Migration
             $table->string('net_payment')->nullable();
             $table->string('advance_deposit')->nullable();
             $table->string('type_of_payment')->nullable();
+
+            $table->string('hr_amount')->nullable();
+            $table->string('hr_section')->nullable();
+            $table->string('hr_tds_deduction_percentage')->nullable();
+            $table->string('hr_tds_deduction_amount')->nullable();
+            $table->string('hr_pan')->nullable();
+            $table->string('hr_tds_deduction_date')->nullable();
+            $table->string('hr_total_amount')->nullable();
+
+            $table->string('equip_amount')->nullable();
+            $table->string('equip_section')->nullable();
+            $table->string('equip_tds_deduction_percentage')->nullable();
+            $table->string('equip_tds_deduction_amount')->nullable();
+            $table->string('equip_pan')->nullable();
+            $table->string('equip_tds_deduction_date')->nullable();
+            $table->string('equip_total_amount')->nullable();
+
+            $table->string('travel_exp_amount')->nullable();
+            $table->string('travel_exp_section')->nullable();
+            $table->string('travel_exp_tds_deduction_percentage')->nullable();
+            $table->string('travel_exp_tds_deduction_amount')->nullable();
+            $table->string('travel_exp_pan')->nullable();
+            $table->string('travel_exp_tds_deduction_date')->nullable();
+            $table->string('travel_exp_total_amount')->nullable();
+
+            $table->string('material_amount')->nullable();
+            $table->string('material_section')->nullable();
+            $table->string('material_tds_deduction_percentage')->nullable();
+            $table->string('material_tds_deduction_amount')->nullable();
+            $table->string('material_pan')->nullable();
+            $table->string('material_tds_deduction_date')->nullable();
+            $table->string('material_total_amount')->nullable();
+
+            $table->string('accomodation_amount')->nullable();
+            $table->string('accomodation_section')->nullable();
+            $table->string('accomodation_tds_deduction_percentage')->nullable();
+            $table->string('accomodation_tds_deduction_amount')->nullable();
+            $table->string('accomodation_pan')->nullable();
+            $table->string('accomodation_tds_deduction_date')->nullable();
+            $table->string('accomodation_total_amount')->nullable();
+
+            $table->string('miscellaneous_amount')->nullable();
+            $table->string('miscellaneous_section')->nullable();
+            $table->string('miscellaneous_tds_deduction_percentage')->nullable();
+            $table->string('miscellaneous_tds_deduction_amount')->nullable();
+            $table->string('miscellaneous_pan')->nullable();
+            $table->string('miscellaneous_tds_deduction_date')->nullable();
+            $table->string('miscellaneous_total_amount')->nullable();
+
             $table->longText('description')->nullable();
             $table->timestamps();
         });

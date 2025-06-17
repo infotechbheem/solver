@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name')->nullable();
             $table->unsignedBigInteger('phone_number')->nullable();
             $table->string('email')->nullable();
             $table->string('address')->nullable();
+            $table->string('designation')->nullable();
             $table->unsignedBigInteger('designation_id')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->boolean('status')->nullable();

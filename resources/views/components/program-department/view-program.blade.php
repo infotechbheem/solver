@@ -561,11 +561,27 @@
                             <button type="submit" class="btn btn-primary mr-2">Apply</button>
                             <button type="button" class="btn btn-secondary mr-2"
                                 onclick="resetFilter()">Reset</button>
-                            <button type="button" class="btn btn-info mr-2" data-toggle="modal"
-                                data-target="#importModal">
-                                Import
-                            </button>
-                            <button type="button" class="btn btn-info mr-2" onclick="exportData()">Export</button>
+                            @php
+                                $userRoleName = auth()->user()->roles->pluck('name')->first();
+                            @endphp
+
+                            @if ($userRoleName === 'admin')
+                                <button type="button" class="btn btn-info mr-2" data-toggle="modal"
+                                    data-target="#importModal">
+                                    Import
+                                </button>
+                                <button type="button" class="btn btn-info mr-2"
+                                    onclick="exportData()">Export</button>
+                            @else
+                                @canany(['view', 'edit', 'delete'])
+                                    <button type="button" class="btn btn-info mr-2" data-toggle="modal"
+                                        data-target="#importModal">
+                                        Import
+                                    </button>
+                                    <button type="button" class="btn btn-info mr-2"
+                                        onclick="exportData()">Export</button>
+                                @endcan
+                            @endif
                         </div>
                     </div>
                 </form>
@@ -619,24 +635,64 @@
                                 <td>{{ $program->occupation ?? 'N/A' }}</td>
                                 <td>{{ $program->family_income ?? 'N/A' }}</td>
                                 <td>
-                                    <a href="{{ route('our-program.view-program-details', encrypt($program->id)) }}">
-                                        <button class="btn btn-info">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                    </a>
-                                    <a href="{{ route('edit-program', encrypt($program->id)) }}">
-                                        <button class="btn btn-success">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <form action="{{ route('delete-program', $program->id) }}" method="POST"
-                                        style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger" onclick="return confirm('Are you sure?')">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </form>
+                                    @php
+                                        $user = auth()->user();
+                                        $roleName = $user->roles->pluck('name')->first(); // Get user's first role
+                                    @endphp
+
+                                    @if ($roleName === 'admin')
+                                        {{-- Admin: show all --}}
+                                        <a
+                                            href="{{ route('our-program.view-program-details', encrypt($program->id)) }}">
+                                            <button class="btn btn-info">
+                                                <i class="fa-regular fa-eye"></i>
+                                            </button>
+                                        </a>
+
+                                        <a href="{{ route('edit-program', encrypt($program->id)) }}">
+                                            <button class="btn btn-success">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </button>
+                                        </a>
+
+                                        <form action="{{ route('delete-program', $program->id) }}" method="POST"
+                                            style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        {{-- Other roles: show based on permission --}}
+                                        @canany(['view', 'view_program'])
+                                            <a
+                                                href="{{ route('our-program.view-program-details', encrypt($program->id)) }}">
+                                                <button class="btn btn-info">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </button>
+                                            </a>
+                                        @endcanany
+
+                                        @can('edit')
+                                            <a href="{{ route('edit-program', encrypt($program->id)) }}">
+                                                <button class="btn btn-success">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </button>
+                                            </a>
+                                        @endcan
+
+                                        @can('delete')
+                                            <form action="{{ route('delete-program', $program->id) }}" method="POST"
+                                                style="display:inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

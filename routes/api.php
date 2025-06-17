@@ -8,6 +8,8 @@ use App\Exports\IncomeExport;
 use App\Exports\ExpenditureExport;
 use App\Exports\ProgramExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
+use App\Imports\AttendanceImport;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -55,3 +57,25 @@ Route::get('/export-program', function (Request $request) {
     ];
     return Excel::download(new ProgramExport($filters), 'program_data.xlsx');
 })->name('program.export');
+
+// import attendance
+Route::post('/hr-department/attendance/attendance-import', function (Request $request) {
+    $title = "View Attendance";
+
+    $validator = Validator::make($request->all(), [
+        'import_file' => 'required|file|mimes:xlsx,csv,xls',
+    ]);
+
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
+    }
+
+    // Correct file input name
+    $file = $request->file('import_file');
+
+    // Import using Laravel Excel
+    Excel::import(new AttendanceImport, $file);
+
+    return view('hr-department.attendance.view-attendance', compact('title'))
+        ->with('success', 'Attendance file imported successfully.');
+})->name('attendance-import');

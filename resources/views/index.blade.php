@@ -1,6 +1,44 @@
 @extends('layouts.app')
 @section('main_container')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="mb-4">
+        <form action="{{ route('dashboardFilter') }}" method="POST" id="dashboardFilterForm">
+            @csrf
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <select name="program_type" class="form-control">
+                        <option value="">Select Program Type</option>
+                        <option value="social_protection"
+                            {{ request('program_type') == 'social_protection' ? 'selected' : '' }}>
+                            Social Protection
+                        </option>
+                        <option value="livelihood_beneficiray"
+                            {{ request('program_type') == 'livelihood_beneficiray' ? 'selected' : '' }}>
+                            Livelihood Beneficiary
+                        </option>
+                        <option value="community_capacity"
+                            {{ request('program_type') == 'community_capacity' ? 'selected' : '' }}>
+                            Community Capacity
+                        </option>
+                        <option value="digital_literacy"
+                            {{ request('program_type') == 'digital_literacy' ? 'selected' : '' }}>
+                            Digital Literacy & Finacial Inclusion
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <input type="date" name="dateFilter" class="form-control" value="{{ request('dateFilter') }}"
+                        placeholder="Expense Date">
+                </div>
+
+                <div class="col-md-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary mr-2">Apply</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetFilter()">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <div class="row">
         <style>
@@ -271,24 +309,12 @@
                                     'community_capacity' => 'Community Capacity',
                                     'digital_literacy' => 'Digital Literacy & Financial Inclusion',
                                 ];
-                                $donar = [
-                                    'npcl' => 'NPCL',
-                                    'tata' => 'TATA Trust',
-                                    'smile' => 'Smile Foundation',
-                                ];
                                 $project = [
                                     'sahyog' => 'Sahyog',
                                     'unnati' => 'Unnati',
                                     'saksham' => 'Saksham',
                                     'uttkarsh' => 'Uttkarsh',
                                     'others' => 'Others',
-                                ];
-                                $supportPartner = [
-                                    'kunj' => 'Kunj Innovation Trust',
-                                    'bhraspati' => 'Bhrashpati Foundation',
-                                    'yuva' => 'Yuva Bharat Trust',
-                                    'uplift' => 'Uplift Live Foundation',
-                                    'mathura' => 'Mathura Health Department',
                                 ];
                             @endphp
                             <tbody>
@@ -297,11 +323,9 @@
                                         <td>{{ $beneficiary->beneficiary_name ?? '' }}</td>
                                         <td>{{ $programType[$beneficiary->program_type] ?? $beneficiary->program_type }}
                                         </td>
-                                        <td>{{ $donar[$beneficiary->donar_organisation] ?? $beneficiary->donar_organisation }}
-                                        </td>
+                                        <td>{{ $beneficiary->csr->company_name ?? '-' }}</td>
                                         <td>{{ $project[$beneficiary->project] ?? $beneficiary->project }}</td>
-                                        <td>{{ $supportPartner[$beneficiary->support_partner] ?? $beneficiary->support_partner }}
-                                        </td>
+                                        <td>{{ $beneficiary->partnerOrg->{"company/ngo_name"} ?? '-' }}</td>
                                         <td>{{ $beneficiary->team->full_name ?? '' }}</td>
                                     </tr>
                                 @endforeach
@@ -398,6 +422,15 @@
             });
         } else {
             console.error('Pie chart canvas not found!');
+        }
+    </script>
+
+    <script>
+        function resetFilter() {
+
+            document.getElementById('dashboardFilterForm').reset();
+
+            window.location.href = "{{ route('admin.dashboard') }}";
         }
     </script>
 

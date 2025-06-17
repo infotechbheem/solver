@@ -24,8 +24,12 @@
             <div class="form-group">
                 <label for="role">Select Role</label>
                 <select class="form-control" id="role" name="role">
-                    <option value="admin_login">Admin Login </option>
-                    {{-- <option value="department_login">Department Login </option>
+                    <option value="">Select Role</option>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}">{{ ucfirst($role->name) }}</option>
+                    @endforeach
+                    {{-- <option value="admin_login">Admin Login </option>
+                    <option value="department_login">Department Login </option>
                     <option value="donor_login">Doner / CSR Partner login/ </option>
                     <option value="partner_organisaction_login">Partner Organisation login </option>
                     <option value="state_coordinator_login">State coordinator login </option>
@@ -92,15 +96,15 @@
     <script src="{{ asset('assets/vendors/popper.js/dist/umd/popper.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}" type="text/javascript"></script>
     <!-- PAGE LEVEL PLUGINS -->
-    <script src="{{ asset('assets/vendors/jquery-validation/dist/jquery.validate.min.js') }}"
-        type="text/javascript"></script>
+    <script src="{{ asset('assets/vendors/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript">
+    </script>
     <!-- CORE SCRIPTS-->
     <script src="{{ asset('assets/js/app.js') }}" type="text/javascript"></script>
     {{-- sweetalert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- PAGE LEVEL SCRIPTS-->
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             $('#login-form').validate({
                 errorClass: "help-block",
                 rules: {
@@ -112,48 +116,47 @@
                         required: true
                     }
                 },
-                highlight: function (e) {
+                highlight: function(e) {
                     $(e).closest(".form-group").addClass("has-error")
                 },
-                unhighlight: function (e) {
+                unhighlight: function(e) {
                     $(e).closest(".form-group").removeClass("has-error")
                 },
             });
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            @if(session('failed'))
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('failed'))
                 Swal.fire({
-                    icon: 'error'
-                    , title: 'Oops...'
-                    , text: "{{ session('failed') }}"
-                    , showConfirmButton: true
-                    , confirmButtonText: 'OK'
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "{{ session('failed') }}",
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK'
                 });
             @endif
 
-            @if(session('success'))
+            @if (session('success'))
                 Swal.fire({
-                    icon: 'success'
-                    , title: 'Welcome'
-                    , text: "{{ session('success') }}"
-                    , showConfirmButton: true
-                    , confirmButtonText: 'OK'
+                    icon: 'success',
+                    title: 'Welcome',
+                    text: "{{ session('success') }}",
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK'
                 });
             @endif
 
-            @if(session('warning'))
+            @if (session('warning'))
                 Swal.fire({
-                    icon: 'warning'
-                    , title: 'Warning'
-                    , text: "{{ session('warning') }}"
-                    , showConfirmButton: true
-                    , confirmButtonText: 'OK'
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: "{{ session('warning') }}",
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK'
                 });
             @endif
         });
-
     </script>
 </body>
 

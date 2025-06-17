@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function adminDashboard()
+    public function adminDashboard(Request $request)
     {
         $totalIncome = Income::sum('amount_received');
         $totalExpenditure = Expenditure::sum('sub_total_amount');
@@ -26,20 +26,30 @@ class DashboardController extends Controller
             'other' => 'Other',
         ];
 
-        // First: get grant amount by project type
-        $grantAmtByProgram = Income::selectRaw('
-                type_of_project,
-                SUM(human_resource) +
-                SUM(camp_exp) +
-                SUM(training_exp) +
-                SUM(equipment) +
-                SUM(travel_exp) +
-                SUM(material_exp) +
-                SUM(administrative_exp) +
-                SUM(accomodation_exp) +
-                SUM(monitoring_exp) +
-                SUM(miscellaneous_exp) AS total_amount
-            ')
+        // Income query for filters
+        $incomeQuery = Income::query();
+
+        if ($request->filled('program_type')) {
+            $incomeQuery->where('type_of_project', $request->program_type);
+        }
+        if ($request->filled('dateFilter')) {
+            $incomeQuery->whereDate('created_at', $request->dateFilter);
+        }
+
+        // Grant amount by project type (filtered)
+        $grantAmtByProgram = $incomeQuery->selectRaw('
+            type_of_project,
+            SUM(human_resource) +
+            SUM(camp_exp) +
+            SUM(training_exp) +
+            SUM(equipment) +
+            SUM(travel_exp) +
+            SUM(material_exp) +
+            SUM(administrative_exp) +
+            SUM(accomodation_exp) +
+            SUM(monitoring_exp) +
+            SUM(miscellaneous_exp) AS total_amount
+        ')
             ->groupBy('type_of_project')
             ->get()
             ->map(function ($item) use ($typeLabels) {
@@ -52,17 +62,17 @@ class DashboardController extends Controller
         $labels = $grantAmtByProgram->pluck('label');
         $totals = $grantAmtByProgram->pluck('total');
 
-        $beneficiaryInProgram = Program::with('team')->select([
-            'beneficiary_name',
-            'support_partner',
-            'donar_organisation',
-            'project',
-            'program_type',
-            'team_member_name',
-        ])->orderBy('created_at', 'desc')->take(10)->get();
+        // Grant target by project type (filtered)
+        $targetQuery = DB::table('income');
 
-        $grantTargetByProgram = DB::table('income')
-            ->select('type_of_project', 'target_name', 'target_amount')
+        if ($request->filled('program_type')) {
+            $targetQuery->where('type_of_project', $request->program_type);
+        }
+        if ($request->filled('dateFilter')) {
+            $targetQuery->whereDate('created_at', $request->dateFilter);
+        }
+
+        $grantTargetByProgram = $targetQuery->select('type_of_project', 'target_name', 'target_amount')
             ->get()
             ->groupBy('type_of_project')
             ->map(function ($items, $type) use ($typeLabels) {
@@ -96,7 +106,46 @@ class DashboardController extends Controller
         $totalsAlotedTarget = $grantTargetByProgram->pluck('total');
 
         $TotalBenefiary = Program::count();
-        return view('index', compact('totalIncome', 'totalExpenditure', 'totalMember', 'labels', 'totals', 'beneficiaryInProgram', 'labelsAlotedTarget', 'totalsAlotedTarget','tooltipsAlotedTarget','TotalBenefiary'));
+
+        // Program filter for recent 10 beneficiaries (filtered)
+        $query = Program::query()->with([
+            'csr',
+            'partnerOrg',
+            'team',
+            'livelihoods',
+            'digitalLiteracies',
+            'communities',
+            'socialProtections'
+        ]);
+
+        if ($request->filled('program_type')) {
+            $query->where('program_type', $request->program_type);
+        }
+        if ($request->filled('dateFilter')) {
+            $query->whereDate('created_at', $request->dateFilter);
+        }
+
+        $beneficiaryInProgram = $query->select([
+            'beneficiary_name',
+            'support_partner',
+            'donar_organisation',
+            'project',
+            'program_type',
+            'team_member_name',
+        ])->orderBy('created_at', 'desc')->take(10)->get();
+
+        return view('index', compact(
+            'totalIncome',
+            'totalExpenditure',
+            'totalMember',
+            'labels',
+            'totals',
+            'beneficiaryInProgram',
+            'labelsAlotedTarget',
+            'totalsAlotedTarget',
+            'tooltipsAlotedTarget',
+            'TotalBenefiary'
+        ));
     }
 
     public function logout()
@@ -105,5 +154,13 @@ class DashboardController extends Controller
             Auth::logout();
             return redirect()->route('login')->with('success', 'Logout successfully!!');
         }
+    }
+
+    public function dashboardFilter(Request $request)
+    {
+        return redirect()->route('admin.dashboard', [
+            'program_type' => $request->program_type,
+            'dateFilter' => $request->dateFilter,
+        ]);
     }
 }

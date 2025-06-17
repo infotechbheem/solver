@@ -195,9 +195,9 @@
                             <th> Date of Expense</th>
                             {{-- <th>Salary </th> --}}
                             <th>Project Name</th>
-                            <th>Amount</th>
+                            {{-- <th>Amount</th>
                             <th>TDS Deduction %</th>
-                            <th>TDS Deduction Amount</th>
+                            <th>TDS Deduction Amount</th> --}}
                             <th>Mode of Payment</th>
                             <th>Total Amount</th>
                             <th>Advance</th>
@@ -214,7 +214,7 @@
                                 <td>{{ $expense->expense_date ? \Carbon\Carbon::parse($expense->expense_date)->format('d/m/Y') : '-' }}
                                 </td>
                                 <td>{{ $expense->project_name ?? '-' }}</td>
-                                <td>
+                                {{-- <td>
                                     {{ $expense->amount !== null ? '₹' . $expense->amount : '-' }}
                                 </td>
                                 <td>
@@ -222,7 +222,7 @@
                                 </td>
                                 <td>
                                     {{ $expense->tds_deduction_amount !== null ? '₹' . $expense->tds_deduction_amount : '-' }}
-                                </td>
+                                </td> --}}
                                 <td>{{ $expense->mode_of_payment ?? '-' }}</td>
                                 <td>
                                     {{ $expense->sub_total_amount !== null ? '₹' . $expense->sub_total_amount : '-' }}

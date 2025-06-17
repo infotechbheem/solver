@@ -196,7 +196,7 @@
                                         value="{{ old('target_name.' . $index, $name) }}">
                                 </div>
                                 <div class="scr-form-group" style="flex: 1;">
-                                    <label>Target Amount</label>
+                                    <label>Target Number</label>
                                     <input type="number" placeholder="Enter amount" name="target_amount[]"
                                         value="{{ old('target_amount.' . $index, $amounts[$index] ?? '') }}">
                                 </div>
@@ -220,7 +220,7 @@
                                 <input type="text" placeholder="Enter name" name="target_name[]">
                             </div>
                             <div class="scr-form-group" style="flex: 1;">
-                                <label>Target Amount</label>
+                                <label>Target Number</label>
                                 <input type="number" placeholder="Enter amount" name="target_amount[]">
                             </div>
                             <div class="scr-form-group" style="display: flex; align-items: end;">
@@ -506,7 +506,7 @@
                 <input type="text" placeholder="Enter name" name="target_name[]">
             </div>
             <div class="scr-form-group" style="flex: 1;">
-                <label>Target Amount</label>
+                <label>Target Number</label>
                 <input type="number" placeholder="Enter amount" name="target_amount[]">
             </div>
             <div class="scr-form-group" style="display: flex; align-items: end;">

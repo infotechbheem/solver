@@ -23,12 +23,14 @@ class UserController extends Controller
     public function createUserDepartment()
     {
         $userTypes = UserType::all();
-        $userDepartment = UserDepartment::all();
+        $userDepartment = UserDepartment::get();
         $CSRPartners = CSRPartner::all();
         $ParterOrOrganization = PartnerOrgnization::all();
-
+        $userDetails = User::get();
+        $roles = Role::get();
+        // dd($userDetails);
         $title = "Create User Department";
-        return view('admin-department.create-user-department', compact('title', 'userTypes', 'userDepartment', 'CSRPartners', 'ParterOrOrganization'));
+        return view('admin-department.create-user-department', compact('title', 'userTypes', 'userDepartment', 'CSRPartners', 'ParterOrOrganization', 'userDetails', 'roles'));
     }
 
     public function storeUserType(Request $request)
@@ -94,6 +96,20 @@ class UserController extends Controller
         }
     }
 
+    public function deleteUser($id)
+    {
+        if ($id) {
+            $deleteResponse = User::where('id', $id)->first();
+            if ($deleteResponse) {
+                $deleteUser = UserDetails::where('user_id', $deleteResponse->id)->delete();
+                $deleteResponse->delete();
+                return redirect()->back()->with('success', 'User Deleted successfully');
+            }
+            return redirect()->back()->with('error', 'failed to delete user');
+        }
+        return redirect()->back()->with('error', 'User not found');
+    }
+
     public function deleteUserType($id)
     {
         if ($id) {
@@ -119,8 +135,8 @@ class UserController extends Controller
 
     public function storeUserRegistration(Request $request)
     {
+        // dd($request->all());
         try {
-
             DB::beginTransaction();
 
             $checkUserEmail = User::where('email', $request->email)->exists();
@@ -130,29 +146,25 @@ class UserController extends Controller
                 return redirect()->back()->with('sweet_warning', 'This email is already exist');
             }
 
-            $user = [
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-                'address' => $request->address,
-                'designation_id' => $request->designation,
-                'department_id' => $request->department,
-            ];
-
-            $userResponse = UserDetails::create($user);
-
             $AuthUser = User::create([
-                'name' => $request->name,
+                'name' => $request->input('user-name'),
                 'username' => rand(10000000, 99999999),
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'status' => true,
             ]);
+            $user = [
+                'user_id' => $AuthUser->id,
+                'name' => $request->input('user-name'),
+                'phone_number' => $request->phone_number,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'designation' => $request->input('user-designation'),
+                'department_id' => $request->input('user-department'),
+                'status' => true,
+            ];
 
-            $userResponseData = Role::createOrFirst(['name' => $request->designation]);
-
-            $AuthUser->assignRole($userResponseData);
+            $userResponse = UserDetails::create($user);
 
             if ($userResponse && $AuthUser) {
                 DB::commit();
@@ -331,5 +343,24 @@ class UserController extends Controller
         $role->syncPermissions($permissionNames);
 
         return back()->with('success', 'Permissions assigned successfully!');
+    }
+
+    public function assignUserRole(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        // User fetch karo
+        $user = User::find($request->user_id);
+
+        // Role ka naam lao (kyunki assignRole() name leta hai)
+        $role = Role::find($request->role_id);
+
+        // Role assign karo (purane roles ko hata kar ek hi assign karna ho to syncRoles)
+        $user->syncRoles([$role->name]);
+
+        return redirect()->back()->with('success', 'Role assigned successfully!');
     }
 }
